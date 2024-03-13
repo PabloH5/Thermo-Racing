@@ -44,6 +44,6 @@ public class ScaleView : MonoBehaviour
     }
     public void CleanDisplay()
     {
-        StartCoroutine(UpdateTxt(""));
+        StartCoroutine(UpdateTxt("0000000"));
     }
 }
