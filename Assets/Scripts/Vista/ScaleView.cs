@@ -21,13 +21,20 @@ public class ScaleView : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         isOn = false;
     }
-
+    public bool IsOn
+    {
+        get{ return isOn;}
+        set{ isOn = value;}
+    }
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.collider.CompareTag("Wheel") && isOn)
         {
             StartCoroutine(UpdateTxt(controller.WheelWeigh().ToString()));
             audioSource.Play();
+        }else if(!isOn)
+        {
+            controller.ToInitStateWheel();
         }
     }
 
@@ -45,5 +52,6 @@ public class ScaleView : MonoBehaviour
     public void CleanDisplay()
     {
         StartCoroutine(UpdateTxt("0000000"));
+        controller.ToInitStateWheel();
     }
 }
