@@ -64,7 +64,7 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             transform.position = autoPos.transform.position;
             rb2D.bodyType = RigidbodyType2D.Dynamic;
-            canDrag = false; 
+            canDrag = false;
         }
     }
 }

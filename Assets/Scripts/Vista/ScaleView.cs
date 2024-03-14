@@ -35,6 +35,7 @@ public class ScaleView : MonoBehaviour
         }else if(!isOn)
         {
             controller.ToInitStateWheel();
+            Debug.Log("Prendela");
         }
     }
 
