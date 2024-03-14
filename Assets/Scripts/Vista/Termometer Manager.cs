@@ -28,4 +28,10 @@ public class TermometerManager : MonoBehaviour
     {
         counterTimer.text = NumberToUpdate.ToString();
     }
+
+    public void ModifyTimer(bool increaseOrDecrease)
+    {
+        if (increaseOrDecrease == true) { targetTime += 3; }
+        else if (increaseOrDecrease == false) { targetTime -= 3; }
+    }
 }
