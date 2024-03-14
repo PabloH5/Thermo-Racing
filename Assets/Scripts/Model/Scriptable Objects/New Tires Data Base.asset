@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a833d0644573bd543a31187e7f085e34, type: 3}
+  m_Name: New Tires Data Base
+  m_EditorClassIdentifier: 
+  tires:
+  - typetires: Caucho Natural
+    tireSprite: {fileID: -378422837, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
+    caloresEspecifico: 2000
+  - typetires: "Caucho Sint\xE9tico"
+    tireSprite: {fileID: 1064169689, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
+    caloresEspecifico: 1600
+  - typetires: "Caucho Semisint\xE9tico"
+    tireSprite: {fileID: -1491128820, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
+    caloresEspecifico: 1800

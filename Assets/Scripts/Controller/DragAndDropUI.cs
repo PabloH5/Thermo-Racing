@@ -8,9 +8,10 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private CanvasGroup canvasGroup;
     private Canvas canvas;
     private Rigidbody2D rb2D;
-    private Collider2D itemCollider;
+    private Vector3 initialPos;
+
     [SerializeField]
-    private Vector3 autoPos;
+    private GameObject autoPos;
 
     [SerializeField]
     private bool canDrag = true;
@@ -22,7 +23,14 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         canvasGroup = gameObject.AddComponent<CanvasGroup>();
         canvas = FindObjectOfType<Canvas>();
         rb2D = GetComponent<Rigidbody2D>();
-        itemCollider = GetComponent<Collider2D>();
+        initialPos = transform.position;
+    }
+
+    public void ToInitialState()
+    {
+        transform.position = initialPos;
+        rb2D.bodyType = RigidbodyType2D.Kinematic;
+        canDrag = true;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -33,8 +41,6 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-     // Añade esto en tu inspector o busca dinámicamente
-
     public void OnDrag(PointerEventData eventData)
     {
         if(canDrag)
@@ -43,36 +49,21 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-
     public void OnEndDrag(PointerEventData eventData)
     {
         if(canDrag)
         {
             canvasGroup.blocksRaycasts = true;
+            ToInitialState();
         }
     }
-    private void Update() 
-    {
-        if(canDrag){
-        //     if(rectTransform.transform.position.x >= 5 || rectTransform.transform.position.x >= 234 
-        //     && rectTransform.transform.position.y <= 57 ||rectTransform.transform.position.y >= -111)
-        //     {
-        //         rectTransform.position = autoPos;
-        //         rb2D.bodyType = RigidbodyType2D.Dynamic;
-        //         rb2D.mass = 100;
-        //         canDrag = false;
-        //     }
-        // }
-        
-        }
-    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Pos")
+        if(other.CompareTag("Pos"))
         {
-            transform.position = autoPos;
+            transform.position = autoPos.transform.position;
             rb2D.bodyType = RigidbodyType2D.Dynamic;
-            rb2D.mass = 100;
             canDrag = false;
         }
     }
