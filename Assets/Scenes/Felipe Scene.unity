@@ -493,6 +493,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404960505}
     m_Modifications:
+    - target: {fileID: 4023045014524046178, guid: fe041fd002d1e2340b745d528628ddd3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.042
+      objectReference: {fileID: 0}
     - target: {fileID: 4423848630895458836, guid: fe041fd002d1e2340b745d528628ddd3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.268998
@@ -536,10 +540,6 @@ PrefabInstance:
     - target: {fileID: 4762503286466417683, guid: fe041fd002d1e2340b745d528628ddd3, type: 3}
       propertyPath: m_Name
       value: Termometer1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762503286466417683, guid: fe041fd002d1e2340b745d528628ddd3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
