@@ -428,21 +428,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404960505}
     m_Modifications:
+    - target: {fileID: 860465430596926961, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 138.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 860465430596926961, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 91.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 860465430596926961, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 193
+      objectReference: {fileID: 0}
+    - target: {fileID: 860465430596926961, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -53
+      objectReference: {fileID: 0}
     - target: {fileID: 3150793475490189449, guid: df3687910b958874fb3de8a64d351f00, type: 3}
       propertyPath: m_Name
       value: Termometer2
       objectReference: {fileID: 0}
     - target: {fileID: 3150793475490189449, guid: df3687910b958874fb3de8a64d351f00, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586624155111491948, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_fontSize
+      value: 25.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586624155111491948, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 21d7969592dd26541a498af466d86950, type: 2}
+    - target: {fileID: 6586624155111491948, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 25.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586624155111491948, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 6914309606776403661, guid: 21d7969592dd26541a498af466d86950, type: 2}
+    - target: {fileID: 6586624155111491948, guid: df3687910b958874fb3de8a64d351f00, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8104092181694325960, guid: df3687910b958874fb3de8a64d351f00, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.268998
+      value: -5.15
       objectReference: {fileID: 0}
     - target: {fileID: 8104092181694325960, guid: df3687910b958874fb3de8a64d351f00, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.4370469
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8104092181694325960, guid: df3687910b958874fb3de8a64d351f00, type: 3}
       propertyPath: m_LocalPosition.z
@@ -540,6 +576,10 @@ PrefabInstance:
     - target: {fileID: 4762503286466417683, guid: fe041fd002d1e2340b745d528628ddd3, type: 3}
       propertyPath: m_Name
       value: Termometer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762503286466417683, guid: fe041fd002d1e2340b745d528628ddd3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
