@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -16,7 +15,7 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField]
     private bool canDrag = true;
 
-    
+
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -35,7 +34,7 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(canDrag)
+        if (canDrag)
         {
             canvasGroup.blocksRaycasts = false;
         }
@@ -43,7 +42,7 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(canDrag)
+        if (canDrag)
         {
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         }
@@ -51,7 +50,7 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(canDrag)
+        if (canDrag)
         {
             canvasGroup.blocksRaycasts = true;
             ToInitialState();
@@ -60,7 +59,7 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Pos"))
+        if (other.CompareTag("Pos"))
         {
             transform.position = autoPos.transform.position;
             rb2D.bodyType = RigidbodyType2D.Dynamic;
