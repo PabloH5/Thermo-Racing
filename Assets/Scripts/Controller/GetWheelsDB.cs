@@ -9,12 +9,12 @@ public class GetWheelsDB : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        List<WheelModel> wheels = WheelModel.GetWheels();
-        //foreach (var wheel in wheels)
-        //{
-        //    Debug.Log(wheel.wheel_name);
-        //}
-        Debug.Log(WheelModel.GetWheelById(1).wheel_name);
+        List<ARLLQuestionModel> wheels = ARLLQuestionModel.GetARLLQuestions();
+        foreach (var wheel in wheels)
+        {
+            Debug.Log(wheel.number_moles);
+        }
+        Debug.Log(ARLLQuestionModel.GetARLLQuestionById(1).pressure);
     }
 
     // Update is called once per frame
