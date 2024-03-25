@@ -78,16 +78,16 @@ public class TouchAirBomb : MonoBehaviour
                     MoveHandleBar(); //Invoke MoveHandleBar
                     TouchCount++;// add 1 for each touch
                     controller.SwitchSpriteTH(TouchCount);
+                    controller.SwitchSpriteWH(TouchCount);
                     update = 0.0f;
                     Debug.Log("Update Reload");
-                    // StartCoroutine(controller.DecreaseThermometer(touchCount));
-                    // controller.CompareState(TouchCount);
                 }
             }
         }
         if (update >= coolDown && TouchCount > 0)
         {
             controller.SwitchSpriteTH(TouchCount--);
+            controller.SwitchSpriteWH(TouchCount--);
             Debug.Log(update);
             update = 0.0f;
         }

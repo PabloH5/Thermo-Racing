@@ -15,6 +15,8 @@ public class CheckWheelsController : MonoBehaviour
     private GameObject thermometerInflate;
     private ThermometerWheelsView thInflate;
     [SerializeField]
+    private WheelToInflate wheelInflate;
+    [SerializeField]
     private List<float> listFramesThermometer = new List<float>();
     [SerializeField]
     private float tolerance;
@@ -38,92 +40,29 @@ public class CheckWheelsController : MonoBehaviour
     {
         thInflate.SwitchSprite(touchCount);
     }
-    public void DecreaseThermometer(int touchCount)
+    public void SwitchSpriteWH(int touchCount)
     {
-        thInflate.SwitchSprite(touchCount);
-    }
+        if (touchCount <= 10)
+        {
+            wheelInflate.SwitchSprite(0);
+        }
+        else if (touchCount > 10 && touchCount < 15)
+        {
+            wheelInflate.SwitchSprite(1);
+        }
+        else if (touchCount > 15 && touchCount < 20)
+        {
+            wheelInflate.SwitchSprite(2);
+        }
+        else if (touchCount >= 21 && touchCount < 24)
+        {
+            wheelInflate.SwitchSprite(3);
+        }
+        else if (touchCount > 24 && touchCount <= 30)
+        {
+            wheelInflate.SwitchSprite(4);
+            Debug.Log("BUUUUUUUUUUUUUM");
+        }
 
-    public void CompareState(int touchCount)
-    {
-        float currentFrame = thInflate.CurrentFrame();
-        // float targetFrame;
-        // tolerance = 0.05f;
-        if (touchCount == 0)
-        {
-            thInflate.SwitchSpeed(0);
-            thInflate.Jump2Time(0);
-        }
-        else if (touchCount < 10)
-        {
-            // ChangeState(0, 1);
-            thInflate.SwitchSpeed(0.8f);
-            StopAnimation(touchCount);
-        }
-        else if (touchCount > 10 && touchCount < 20)
-        {
-            thInflate.SwitchSpeed(0.8f);
-            StopAnimation(touchCount);
-        }
-        else if (touchCount >= 20 && touchCount < 30)
-        {
-            thInflate.SwitchSpeed(0.8f);
-            StopAnimation(touchCount);
-        }
-        else if (touchCount >= 30)
-        {
-            Debug.Log("RESPLANDOR Y HACE BUUUUUUM");
-        }
-    }
-    public void StopAnimation(int touchCount)
-    {
-        float targetFrame;
-        if (touchCount == 0)
-        {
-            thInflate.SwitchSpeed(0);
-            thInflate.Jump2Time(0);
-        }
-        else if (touchCount < 10)
-        {
-            targetFrame = listFramesThermometer[3];
-            if (thInflate.CurrentFrame() >= targetFrame - tolerance && thInflate.CurrentFrame() <= targetFrame + tolerance)
-            {
-                // ChangeState(4, 1);
-                thInflate.SwitchSpeed(0);
-                Debug.Log("Pause in 10");
-            }
-        }
-        else if (touchCount > 10 && touchCount < 20)
-        {
-            targetFrame = listFramesThermometer[6];
-            if (thInflate.CurrentFrame() == targetFrame - tolerance && thInflate.CurrentFrame() <= targetFrame + tolerance)
-            {
-                // ChangeState(8, 1);
-                thInflate.SwitchSpeed(0);
-                Debug.Log("Pause in 20");
-            }
-        }
-        else if (touchCount >= 20 && touchCount < 30)
-        {
-            if (touchCount == 21)
-            {
-                targetFrame = listFramesThermometer[7];
-                if (thInflate.CurrentFrame() == targetFrame - tolerance && thInflate.CurrentFrame() <= targetFrame + tolerance)
-                {
-                    // ChangeState(8, 1);
-                    thInflate.SwitchSpeed(0);
-                    Debug.Log("Pause in 21");
-                }
-            }
-            else
-            {
-                targetFrame = listFramesThermometer[10];
-                if (thInflate.CurrentFrame() == targetFrame - tolerance && thInflate.CurrentFrame() <= targetFrame + tolerance)
-                {
-                    // ChangeState(8, 1);
-                    thInflate.SwitchSpeed(0);
-                    Debug.Log("Pause in 30");
-                }
-            }
-        }
     }
 }
