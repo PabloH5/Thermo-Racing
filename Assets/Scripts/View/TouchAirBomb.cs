@@ -6,6 +6,8 @@ using UnityEngine;
 public class TouchAirBomb : MonoBehaviour
 {
     [Header("Set in Inspector")]
+    [SerializeField]
+    private CheckWheelsController controller;
     /// <value>
     /// Handle Bar Gameobject
     /// </value>
@@ -47,6 +49,9 @@ public class TouchAirBomb : MonoBehaviour
         get { return touchCount; }
         set { touchCount = value; }
     }
+    [SerializeField]
+    private float coolDown;
+    private float update;
     /// <summary>
     /// Start <c>method</c> for initialize values
     /// </summary>
@@ -61,6 +66,7 @@ public class TouchAirBomb : MonoBehaviour
     /// </summary>
     void Update()
     {
+        update += Time.deltaTime;
         if (Input.touchCount > 0) //Verify if user touch the screen
         {
             Touch touch = Input.GetTouch(0); //save the current touch information in touch
@@ -71,8 +77,19 @@ public class TouchAirBomb : MonoBehaviour
                 {
                     MoveHandleBar(); //Invoke MoveHandleBar
                     TouchCount++;// add 1 for each touch
+                    controller.SwitchSpriteTH(TouchCount);
+                    update = 0.0f;
+                    Debug.Log("Update Reload");
+                    // StartCoroutine(controller.DecreaseThermometer(touchCount));
+                    // controller.CompareState(TouchCount);
                 }
             }
+        }
+        if (update >= coolDown && TouchCount > 0)
+        {
+            controller.SwitchSpriteTH(TouchCount--);
+            Debug.Log(update);
+            update = 0.0f;
         }
     }
 

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Tires 
+public class Tires
 {
    public string typetires;
    public Sprite tireSprite;
-   public int caloresEspecifico;
+   public int specificHeat;
+   public float weight;
 }

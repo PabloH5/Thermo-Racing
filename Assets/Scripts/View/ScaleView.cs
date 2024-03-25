@@ -49,7 +49,7 @@ public class ScaleView : MonoBehaviour
     {
         if (other.collider.CompareTag("Wheel") && isOn)
         {
-            StartCoroutine(UpdateTxt(controller.WheelWeigh().ToString()));
+            StartCoroutine(UpdateTxt(controller.WheelWeigh(0).ToString()));
             audioSource.Play();
         }
         else if (!isOn)
