@@ -5,6 +5,8 @@ using UnityEngine;
 public class CheckWheelsController : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField]
+    private DragAndDropUI dragAndDropUI;
     void Start()
     {
 
@@ -22,5 +24,8 @@ public class CheckWheelsController : MonoBehaviour
         return weight;
     }
 
-
+    public void ToInitStateWheel()
+    {
+        dragAndDropUI.ToInitialState();
+    }
 }
