@@ -15,10 +15,13 @@ MonoBehaviour:
   tires:
   - typetires: Caucho Natural
     tireSprite: {fileID: -378422837, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
-    caloresEspecifico: 2000
+    specificHeat: 2000
+    weight: 10
   - typetires: "Caucho Sint\xE9tico"
     tireSprite: {fileID: 1064169689, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
-    caloresEspecifico: 1600
+    specificHeat: 1600
+    weight: 12
   - typetires: "Caucho Semisint\xE9tico"
     tireSprite: {fileID: -1491128820, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
-    caloresEspecifico: 1800
+    specificHeat: 1800
+    weight: 15

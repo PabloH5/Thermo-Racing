@@ -35,17 +35,17 @@ public class TiresManager : MonoBehaviour
     {
         selectedOption--;
 
-        if(selectedOption < 0)
+        if (selectedOption < 0)
         {
             selectedOption = tireDB.TiresCount - 1;
         }
         updateTires(selectedOption);
     }
-    private void updateTires (int selectedOption)
+    private void updateTires(int selectedOption)
     {
         Tires tire = tireDB.GetTires(selectedOption);
         artworkSrpite.sprite = tire.tireSprite;
         tireName.text = tire.typetires;
-        Calor.text = "Cp = " + tire.caloresEspecifico.ToString() + " J/(kg·°C)";
+        Calor.text = "Cp = " + tire.specificHeat.ToString() + " J/(kgï¿½ï¿½C)";
     }
 }

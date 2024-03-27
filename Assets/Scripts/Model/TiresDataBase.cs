@@ -6,7 +6,8 @@ using UnityEngine;
 [CreateAssetMenu]
 public class TiresDataBase : ScriptableObject
 {
-    public Tires[]  tires;
+    public Tires[] tires;
+
 
     public int TiresCount
     {
@@ -15,7 +16,7 @@ public class TiresDataBase : ScriptableObject
             return tires.Length;
         }
     }
-    
+
     public Tires GetTires(int index)
     {
         return tires[index];
