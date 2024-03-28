@@ -22,7 +22,6 @@ public class WheelToInflate : MonoBehaviour
         else
         {
             spriteRenderer.color = Color.red;
-            transform.localScale = transform.localScale * 2;
         }
 
     }

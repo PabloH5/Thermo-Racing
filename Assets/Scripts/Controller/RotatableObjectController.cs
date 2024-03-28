@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RotatableObjectController : MonoBehaviour
@@ -12,8 +14,7 @@ public class RotatableObjectController : MonoBehaviour
 
     public RotatableObject modelo;
     public RotatableObjectView vista;
-    public Thermometer thermometer;
-
+    public Thermometer thermometer; // Añade una referencia pública al termómetro
 
     private void Start()
     {
@@ -30,16 +31,15 @@ public class RotatableObjectController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if (col == Physics2D.OverlapPoint(mousePos))
-            { 
+            {
                 screenPoint = myCam.WorldToScreenPoint(transform.position);
                 Vector3 vec3 = Input.mousePosition - screenPoint;
                 angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg;
-                previousZRotation = transform.eulerAngles.z; // Actualiza la rotación previa en Z al comenzar a interactuar
+                previousZRotation = transform.eulerAngles.z;
             }
         }
         if (Input.GetMouseButton(0))
         {
-
             if (col == Physics2D.OverlapPoint(mousePos))
             {
                 Vector3 vec3 = Input.mousePosition - screenPoint;
@@ -51,9 +51,10 @@ public class RotatableObjectController : MonoBehaviour
                 modelo.UpdateRotation(rotationDifference);
 
                 int currentFrame = modelo.GetCurrentFrame();
-                currentFrame = Mathf.Clamp(currentFrame, 0, 30); // Esto asegura que el frame esté entre 0 y 30
+                currentFrame = Mathf.Clamp(currentFrame, 0, thermometer.sprites.Length - 1); // Asegúrate de que no exceda el rango de sprites
                 Debug.Log($"Total Rotation: {modelo.TotalRotation}, Current Frame: {currentFrame}");
 
+                // Cambia el sprite del termómetro basado en la rotación
                 thermometer.SwitchSprite(currentFrame);
 
                 previousZRotation = currentZRotation;
