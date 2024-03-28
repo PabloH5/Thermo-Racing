@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CheckWheelsController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Tires wheelData;
     [SerializeField]
     private DragAndDropUI dragAndDropUI;
     [SerializeField]
-    private TiresDataBase wheelsData;
+    private TiresManager tireManager;
+    [SerializeField]
+    private GameObject arrowNext;
+    [SerializeField]
+    private GameObject arrowBack;
 
     [Header("Put here data for Inflate the wheel section")]
     [SerializeField]
@@ -16,28 +21,51 @@ public class CheckWheelsController : MonoBehaviour
     private ThermometerWheelsView thInflate;
     [SerializeField]
     private WheelToInflate wheelInflate;
+    [SerializeField]
+    private GameObject positiveFeedBackIF;
+    [SerializeField]
+    private GameObject negativeFeedBackIF;
 
     void Start()
     {
         thInflate = thermometerInflate.GetComponent<ThermometerWheelsView>();
     }
-
-    public float WheelWeigh(int i)
+    void PauseGame()
     {
-        float weight = wheelsData.tires[i].weight;
-        return weight;
+        Time.timeScale = 0;
     }
 
+    void ResumeGame()
+    {
+        Time.timeScale = 1;
+    }
+    public Tires WheelData
+    {
+        get { return wheelData; }
+        set { wheelData = value; }
+    }
+    public float WheelWeigh(float i)
+    {
+        float weight = WheelData.weight;
+        return weight;
+    }
+    public void HideArrows()
+    {
+        arrowNext.SetActive(false);
+        arrowBack.SetActive(false);
+    }
     public void ToInitStateWheel()
     {
         dragAndDropUI.ToInitialState();
+        arrowNext.SetActive(true);
+        arrowBack.SetActive(true);
     }
     public void SwitchSpriteTH(int touchCount)
     {
         thInflate.SwitchSprite(touchCount);
         Debug.Log(touchCount);
     }
-    public void SwitchSpriteWH(int touchCount)
+    public void SwitchSpriteWH(int touchCount, float time)
     {
         if (touchCount <= 5)
         {
@@ -58,7 +86,18 @@ public class CheckWheelsController : MonoBehaviour
         else if (touchCount > 18 && touchCount <= 40)
         {
             wheelInflate.SwitchSprite(4);
-            Debug.Log("BUUUUUUUUUUUUUM");
         }
+    }
+    public void ActivePositiveFB(int touchCount)
+    {
+        positiveFeedBackIF.SetActive(true);
+        PauseGame();
+        thInflate.SwitchSprite(touchCount);
+    }
+    public void ActiveNegativeFB(int touchCount)
+    {
+        negativeFeedBackIF.SetActive(true);
+        PauseGame();
+        thInflate.SwitchSprite(touchCount);
     }
 }

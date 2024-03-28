@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -49,6 +50,7 @@ public class TouchAirBomb : MonoBehaviour
         get { return touchCount; }
         set { touchCount = value; }
     }
+    public bool isOn = true;
     [SerializeField]
     private float coolDown;
     private float update;
@@ -78,16 +80,27 @@ public class TouchAirBomb : MonoBehaviour
                     MoveHandleBar(); //Invoke MoveHandleBar
                     TouchCount++;// add 1 for each touch
                     controller.SwitchSpriteTH(TouchCount);
-                    controller.SwitchSpriteWH(TouchCount);
+                    controller.SwitchSpriteWH(TouchCount, update);
                     update = 0.0f;
                     Debug.Log("Update Reload");
                 }
             }
         }
+        if (touchCount >= 12 && touchCount < 14)
+        {
+            if (update >= 1.5 && update < 2)
+            {
+                controller.ActivePositiveFB(touchCount);
+            }
+        }
+        else if (touchCount > 18 && touchCount <= 40)
+        {
+            controller.ActiveNegativeFB(touchCount);
+        }
         if (update >= coolDown && TouchCount > 0)
         {
             controller.SwitchSpriteTH(TouchCount--);
-            controller.SwitchSpriteWH(TouchCount--);
+            controller.SwitchSpriteWH(TouchCount--, update);
             Debug.Log(update);
             update = 0.0f;
         }
