@@ -1,9 +1,7 @@
+using Jace;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Jace;
 
 public class CalculatorController : MonoBehaviour
 {
@@ -23,8 +21,8 @@ public class CalculatorController : MonoBehaviour
     void Start()
     {
         Transform[] allChildren = this.transform.GetComponentsInChildren<Transform>(true);
-        foreach (Transform child in allChildren) 
-        { 
+        foreach (Transform child in allChildren)
+        {
             if (child.name == "CalculationText")
             {
                 operationInputField = child.gameObject.GetComponent<TextMeshProUGUI>();
@@ -36,50 +34,37 @@ public class CalculatorController : MonoBehaviour
 
     public void Addition()
     {
-        if (operationInputField.text == Convert.ToString("0"))
-        {}
-        else if (ValidateDobleSymbolOperation(operationInputField.text))
-        { }
-        else
-        {
-            operationInputField.text = operationInputField.text + ("+");
-        }
+        AppendOperationIfValid("+");
     }
 
     public void Sustraction()
     {
-        if (operationInputField.text == Convert.ToString("0"))
-        { }
-        else if (ValidateDobleSymbolOperation(operationInputField.text))
-        { }
-        else
-        {
-            operationInputField.text = operationInputField.text + ("-");
-        }
+        AppendOperationIfValid("-");
     }
 
     public void Multiplication()
     {
-        if (operationInputField.text == Convert.ToString("0"))
-        { }
-        else if(ValidateDobleSymbolOperation(operationInputField.text))
-        { }
-        else
-        {
-            operationInputField.text = operationInputField.text + ("*");
-        }
+        AppendOperationIfValid("*");
     }
 
     public void Division()
     {
-        if (operationInputField.text == Convert.ToString("0"))
-        { }
-        else if (ValidateDobleSymbolOperation(operationInputField.text))
-        { }
-        else
+        AppendOperationIfValid("/");
+    }
+
+    public void Dot()
+    {
+        AppendOperationIfValid(".");
+    }
+
+    private void AppendOperationIfValid(string operationSymbol)
+    {
+        if (operationInputField.text == "0" || ValidateDobleSymbolOperation(operationInputField.text))
         {
-            operationInputField.text = operationInputField.text + ("/");
+            return;
         }
+
+        operationInputField.text += operationSymbol;
     }
 
     public void BtnDigit(string numberToPut)
@@ -88,6 +73,11 @@ public class CalculatorController : MonoBehaviour
         if (operationInputField.text == Convert.ToString("0"))
         {
             operationInputField.text = numberToPut;
+        }
+        else if (ValidateDobleParenthesis(operationInputField.text))
+        {
+            if (numberToPut == "(" || numberToPut == ")") { }
+            else { operationInputField.text = operationInputField.text + numberToPut; }
         }
         else
         {
@@ -105,6 +95,14 @@ public class CalculatorController : MonoBehaviour
         else { return false; }
     }
 
+    private bool ValidateDobleParenthesis(string allText)
+    {
+        if (allText.EndsWith("(")) { return true; }
+        else if (allText.EndsWith(")")) { return true; }
+        else if (allText.EndsWith(".")) { return true; }
+        else { return false; }
+    }
+
     public void BtnClear()
     {
         operationInputField.text = "0";
@@ -112,16 +110,17 @@ public class CalculatorController : MonoBehaviour
 
     public void BtnClearLastDigit()
     {
-        operationInputField.text = "1";
+        if (operationInputField.text.Length > 1) { operationInputField.text = operationInputField.text.Substring(0, operationInputField.text.Length - 1); }
+        else { operationInputField.text = "0"; }
     }
 
-    public void EvaluateTheOperation() 
+    public void EvaluateTheOperation()
     {
         var engine = new CalculationEngine();
 
         try
         {
-            double result = engine.Calculate(operationInputField.text);
+            double result = Math.Round(engine.Calculate(operationInputField.text), 2);
             operationInputField.text = result.ToString();
         }
         catch (Exception e)
