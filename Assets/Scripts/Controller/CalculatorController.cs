@@ -1,10 +1,13 @@
 using Jace;
 using System;
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class CalculatorController : MonoBehaviour
 {
+    private GameObject calculatorBackground;
+    private bool _isToggleCalculatorNotVisible = false;
     private TextMeshProUGUI _OperationInputField;
     public TextMeshProUGUI operationInputField
     {
@@ -12,10 +15,8 @@ public class CalculatorController : MonoBehaviour
         set { _OperationInputField = value; }
     }
 
-    //private float numbers = 0;
-
+    private Animator toggleAnimation;
     [SerializeField] string operation;
-
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +27,14 @@ public class CalculatorController : MonoBehaviour
             if (child.name == "CalculationText")
             {
                 operationInputField = child.gameObject.GetComponent<TextMeshProUGUI>();
-                Debug.Log("I did it");
-                Debug.Log(operationInputField.GetType().ToString());
+                Debug.Log("I did it for the CalculationText");
+            }
+            if (child.name == "CalculatorBackground")
+            {
+                calculatorBackground = child.gameObject;
+                toggleAnimation = calculatorBackground.GetComponent<Animator>();
+                toggleAnimation.speed = 0f;
+                Debug.Log("I did it for the Calculator");
             }
         }
     }
@@ -59,7 +66,8 @@ public class CalculatorController : MonoBehaviour
 
     private void AppendOperationIfValid(string operationSymbol)
     {
-        if (operationInputField.text == "0" || ValidateDobleSymbolOperation(operationInputField.text))
+        if ((operationInputField.text == "0" || ValidateDobleSymbolOperation(operationInputField.text)) 
+            && operationInputField.text.Length >= 42)
         {
             return;
         }
@@ -70,6 +78,11 @@ public class CalculatorController : MonoBehaviour
     public void BtnDigit(string numberToPut)
     {
         Debug.Log(numberToPut.GetType().ToString());
+        if (operationInputField.text.Length >= 44)
+        {
+            return; 
+        }
+
         if (operationInputField.text == Convert.ToString("0"))
         {
             operationInputField.text = numberToPut;
@@ -113,7 +126,7 @@ public class CalculatorController : MonoBehaviour
         if (operationInputField.text.Length > 1) { operationInputField.text = operationInputField.text.Substring(0, operationInputField.text.Length - 1); }
         else { operationInputField.text = "0"; }
     }
-
+   
     public void EvaluateTheOperation()
     {
         var engine = new CalculationEngine();
@@ -127,6 +140,23 @@ public class CalculatorController : MonoBehaviour
         {
             Debug.LogError($"Error during evaluation the expression: {e.Message}");
             operationInputField.text = "0";
+        }
+    }
+
+    public void ToggleMovement()
+    {
+        if (toggleAnimation != null)
+        {
+            toggleAnimation.speed = 1;
+            if (_isToggleCalculatorNotVisible)
+            {
+                toggleAnimation.Play("CalculatorToggleAnimationHide", 0, 0);
+            }
+            else
+            {
+                toggleAnimation.Play("CalculatorToggleAnimationShow", 0, 0); 
+            }
+            _isToggleCalculatorNotVisible = !_isToggleCalculatorNotVisible;
         }
     }
 }
