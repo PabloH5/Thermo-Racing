@@ -141,19 +141,23 @@ public class DragRotate : MonoBehaviour
     private void LoadWheelSprites(int currentIndexSprite)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+       // SpriteColliderAdjuster colliderAdjuster = GetComponent<SpriteColliderAdjuster>();
 
         // Load the first element of sprite list in accordance with wheel type.
         switch (wheelType)
         {
             case WheelType.Natural:
                 spriteRenderer.sprite = spritesNaturalWheel[currentIndexSprite];
+         //       colliderAdjuster.AdjustColliderToSprite();
                 break;
             case WheelType.Synthectic:
                 spriteRenderer.sprite = spritesSynthecthicWheel[currentIndexSprite];
+           //     colliderAdjuster.AdjustColliderToSprite();
                 break;
 
             case WheelType.Semisynthectic:
                 spriteRenderer.sprite = spritesSemisynthecticWheel[currentIndexSprite];
+             //   colliderAdjuster.AdjustColliderToSprite();
                 break;
 
             default:
