@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class Thermometer : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer; // Referencia al SpriteRenderer donde se mostrará el termómetro
-    public Sprite[] sprites; // Array de sprites para los diferentes estados del termómetro
+    private SpriteRenderer spriteRenderer; // Referencia al SpriteRenderer donde se mostrarï¿½ el termï¿½metro
+    public Sprite[] sprites; // Array de sprites para los diferentes estados del termï¿½metro
 
     private void Start()
     {
         if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>(); // Asegúrate de tener un SpriteRenderer
+            spriteRenderer = GetComponent<SpriteRenderer>(); // Asegï¿½rate de tener un SpriteRenderer
     }
 
     public void SwitchSprite(int frame)
     {
-        // Asegurarte de que el frame esté en el rango
+        // Asegurarte de que el frame estï¿½ en el rango
         if (frame < 0 || frame >= 30)
         {
-            Debug.LogWarning("La llanta se sobrecalento por la fricción: " + frame);
+            Debug.LogWarning("La llanta se sobrecalento por la fricciï¿½n: " + frame);
             return;
         }
 
         // Mapear el frame a los sprites, teniendo en cuenta que hay 2 sprites por frame
-        // y que la asignación está invertida (frame 0 corresponde al sprite más alto).
+        // y que la asignaciï¿½n estï¿½ invertida (frame 0 corresponde al sprite mï¿½s alto).
         int spriteIndex = sprites.Length - 1 - (frame * 2);
 
-        // Si el spriteIndex calculado es impar y sobrepasa el límite del array,
-        // ajustar para usar el último sprite disponible.
+        // Si el spriteIndex calculado es impar y sobrepasa el lï¿½mite del array,
+        // ajustar para usar el ï¿½ltimo sprite disponible.
         if (spriteIndex >= sprites.Length)
         {
             spriteIndex = sprites.Length - 1;
