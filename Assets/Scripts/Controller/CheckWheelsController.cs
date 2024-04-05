@@ -2,24 +2,40 @@ using UnityEngine;
 
 public class CheckWheelsController : MonoBehaviour
 {
+
     private Tires wheelData;
+
+    [Header("Put here de data for Wheigh the wheel section")]
+    [Header("Canvas Weigh The Wheel")]
+    [Tooltip("Here put the element with Drag and Drop Script (Wheel)")]
     [SerializeField]
     private DragAndDropUI dragAndDropUI;
+
+    [Tooltip("Here put the element with tires Manager Script (Wheel)")]
     [SerializeField]
     private TiresManager tireManager;
+    [Header("Canvas (Select Type)")]
+    [Tooltip("Here put the arrow for change to the next wheel")]
     [SerializeField]
     private GameObject arrowNext;
+    [Tooltip("Here put the arrow for change to the back wheel")]
     [SerializeField]
     private GameObject arrowBack;
 
     [Header("Put here data for Inflate the wheel section")]
+    [Header("Inflate Wheel")]
+    [Tooltip("Put here the thermometer of Inflate Wheel (Thermometer 1)")]
     [SerializeField]
     private GameObject thermometerInflate;
     private ThermometerWheelsView thInflate;
+
+    [Tooltip("Put here the Wheel (Wheel)")]
     [SerializeField]
     private WheelToInflate wheelInflate;
+    [Tooltip("Put here Positive FeedBack")]
     [SerializeField]
     private GameObject positiveFeedBackIF;
+    [Tooltip("Put here Negative FeedBack")]
     [SerializeField]
     private GameObject negativeFeedBackIF;
 
@@ -62,6 +78,8 @@ public class CheckWheelsController : MonoBehaviour
         thInflate.SwitchSprite(touchCount);
         Debug.Log(touchCount);
     }
+
+    // This method controll the change of wheel sprites depend of thr touchcount and active the feedback depend of the time
     public void SwitchSpriteWH(int touchCount, float time)
     {
         if (touchCount <= 5)
