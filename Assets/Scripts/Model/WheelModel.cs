@@ -3,6 +3,13 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+public enum WheelType
+{
+    Natural,
+    Synthectic,
+    Semisynthectic,
+}
 public class WheelModel
 {
     public int wheel_id { get; set; }

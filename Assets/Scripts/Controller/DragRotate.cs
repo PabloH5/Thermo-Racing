@@ -1,16 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-public enum WheelType
-{
-    Natural,
-    Synthectic,
-    Semisynthectic,
-}
 
 public class DragRotate : MonoBehaviour
 {

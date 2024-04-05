@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RotatableObjectView : MonoBehaviour
@@ -9,5 +7,5 @@ public class RotatableObjectView : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, angle + angleOffset);
     }
 
-    // Aquí puedes añadir más lógica de la vista como cambiar sprites si es necesario
+    // Aquï¿½ puedes aï¿½adir mï¿½s lï¿½gica de la vista como cambiar sprites si es necesario
 }
