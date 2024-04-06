@@ -4,6 +4,9 @@ public class CheckWheelsController : MonoBehaviour
 {
 
     private Tires wheelData;
+    [Tooltip("Put here the Constant Banck Controller")]
+    [SerializeField]
+    private ConstantBankUpdate constantBank;
 
     [Header("Put here de data for Wheigh the wheel section")]
     [Header("Canvas Weigh The Wheel")]
@@ -15,6 +18,9 @@ public class CheckWheelsController : MonoBehaviour
     [SerializeField]
     private TiresManager tireManager;
     [Header("Canvas (Select Type)")]
+    [Tooltip("Here put the description above the scale")]
+    [SerializeField]
+    private GameObject descriptionScale;
     [Tooltip("Here put the arrow for change to the next wheel")]
     [SerializeField]
     private GameObject arrowNext;
@@ -60,18 +66,23 @@ public class CheckWheelsController : MonoBehaviour
     public float WheelWeigh(float i)
     {
         float weight = WheelData.weight;
+        float specificHeat = WheelData.specificHeat;
+        constantBank.UpdateMass(weight);
+        constantBank.UpdateSpecificHeat(specificHeat);
         return weight;
     }
     public void HideArrows()
     {
         arrowNext.SetActive(false);
         arrowBack.SetActive(false);
+        descriptionScale.SetActive(false);
     }
     public void ToInitStateWheel()
     {
         dragAndDropUI.ToInitialState();
         arrowNext.SetActive(true);
         arrowBack.SetActive(true);
+        descriptionScale.SetActive(true);
     }
     public void SwitchSpriteTH(int touchCount)
     {
@@ -106,6 +117,10 @@ public class CheckWheelsController : MonoBehaviour
     public void ActivePositiveFB(int touchCount)
     {
         positiveFeedBackIF.SetActive(true);
+        //!PUT A REAL VALUE FOR PRESSION
+        constantBank.UpdatePression(0.49f);
+        //!PUT A REAL VALUE FOR FINAL VOLUMME
+        constantBank.UpdateVolumme(0.025f);
         PauseGame();
         thInflate.SwitchSprite(touchCount);
     }
