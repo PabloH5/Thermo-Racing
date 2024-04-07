@@ -8,7 +8,7 @@ public class TiresManager : MonoBehaviour
     public TiresDataBase tireDB;
     public TextMeshProUGUI tireName;
     public TextMeshProUGUI Calor;
-    // public SpriteRenderer artworkSrpite;
+    public SpriteRenderer artworkSrpite;
     public Image image;
     public float weigh;
 
@@ -46,10 +46,10 @@ public class TiresManager : MonoBehaviour
     private void updateTires(int selectedOption)
     {
         Tires tire = tireDB.GetTires(selectedOption);
-        controller.WheelData = tire;
-        // artworkSrpite.sprite = tire.tireSprite;
-        weigh = tire.weight;
-        image.sprite = tire.tireSprite;
+        //controller.WheelData = tire;
+        artworkSrpite.sprite = tire.tireSprite;
+        //weigh = tire.weight;
+        //image.sprite = tire.tireSprite;
         tireName.text = tire.typetires;
         Calor.text = "Cp = " + tire.specificHeat.ToString() + " J/(kg°C)";
     }
