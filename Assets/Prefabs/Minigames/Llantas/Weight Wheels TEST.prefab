@@ -107,8 +107,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -17.34232, y: 0.79609525, z: -3.070002}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 84.27, y: 84.27, z: 84.27}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2176650377493888384}
   - {fileID: 5959337492693532868}
@@ -2465,9 +2465,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tireDB: {fileID: 11400000, guid: 62cfde0fcecf48840ba8e38572a6341a, type: 2}
   tireName: {fileID: 659067458382100876}
-  Calor: {fileID: 3294934978235901773}
+  heat: {fileID: 3294934978235901773}
   image: {fileID: 2761018940075255767}
-  weigh: 0
+  weight: 0
   controller: {fileID: 0}
 --- !u!114 &6914035484448839351
 MonoBehaviour:

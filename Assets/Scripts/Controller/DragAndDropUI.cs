@@ -15,7 +15,6 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField]
     private bool canDrag = true;
 
-
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -34,7 +33,6 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // this.enabled = false;
         // this.enabled = true;
     }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (canDrag)
