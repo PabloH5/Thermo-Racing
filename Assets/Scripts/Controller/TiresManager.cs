@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class TiresManager : MonoBehaviour
 {
 
-    public TiresDataBase tireDB;
-    public TextMeshProUGUI tireName;
-    public TextMeshProUGUI Calor;
-    public SpriteRenderer artworkSrpite;
-    public Image image;
-    public float weigh;
+    [SerializeField] private TiresDataBase tireDB;
+    [SerializeField] private TextMeshProUGUI tireName;
+    [SerializeField] private TextMeshProUGUI heat;
+    // [SerializeField] private SpriteRenderer artworkSrpite;
+    [SerializeField] private Image image;
+    [SerializeField] private float weight;
 
     [SerializeField]
     private CheckWheelsController controller;
@@ -46,12 +46,12 @@ public class TiresManager : MonoBehaviour
     private void updateTires(int selectedOption)
     {
         Tires tire = tireDB.GetTires(selectedOption);
-        //controller.WheelData = tire;
-        artworkSrpite.sprite = tire.tireSprite;
-        //weigh = tire.weight;
-        //image.sprite = tire.tireSprite;
+        controller.WheelData = tire;
+        // artworkSrpite.sprite = tire.tireSprite;
+        weight = tire.weight;
+        image.sprite = tire.tireSprite;
         tireName.text = tire.typetires;
-        Calor.text = "Cp = " + tire.specificHeat.ToString() + " J/(kg°C)";
+        heat.text = "Cp = " + tire.specificHeat.ToString() + " J/(kg°C)";
     }
 
 }
