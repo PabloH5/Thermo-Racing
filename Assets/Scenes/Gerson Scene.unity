@@ -1158,10 +1158,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tireDB: {fileID: 11400000, guid: 62cfde0fcecf48840ba8e38572a6341a, type: 2}
   tireName: {fileID: 1869821884}
-  Calor: {fileID: 846566597}
-  artworkSrpite: {fileID: 1153258116}
+  heat: {fileID: 0}
   image: {fileID: 0}
-  weigh: 0
+  weight: 0
   controller: {fileID: 0}
 --- !u!114 &1153258119
 MonoBehaviour:
@@ -1304,8 +1303,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -178, y: 65}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -174.71, y: 3.26}
+  m_SizeDelta: {x: 206.57, y: 173.49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1626730475
 MonoBehaviour:
