@@ -15,6 +15,7 @@ public class DragRotate : MonoBehaviour
         set { _totalRotation = value; }
     }
     private float currentRotation;
+    private bool isDragging = false;
 
     [SerializeField] private float countDownToDowngradeSprite;
     // [SerializeField] private TextMeshProUGUI debugSeconds;
@@ -53,19 +54,37 @@ public class DragRotate : MonoBehaviour
     {
         _isCountDownFinished = CalculateTheCountDown();
 
-        Vector3 mousePos = myCam.ScreenToWorldPoint(Input.mousePosition);
+
         if (Input.GetMouseButtonDown(0))
         {
-            if (col == Physics2D.OverlapPoint(mousePos))
+            // Convierte la posición del ratón de pantalla a coordenadas del mundo para esta comprobación inicial
+            Vector3 mousePosInitial = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
+
+            // Comprueba si el punto donde el usuario hizo clic inicialmente colisiona con el collider del objeto
+            if (col == Physics2D.OverlapPoint(mousePosInitial))
             {
+                isDragging = true; // El usuario ha comenzado a arrastrar el objeto
+
+                // Prepara los valores necesarios para calcular la rotación
                 screenPoint = myCam.WorldToScreenPoint(transform.position);
                 Vector3 vec3 = Input.mousePosition - screenPoint;
                 angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg;
-                previousZRotation = transform.eulerAngles.z;
+                previousZRotation = transform.eulerAngles.z; // Almacena la rotación actual en Z para comparaciones futuras
             }
         }
-        if (Input.GetMouseButton(0))
+
+        // Este bloque se ejecuta cuando el usuario suelta el botón izquierdo del ratón
+        if (Input.GetMouseButtonUp(0))
         {
+            isDragging = false; // El usuario ha dejado de arrastrar el objeto
+        }
+
+        // Si el usuario está arrastrando el objeto...
+        if (isDragging)
+        {
+            // Ahora movemos la lógica para trabajar con la posición del ratón aquí, dentro del contexto de arrastre
+            Vector3 mousePos = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
+
             if (col == Physics2D.OverlapPoint(mousePos))
             {
                 Vector3 vec3 = Input.mousePosition - screenPoint;
@@ -79,10 +98,11 @@ public class DragRotate : MonoBehaviour
                 totalRotation += rotationDifference;
                 previousZRotation = currentZRotation;
 
+                // Aquí implementas la lógica para actualizar cualquier dependencia basada en la rotación, como un termómetro
                 int currentFrame = Mathf.FloorToInt(totalRotation / 360f);
-                currentFrame = Mathf.Clamp(currentFrame, 0, 30); 
+                currentFrame = Mathf.Clamp(currentFrame, 0, 30);
                 thermometer.SwitchSprite(currentFrame);
-                // CheckTotalWheelTurns();
+                // Aquí podrías llamar a CheckTotalWheelTurns() si fuera necesario
             }
         }
 
