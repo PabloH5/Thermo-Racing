@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,6 @@ public class WheelToInflate : MonoBehaviour
         else
         {
             spriteRenderer.color = Color.red;
-            transform.localScale = transform.localScale * 2;
         }
 
     }

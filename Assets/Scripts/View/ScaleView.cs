@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
@@ -31,7 +30,6 @@ public class ScaleView : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         isOn = false;
     }
-
     /// <summary>
     /// Provides public access to check or change the on/off state of the scale.
     /// </summary>
@@ -40,7 +38,6 @@ public class ScaleView : MonoBehaviour
         get { return isOn; }
         set { isOn = value; }
     }
-
     /// <summary>
     /// Detects collisions with wheels and updates the display if the scale is on, or resets the wheel to its initial state if the scale is off.
     /// </summary>
@@ -50,6 +47,7 @@ public class ScaleView : MonoBehaviour
         if (other.collider.CompareTag("Wheel") && isOn)
         {
             StartCoroutine(UpdateTxt(controller.WheelWeigh(0).ToString()));
+            controller.HideArrows();
             audioSource.Play();
         }
         else if (!isOn)

@@ -15,23 +15,24 @@ public class DragAndDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField]
     private bool canDrag = true;
 
-
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = gameObject.AddComponent<CanvasGroup>();
         canvas = FindObjectOfType<Canvas>();
         rb2D = GetComponent<Rigidbody2D>();
-        initialPos = transform.position;
+        initialPos = transform.localPosition;
     }
 
     public void ToInitialState()
     {
-        transform.position = initialPos;
+        canvasGroup.blocksRaycasts = true;
+        transform.localPosition = initialPos;
         rb2D.bodyType = RigidbodyType2D.Kinematic;
         canDrag = true;
+        // this.enabled = false;
+        // this.enabled = true;
     }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (canDrag)
