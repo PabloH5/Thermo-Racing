@@ -6,8 +6,10 @@ TagManager:
   tags:
   - Wheel
   - Pos
-  - Correct1
-  - Correct2
+  - CorrectOption1
+  - CorrectOption2
+  - CorrectOption3
+  - BadOption
   layers:
   - Default
   - TransparentFX

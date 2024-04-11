@@ -33,7 +33,7 @@ public class THEController : MonoBehaviour
 
     void Update()
     {
-
+        Temporizator();
     }
     private void StartGame()
     {
