@@ -13,7 +13,7 @@ public class ThermoEcuacionadorController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TEQuestionModel question = TEQuestionModel.GetWheelById(10);
+        TEQuestionModel question = TEQuestionModel.GetWheelById(3);
         SetUpTEQuestion(question);
     }
 
