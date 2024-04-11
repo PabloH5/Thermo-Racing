@@ -9,12 +9,11 @@ public enum DevelopmentEnviroment{
 public class EnviromentVariablesConfig : MonoBehaviour
 {
     [SerializeField] private DevelopmentEnviroment _currentEnviroment;
-    
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         LoadConfig();
-        Debug.Log(ARLLWheelModel.GetARLLWheelById(2).arll_wheel_name);
     }
 
     private void LoadConfig()
