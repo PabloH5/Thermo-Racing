@@ -7,21 +7,26 @@ public class RandomSentence : MonoBehaviour
     [SerializeField]
     private List<GameObject> sentenceList = new();
     private List<GameObject> sentence2Active = new();
+    [SerializeField]
+    private int sentenceAmount;
+    public int SentenceAmount
+    {
+        get { return sentenceAmount; }
+        set { sentenceAmount = value; }
+    }
     private void Start()
     {
-
         if (sentenceList.Count > 0)
         {
             SelectSentences();
         }
         else { Debug.LogWarning("The Sentence List is Empty, for solved fill in the inspector."); }
-
     }
 
     private List<int> GenerateRandomNumbers()
     {
         HashSet<int> uniqueNumbers = new HashSet<int>();
-        while (uniqueNumbers.Count < 3)
+        while (uniqueNumbers.Count < sentenceAmount)
         {
             int num = Random.Range(0, sentenceList.Count - 1);
             uniqueNumbers.Add(num);
