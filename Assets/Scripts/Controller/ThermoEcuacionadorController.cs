@@ -9,11 +9,17 @@ public class ThermoEcuacionadorController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Option2;
     [SerializeField] private TextMeshProUGUI Option3;
     [SerializeField] private TextMeshProUGUI Option4;
+    [SerializeField] private THEController controller;
 
     // Start is called before the first frame update
     void Start()
     {
-        TEQuestionModel question = TEQuestionModel.GetWheelById(3);
+        // TEQuestionModel question = TEQuestionModel.GetWheelById(controller.CurrentSentence);
+        // SetUpTEQuestion(question);
+    }
+    public void SetupTESentence(int sentenceNumber)
+    {
+        TEQuestionModel question = TEQuestionModel.GetWheelById(sentenceNumber);
         SetUpTEQuestion(question);
     }
 

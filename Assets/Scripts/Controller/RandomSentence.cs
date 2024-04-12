@@ -4,8 +4,9 @@ using UnityEngine;
 public class RandomSentence : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> sentenceList = new();
-    private List<GameObject> sentence2Active = new();
+    private List<SentenseSO> sentenceList = new();
+    public List<SentenseSO> sentence2Active = new();
+
     [SerializeField]
     private int sentenceAmount;
     public int SentenceAmount
@@ -13,6 +14,7 @@ public class RandomSentence : MonoBehaviour
         get { return sentenceAmount; }
         set { sentenceAmount = value; }
     }
+    // public
     private void Start()
     {
         if (sentenceList.Count > 0)
@@ -30,7 +32,7 @@ public class RandomSentence : MonoBehaviour
             int num = Random.Range(0, sentenceList.Count - 1);
             uniqueNumbers.Add(num);
         }
-        return new List<int>(uniqueNumbers);
+        return new List<int>(uniqueNumbers);//Genera una lista de las posiciones de las oraciones aletorias que se se seleccionaron
     }
 
     private void SelectSentences()
@@ -38,12 +40,15 @@ public class RandomSentence : MonoBehaviour
         List<int> sentence = GenerateRandomNumbers();
         for (int i = 0; i <= sentence.Count - 1; i++)
         {
-            sentence2Active.Add(sentenceList[sentence[i]]);
+            sentence2Active.Add(sentenceList[sentence[i]]);// agrego a la lista de SO los SO seleccionados en el metodo de GenerateRandomNumbers
         }
     }
 
-    public void ActiveSentence(int sentenceIndex)
+    public SentenseSO ActiveSentence(int sentenceIndex)
     {
-        sentence2Active[sentenceIndex].gameObject.SetActive(true);
+        // sentence2Active[sentenceIndex].gameObject.SetActive(true);
+        // Instantiate(sentence2Active[sentenceIndex].SentenceSO);
+        // Debug.Log("Yes, Im Active");
+        return sentence2Active[sentenceIndex];
     }
 }
