@@ -3,257 +3,226 @@ using UnityEngine;
 
 public class DragRotate : MonoBehaviour
 {
-    private Camera myCam;
-    private Vector3 screenPoint;
-    private float angleOffset;
-    private Collider2D col;
-    private float previousZRotation; 
-    private float _totalRotation;
+    private Camera myCam; // Reference to the main camera
+    private Vector3 screenPoint; // Position of the mouse on the screen
+    private float angleOffset; // Offset angle for dragging
+    private Collider2D col; // Collider of the object
+    private float previousZRotation; // Previous rotation around the Z axis
+    private float _totalRotation; // Total rotation of the object
     public float totalRotation
     {
         get { return _totalRotation; }
         set { _totalRotation = value; }
     }
-    private float currentRotation;
-    private bool isDragging = false;
+    private float currentRotation; // Current rotation of the object
+    private bool isDragging = false; // Flag indicating if the object is being dragged
 
-    [SerializeField] private float countDownToDowngradeSprite;
-    // [SerializeField] private TextMeshProUGUI debugSeconds;
-    private int currentIndexSprite = 0;
+    [SerializeField] private float countDownToDowngradeSprite; // Countdown to downgrade the sprite
+    // [SerializeField] private TextMeshProUGUI debugSeconds; // Debug text for seconds
+    private int currentIndexSprite = 0; // Index of the current sprite
 
-    [SerializeField] private WheelType wheelType;
-    private SpriteRenderer spriteRenderer;
-    [SerializeField] private List<Sprite> spritesNaturalWheel;
-    [SerializeField] private List<Sprite> spritesSynthecthicWheel;
-    [SerializeField] private List<Sprite> spritesSemisynthecticWheel;
+    [SerializeField] private WheelType wheelType; // Type of wheel
+    private SpriteRenderer spriteRenderer; // Sprite renderer component
+    [SerializeField] private List<Sprite> spritesNaturalWheel; // List of sprites for the natural wheel
+    [SerializeField] private List<Sprite> spritesSynthecthicWheel; // List of sprites for the synthetic wheel
+    [SerializeField] private List<Sprite> spritesSemisynthecticWheel; // List of sprites for the semisynthetic wheel
 
-    private int _totalCompleteTurns;
+    private int _totalCompleteTurns; // Total number of complete turns
     public int totalCompleteTurns
     {
         get { return _totalCompleteTurns; }
         set { _totalCompleteTurns = value; }
     }
-    private int currentTurns;
-    private float lastTotalRotationAtCompleteTurn = 0;
-    private bool _isCountDownFinished;
-    [SerializeField] private Thermometer thermometer;
-
+    private int currentTurns; // Current number of turns
+    private float lastTotalRotationAtCompleteTurn = 0; // Last total rotation at complete turn
+    private bool _isCountDownFinished; // Flag indicating if the countdown is finished
+    [SerializeField] private Thermometer thermometer; // Reference to the thermometer object
 
     private void Start()
     {
-        myCam = Camera.main;
-        col = GetComponent<Collider2D>();
-        previousZRotation = transform.eulerAngles.z; // Inicializa con la rotación actual en Z
-        countDownToDowngradeSprite = 5f;
-        totalRotation = 0;
+        myCam = Camera.main; // Get the main camera
+        col = GetComponent<Collider2D>(); // Get the collider component
+        previousZRotation = transform.eulerAngles.z; // Get the initial rotation around the Z axis
+        countDownToDowngradeSprite = 5f; // Set the countdown timer
+        totalRotation = 0; // Initialize total rotation
+        spriteRenderer = GetComponent<SpriteRenderer>(); // Cache sprite renderer on start
 
-        LoadWheelSprites(currentIndexSprite);
+        LoadWheelSprites(currentIndexSprite); // Load the initial sprites for the wheel
     }
 
     private void Update()
     {
-        _isCountDownFinished = CalculateTheCountDown();
-
+        _isCountDownFinished = CalculateTheCountDown(); // Calculate the countdown
 
         if (Input.GetMouseButtonDown(0))
         {
-            // Convierte la posición del ratón de pantalla a coordenadas del mundo para esta comprobación inicial
             Vector3 mousePosInitial = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
 
-            // Comprueba si el punto donde el usuario hizo clic inicialmente colisiona con el collider del objeto
             if (col == Physics2D.OverlapPoint(mousePosInitial))
             {
-                isDragging = true; // El usuario ha comenzado a arrastrar el objeto
-
-                // Prepara los valores necesarios para calcular la rotación
-                screenPoint = myCam.WorldToScreenPoint(transform.position);
+                isDragging = true; // Set dragging flag to true
+                screenPoint = myCam.WorldToScreenPoint(transform.position); // Get the position of the object on the screen
                 Vector3 vec3 = Input.mousePosition - screenPoint;
-                angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg;
-                previousZRotation = transform.eulerAngles.z; // Almacena la rotación actual en Z para comparaciones futuras
+                angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg; // Calculate the angle offset for dragging
+                previousZRotation = transform.eulerAngles.z; // Store the previous rotation around the Z axis
             }
         }
 
-        // Este bloque se ejecuta cuando el usuario suelta el botón izquierdo del ratón
         if (Input.GetMouseButtonUp(0))
         {
-            isDragging = false; // El usuario ha dejado de arrastrar el objeto
+            isDragging = false; // Set dragging flag to false when mouse button is released
         }
 
-        // Si el usuario está arrastrando el objeto...
         if (isDragging)
         {
-            // Ahora movemos la lógica para trabajar con la posición del ratón aquí, dentro del contexto de arrastre
             Vector3 mousePos = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
 
             if (col == Physics2D.OverlapPoint(mousePos))
             {
                 Vector3 vec3 = Input.mousePosition - screenPoint;
-                float angle = Mathf.Atan2(vec3.y, vec3.x) * Mathf.Rad2Deg;
-                transform.eulerAngles = new Vector3(0, 0, angle + angleOffset);
+                float angle = Mathf.Atan2(vec3.y, vec3.x) * Mathf.Rad2Deg; // Calculate the angle based on mouse position
+                transform.eulerAngles = new Vector3(0, 0, angle + angleOffset); // Set the rotation of the object
 
-                // Calcula la diferencia de rotación respecto al frame anterior
-                float currentZRotation = transform.eulerAngles.z;
-                float rotationDifference = Mathf.Abs(Mathf.DeltaAngle(currentZRotation, previousZRotation));
+                float currentZRotation = transform.eulerAngles.z; // Get the current rotation around the Z axis
+                float rotationDifference = Mathf.Abs(Mathf.DeltaAngle(currentZRotation, previousZRotation)); // Calculate the rotation difference
 
-                totalRotation += rotationDifference;
-                previousZRotation = currentZRotation;
-
-                // Aquí implementas la lógica para actualizar cualquier dependencia basada en la rotación, como un termómetro
-                int currentFrame = Mathf.FloorToInt(totalRotation / 360f);
-                currentFrame = Mathf.Clamp(currentFrame, 0, 30);
-                thermometer.SwitchSprite(currentFrame);
-                // Aquí podrías llamar a CheckTotalWheelTurns() si fuera necesario
+                UpdateTotalRotation(rotationDifference); // Update the total rotation of the object
             }
         }
-
-        if (_isCountDownFinished == true)
-        {
-            totalRotation = currentRotation;
-            Debug.Log($"Rotations completed current after countdown: {totalRotation}");
-            totalCompleteTurns = currentTurns;
-            Debug.Log($"Turns completed current after countdown: {totalCompleteTurns}");
-        }
-
-        Debug.Log(_isCountDownFinished);
-
-        CheckTotalWheelTurns();
     }
 
-    private void CheckTotalWheelTurns()
+    // Update the total rotation of the object
+    private void UpdateTotalRotation(float rotationDifference)
     {
-        if (totalRotation - lastTotalRotationAtCompleteTurn >= 360)
-        {
-            // Incrementa el contador de vueltas completas
-            totalCompleteTurns++;
-            // Actualiza la última rotación total al completar una vuelta
-            lastTotalRotationAtCompleteTurn += 360;
-            Debug.Log("Rotación Completa: " + lastTotalRotationAtCompleteTurn);
-            Debug.Log("Vuelta completa: " + totalCompleteTurns);
+        totalRotation += rotationDifference; // Update the total rotation
+        previousZRotation = transform.eulerAngles.z; // Update the previous rotation
 
-            UpdateWheelState();
+        // Calculate the total number of complete turns
+        int newTotalCompleteTurns = Mathf.FloorToInt(totalRotation / 360);
+        if (newTotalCompleteTurns != totalCompleteTurns)
+        {
+            totalCompleteTurns = newTotalCompleteTurns; // Update the total number of complete turns
+            Debug.Log("Complete Turn: " + totalCompleteTurns); // Log the complete turn
+            UpdateWheelState(); // Update the wheel state
+        }
+
+        // Update the thermometer sprite based on the total rotation
+        if (thermometer != null)
+        {
+            int currentFrame = Mathf.FloorToInt(totalRotation / 360f);
+            currentFrame = Mathf.Clamp(currentFrame, 0, 29); // Make sure the frame is within the limits
+            thermometer.SwitchSprite(currentFrame);
         }
     }
 
+    // Update the wheel state based on the total number of complete turns
     private void UpdateWheelState()
     {
-        if (totalCompleteTurns >= 0 && totalCompleteTurns < 11)
+        if (totalCompleteTurns >= 0 && totalCompleteTurns < 15)
         {
             LoadWheelSprites(0);
             currentIndexSprite = 0;
         }
-        else if (totalCompleteTurns >= 11 && totalCompleteTurns < 21)
+        else if (totalCompleteTurns >= 15 && totalCompleteTurns < 25)
         {
             LoadWheelSprites(1);
             currentIndexSprite = 1;
         }
-        else if (totalCompleteTurns >= 21 && totalCompleteTurns <= 29)
+        else if (totalCompleteTurns >= 25 && totalCompleteTurns <= 29)
         {
             LoadWheelSprites(2);
-            currentIndexSprite = 2;              
+            currentIndexSprite = 2;
         }
         else
         {
-            Debug.Log("EXPLOTAAAAAAAAAAAA");
+            Debug.Log("EXPLOSIONNNNNNNN");
         }
-        countDownToDowngradeSprite = 5; // Resetear el contador después de actualizar el estado.
+        countDownToDowngradeSprite = 5; // Reset the countdown timer after updating the state
     }
 
+    // Update the thermometer sprite based on the total rotation
+    private void UpdateThermometerBasedOnRotation()
+    {
+        if (thermometer != null)
+        {
+            int currentFrame = Mathf.FloorToInt(totalRotation / 360f);
+            currentFrame = Mathf.Clamp(currentFrame, 0, 29); // Make sure the frame is within the limits
+            thermometer.SwitchSprite(currentFrame);
+        }
+    }
+
+    // Load the wheel sprites based on the current index
     private void LoadWheelSprites(int currentIndexSprite)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-       // SpriteColliderAdjuster colliderAdjuster = GetComponent<SpriteColliderAdjuster>();
 
-        // Load the first element of sprite list in accordance with wheel type.
+        // Load the sprite based on the wheel type
         switch (wheelType)
         {
             case WheelType.Natural:
                 spriteRenderer.sprite = spritesNaturalWheel[currentIndexSprite];
-         //       colliderAdjuster.AdjustColliderToSprite();
                 break;
             case WheelType.Synthectic:
                 spriteRenderer.sprite = spritesSynthecthicWheel[currentIndexSprite];
-           //     colliderAdjuster.AdjustColliderToSprite();
                 break;
-
             case WheelType.Semisynthectic:
                 spriteRenderer.sprite = spritesSemisynthecticWheel[currentIndexSprite];
-             //   colliderAdjuster.AdjustColliderToSprite();
                 break;
-
             default:
                 Debug.Log("Invalid wheel type");
                 break;
         }
     }
 
+    // Decrease the number of turns by one
     private int DecreaseNumberOfTurns(int currentTurn)
     {
-        return currentTurn > 0 ? currentTurn-=1 : currentTurn = 0;
+        return currentTurn > 0 ? currentTurn - 1 : 0;
     }
 
-    private float DecreaseNumberOfRotations(float currentRotation)
+    // Decrease the number of turns and update the rotations
+    private void DecreaseTurnsAndRotations()
     {
-        if (currentRotation > 0f)
+        if (totalCompleteTurns > 0)
         {
-            float remainder = currentRotation % 360;
-            if (remainder != 0)
-            {
-                currentRotation += 360 - remainder;
-            }
-            currentRotation -= 720f;
+            totalCompleteTurns = DecreaseNumberOfTurns(totalCompleteTurns); // Decrease the total number of complete turns by one
+            totalRotation -= 360; // Decrease the total rotation by 360 degrees to reflect the loss of one complete turn
+            totalRotation = Mathf.Max(0, totalRotation); // Make sure total rotation doesn't become negative
+            Debug.Log($"Total Rotation after decreasing: {totalRotation}"); // Log the total rotation after decreasing
+            Debug.Log($"Complete Turns after decreasing: {totalCompleteTurns}"); // Log the complete turns after decreasing
         }
-        else
-        {
-            currentRotation = 0f;
-        }
-        return currentRotation;
+
+        // Update the wheel state and thermometer based on the new total number of complete turns
+        UpdateWheelState();
+        UpdateThermometerBasedOnRotation();
+
     }
 
-    private int CalculateCurrentTurn()
-    {
-        // Debug.Log($"Current total turns before decrease: {totalCompleteTurns}");
-        int numberTurnsAfterDecrease = DecreaseNumberOfTurns(totalCompleteTurns);
-        totalCompleteTurns = numberTurnsAfterDecrease;
-        // Debug.Log($"Current total turns after decrease: {totalCompleteTurns}");
-        return totalCompleteTurns;
-    }
-
+    // Calculate the current rotation
     private float CalculateCurrentRotation()
     {
         Debug.Log($"Current total rotations before decrease: {totalRotation}");
-        float numberRotationsAfterDecrease = DecreaseNumberOfRotations(totalRotation);
-        totalRotation = numberRotationsAfterDecrease;
+
+        // Assuming you want to reset totalRotation to reflect complete turns more accurately after some event, e.g., a penalty.
+        // Here, you adjust totalRotation based on totalCompleteTurns
+        totalRotation = totalCompleteTurns;
+
         Debug.Log($"Current total rotations after decrease: {totalRotation}");
         return totalRotation;
     }
 
+    // Calculate the countdown timer
     private bool CalculateTheCountDown()
     {
-        // The wheel change state each 8 seconds if the user doesn't turn the wheel.
         countDownToDowngradeSprite -= Time.deltaTime;
-        // debugSeconds.text = $"Seconds: {countDownToDowngradeSprite.ToString()}"; 
 
-        // The countdown doesn't have to lower than zero.
         if (countDownToDowngradeSprite < 0)
         {
             _isCountDownFinished = true;
-            if (currentIndexSprite == 0)
-            {
-                LoadWheelSprites(0);
-                currentTurns = CalculateCurrentTurn();
-                currentRotation = CalculateCurrentRotation();
-            }
-            else
-            {
-                if (totalCompleteTurns == 10) { LoadWheelSprites(0); } 
-                else if (totalCompleteTurns == 20) { LoadWheelSprites(1); }
-                
-                currentTurns = CalculateCurrentTurn();
-                currentRotation = CalculateCurrentRotation();
-            }
-            countDownToDowngradeSprite = 5;
+            DecreaseTurnsAndRotations(); // Call the new function here
+            countDownToDowngradeSprite = 5; // Reset the timer
         }
-        else 
+        else
         {
             _isCountDownFinished = false;
         }
