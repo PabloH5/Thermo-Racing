@@ -30,12 +30,21 @@ public class TEQuestionModel
         return teQuestions;
     }
 
-    public static TEQuestionModel GetWheelById(int teQuestion_id)
+    public static TEQuestionModel GetTEQuestionById(int teQuestion_id)
     {
         NpgsqlConnection con = DBController.EstablishConnectionDB();
         con.Open();
         var teQuestion = con.QuerySingle<TEQuestionModel>($"SELECT * FROM te_questions WHERE te_question_id ={teQuestion_id};");
         con.Close();
         return teQuestion;
+    }
+
+    public static List<TEQuestionModel> GetThreeTEQuestionsById(int[] questionIDs)
+    {
+        NpgsqlConnection con = DBController.EstablishConnectionDB();
+        con.Open();
+        var teQuestions = con.Query<TEQuestionModel>($"SELECT * FROM te_questions WHERE te_question_id = ANY(@QuestionIds);",new { QuestionIds = questionIDs }).ToList();
+        con.Close();
+        return teQuestions;
     }
 }

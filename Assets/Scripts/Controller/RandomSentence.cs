@@ -32,7 +32,9 @@ public class RandomSentence : MonoBehaviour
             int num = Random.Range(0, sentenceList.Count - 1);
             uniqueNumbers.Add(num);
         }
-        return new List<int>(uniqueNumbers);//Genera una lista de las posiciones de las oraciones aletorias que se se seleccionaron
+        List<int> sortedList = new List<int>(uniqueNumbers);
+        sortedList.Sort();
+        return sortedList;
     }
 
     private void SelectSentences()

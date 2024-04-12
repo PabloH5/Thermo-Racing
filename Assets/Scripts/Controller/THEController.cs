@@ -31,9 +31,11 @@ public class THEController : MonoBehaviour
     private int lastSpriteIndex = -1;
     private bool isReady = false;
     private int currentSentence;
-    // public event EventHandler OnSetUpQuestion;
-    private List<SentenseSO> sentense = new();
+
+    private List<SentenseSO> sentenceList = new();
     private List<GameObject> sentencePrefab = new();
+
+    private List<TEQuestionModel> questionList;
     // private List<String> answerPrefab = new();
     public bool IsReady
     {
@@ -45,15 +47,24 @@ public class THEController : MonoBehaviour
         get { return currentSentence; }
         set { currentSentence = value; }
     }
-    void Start()
+     void Start()
     {
         // CurrentSentence = randomSentence.SentenceAmount;
         for (int i = 0; i < randomSentence.SentenceAmount; i++)
         {
-            sentense.Add(randomSentence.ActiveSentence(i));
-            GameObject prefab = Instantiate(sentense[i].SentenceSO, new Vector2(1325, 985), Quaternion.identity, sentenceParent.transform);
+            sentenceList.Add(randomSentence.ActiveSentence(i));
+            GameObject prefab = Instantiate(sentenceList[i].SentenceSO, new Vector2(1325, 985), Quaternion.identity, sentenceParent.transform);
+            prefab.SetActive(false);
             sentencePrefab.Add(prefab);
         }
+        // Create an array with the question ids selected.
+        int[] questionsSelectedIds = { sentenceList[0].IdSentence, sentenceList[1].IdSentence, sentenceList[2].IdSentence };
+        // Fill the list with the question information from DB.
+        questionList = TEQuestionModel.GetThreeTEQuestionsById(questionsSelectedIds);
+        Debug.Log(questionList[0].te_question_id);
+        Debug.Log(questionList[1].te_question_id);
+        Debug.Log(questionList[2].te_question_id);
+
     }
     void Update()
     {
@@ -106,17 +117,16 @@ public class THEController : MonoBehaviour
         {
             // randomSentence.ActiveSentence(sentences);
             // SentenseSO sentense1 = randomSentence.ActiveSentence(1);
-            SentenseSO sentense1 = sentense[0];
-            setUpQuestionController.SetupTESentence(sentense1.IdSentence);
+            SentenseSO sentense1 = sentenceList[0];
+            //setUpQuestionController.SetupTESentence(sentense1.IdSentence);
             sentencePrefab[0].SetActive(true);
+
+            setUpQuestionController.SetUpTEQuestion(questionList[0]);
+
             // Instantiate(sentense1.SentenceSO, new Vector2(1325, 985), Quaternion.identity, sentenceParent.transform);
-            Debug.Log($"Active {sentences} sentences");
+            UnityEngine.Debug.Log($"Active {sentences} sentences");
             // sentences++;
         }
-    }
-    private void SentenceValidation()
-    {
-
     }
     private void SwitchThermoSprite(int sprite)
     {

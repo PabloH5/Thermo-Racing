@@ -17,11 +17,11 @@ public class ThermoEcuacionadorController : MonoBehaviour
         // TEQuestionModel question = TEQuestionModel.GetWheelById(controller.CurrentSentence);
         // SetUpTEQuestion(question);
     }
-    public void SetupTESentence(int sentenceNumber)
-    {
-        TEQuestionModel question = TEQuestionModel.GetWheelById(sentenceNumber);
-        SetUpTEQuestion(question);
-    }
+    //public void SetupTESentence(int sentenceNumber)
+    //{
+    //    TEQuestionModel question = TEQuestionModel.GetTEQuestionById(sentenceNumber);
+    //    SetUpTEQuestion(question);
+    //}
 
     public List<KeyValuePair<string, string>> ShuffleDicionaryOptions(Dictionary<string, string> possibleOptions)
     {
@@ -42,7 +42,7 @@ public class ThermoEcuacionadorController : MonoBehaviour
         return possibleOptionsList;
     }
 
-    private void AssignOptionsToGUI(List<KeyValuePair<string, string>> possibleOptionsList)
+    public void AssignOptionsToGUI(List<KeyValuePair<string, string>> possibleOptionsList)
     {
         Option1.text = possibleOptionsList[0].Key;
         Option1.tag = possibleOptionsList[0].Value;
@@ -54,7 +54,7 @@ public class ThermoEcuacionadorController : MonoBehaviour
         Option4.tag = possibleOptionsList[3].Value;
     }
 
-    private void SetUpTEQuestion(TEQuestionModel question)
+    public void SetUpTEQuestion(TEQuestionModel question)
     {
         if (question.second_option != null)
         {
@@ -89,7 +89,7 @@ public class ThermoEcuacionadorController : MonoBehaviour
                 {question.first_option, "CorrectOption1"},
                 {question.second_option,"CorrectOption2" },
                 {question.third_option,"CorrectOption3" },
-                {question.first_missing_word,"CorrectOption4"  }
+                {question.fourth_option,"CorrectOption4"  }
             };
 
             List<KeyValuePair<string, string>> possibleOptionsList = ShuffleDicionaryOptions(possibleOptions);
