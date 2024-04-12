@@ -34,6 +34,7 @@ public class THEController : MonoBehaviour
     // public event EventHandler OnSetUpQuestion;
     private List<SentenseSO> sentense = new();
     private List<GameObject> sentencePrefab = new();
+    // private List<String> answerPrefab = new();
     public bool IsReady
     {
         get { return isReady; }
