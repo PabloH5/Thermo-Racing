@@ -39,7 +39,7 @@ public class SliderManager : MonoBehaviour
         slider1ValueMappings.Add(3, 0.003f);
         slider1ValueMappings.Add(2, 0.005f);
         slider1ValueMappings.Add(1, 0.008f);
-        slider1ValueMappings.Add(0, 0.012f);
+        slider1ValueMappings.Add(0, 0.013f);
         // Example mappings for slider2.
         slider2ValueMappings.Add(0, 0.016f); // When slider2 is 0, use 3.0 instead.
         // Add additional mappings for slider2 as needed.
