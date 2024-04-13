@@ -27,10 +27,14 @@ public class DragAndDropOP : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         canvasGroup = gameObject.AddComponent<CanvasGroup>();
         canvas = FindObjectOfType<Canvas>();
         rb2D = GetComponent<Rigidbody2D>();
-        initialPos = transform.localPosition;
         answerValue = 5;
     }
 
+    void Start()
+    {
+        initialPos = transform.localPosition;
+    }
+    
     public void ToInitialState()
     {
         canvasGroup.blocksRaycasts = true;

@@ -15,6 +15,7 @@ public class THEController : MonoBehaviour
     private int totalSprites;
     [SerializeField]
     private Text timerTxt;
+    [SerializeField] private Text points;
 
     [Tooltip("Put here Positive FeedBack")]
     [SerializeField]
@@ -53,7 +54,7 @@ public class THEController : MonoBehaviour
         for (int i = 0; i < randomSentence.SentenceAmount; i++)
         {
             sentenceList.Add(randomSentence.ActiveSentence(i));
-            GameObject prefab = Instantiate(sentenceList[i].SentenceSO, new Vector2(1325, 985), Quaternion.identity, sentenceParent.transform);
+            GameObject prefab = Instantiate(sentenceList[i].SentenceSO, sentenceParent.transform.position, Quaternion.identity, sentenceParent.transform);
             prefab.SetActive(false);
             sentencePrefab.Add(prefab);
         }
@@ -145,6 +146,7 @@ public class THEController : MonoBehaviour
         {
             //! CHANGE THE NUMBER COUNTER
             CurrentSentence++;
+            points.text = CurrentSentence.ToString("0");
             ShowSentences(currentSentence, false);
             savedScore = 0;
             Debug.Log("TU MALDITA MADRE");
