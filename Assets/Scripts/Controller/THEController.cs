@@ -31,7 +31,7 @@ public class THEController : MonoBehaviour
     private int lastSpriteIndex = -1;
     private bool isReady = false;
     private int currentSentence;
-
+    private int savedScore;
     private List<SentenseSO> sentenceList = new();
     private List<GameObject> sentencePrefab = new();
 
@@ -47,7 +47,7 @@ public class THEController : MonoBehaviour
         get { return currentSentence; }
         set { currentSentence = value; }
     }
-     void Start()
+    void Start()
     {
         // CurrentSentence = randomSentence.SentenceAmount;
         for (int i = 0; i < randomSentence.SentenceAmount; i++)
@@ -77,8 +77,8 @@ public class THEController : MonoBehaviour
     public void StartGame()
     {
         IsReady = true;
-        CurrentSentence = 1;
-        ShowSentences(CurrentSentence);
+        CurrentSentence = 0;
+        ShowSentences(CurrentSentence, true);
         startGameBt.SetActive(false);
     }
     private void Temporizator()
@@ -110,22 +110,50 @@ public class THEController : MonoBehaviour
             timer = Mathf.Min(timer, 15f);
         }
     }
-    public void ShowSentences(int sentences)
+    public void ShowSentences(int sentences, bool isFirst)
     {
-        // int sentences = 0;
         if (sentences < randomSentence.SentenceAmount)
         {
-            // randomSentence.ActiveSentence(sentences);
-            // SentenseSO sentense1 = randomSentence.ActiveSentence(1);
-            SentenseSO sentense1 = sentenceList[0];
-            //setUpQuestionController.SetupTESentence(sentense1.IdSentence);
-            sentencePrefab[0].SetActive(true);
+            if (isFirst)
+            {
+                sentencePrefab[sentences].SetActive(true);
+                setUpQuestionController.SetUpTEQuestion(questionList[sentences]);
+            }
+            else
+            {
+                sentencePrefab[sentences - 1].SetActive(false);
+                for (int i = 0; i < setUpQuestionController.dragAndDropOP.Count; i++)
+                {
+                    setUpQuestionController.dragAndDropOP[i].ToInitialState();
+                }
+                sentencePrefab[sentences].SetActive(true);
+                setUpQuestionController.SetUpTEQuestion(questionList[sentences]);
+            }
+            Debug.Log($"Active the {sentences} sentence");
+        }
+        else
+        {
+            SendPositiveFdB();
+            IsReady = false;
+        }
+    }
 
-            setUpQuestionController.SetUpTEQuestion(questionList[0]);
-
-            // Instantiate(sentense1.SentenceSO, new Vector2(1325, 985), Quaternion.identity, sentenceParent.transform);
-            UnityEngine.Debug.Log($"Active {sentences} sentences");
-            // sentences++;
+    public bool CheckSentence(int sentenceScore)
+    {
+        savedScore += sentenceScore;
+        if (savedScore >= sentenceList[currentSentence].TotalScore)
+        {
+            //! CHANGE THE NUMBER COUNTER
+            CurrentSentence++;
+            ShowSentences(currentSentence, false);
+            savedScore = 0;
+            Debug.Log("TU MALDITA MADRE");
+            return true;
+        }
+        else
+        {
+            Debug.Log("Ni un brillo pelao");
+            return false;
         }
     }
     private void SwitchThermoSprite(int sprite)

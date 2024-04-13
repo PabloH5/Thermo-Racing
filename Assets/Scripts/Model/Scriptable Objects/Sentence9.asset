@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Sentence9
   m_EditorClassIdentifier: 
   idSentence: 9
+  totalScore: 10
   sentenceGO: {fileID: 634498478361692228, guid: 5c6060ac97876924d8c519148c520ca0, type: 3}

@@ -10,10 +10,15 @@ public class ThermoEcuacionadorController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Option3;
     [SerializeField] private TextMeshProUGUI Option4;
     [SerializeField] private THEController controller;
+    public List<DragAndDropOP> dragAndDropOP;
 
     // Start is called before the first frame update
     void Start()
     {
+        dragAndDropOP.Add(Option1.GetComponent<DragAndDropOP>());
+        dragAndDropOP.Add(Option2.GetComponent<DragAndDropOP>());
+        dragAndDropOP.Add(Option3.GetComponent<DragAndDropOP>());
+        dragAndDropOP.Add(Option4.GetComponent<DragAndDropOP>());
         // TEQuestionModel question = TEQuestionModel.GetWheelById(controller.CurrentSentence);
         // SetUpTEQuestion(question);
     }
@@ -56,7 +61,7 @@ public class ThermoEcuacionadorController : MonoBehaviour
 
     public void SetUpTEQuestion(TEQuestionModel question)
     {
-        if (question.second_option != null)
+        if (question.first_option != null && question.second_option != null && question.third_option == null && question.fourth_option == null)
         {
             // There are two correct options in this question.
             Dictionary<string, string> possibleOptions = new Dictionary<string, string>(){
@@ -69,7 +74,7 @@ public class ThermoEcuacionadorController : MonoBehaviour
             List<KeyValuePair<string, string>> possibleOptionsList = ShuffleDicionaryOptions(possibleOptions);
             AssignOptionsToGUI(possibleOptionsList);
         }
-        if (question.third_option != null)
+        else if (question.third_option != null && question.fourth_option == null)
         {
             // There are three correct options in this question.
             Dictionary<string, string> possibleOptions = new Dictionary<string, string>(){
@@ -82,7 +87,7 @@ public class ThermoEcuacionadorController : MonoBehaviour
             List<KeyValuePair<string, string>> possibleOptionsList = ShuffleDicionaryOptions(possibleOptions);
             AssignOptionsToGUI(possibleOptionsList);
         }
-        if (question.fourth_option != null)
+        else if (question.fourth_option != null)
         {
             // There are four correct options in this question.
             Dictionary<string, string> possibleOptions = new Dictionary<string, string>(){
