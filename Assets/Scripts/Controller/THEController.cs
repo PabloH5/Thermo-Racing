@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class THEController : MonoBehaviour
 {
@@ -17,16 +18,23 @@ public class THEController : MonoBehaviour
     private Text timerTxt;
     [SerializeField] private Text points;
 
+    
+    [SerializeField]
+    private GameObject startGameBt;
+    [SerializeField]
+    private GameObject sentenceParent;
+
+    [Space(10)]
+    [Header("UI")]
+    [SerializeField] private VideoPlayer backgroundVideo;
     [Tooltip("Put here Positive FeedBack")]
     [SerializeField]
     private GameObject positiveFeedBack;
     [Tooltip("Put here Negative FeedBack")]
     [SerializeField]
     private GameObject negativeFeedBack;
-    [SerializeField]
-    private GameObject startGameBt;
-    [SerializeField]
-    private GameObject sentenceParent;
+    private AudioSource explotionSound;
+
     private float timer = 15;
     private float changeInterval = 0.5f;
     private int lastSpriteIndex = -1;
@@ -50,6 +58,8 @@ public class THEController : MonoBehaviour
     }
     void Start()
     {
+
+        explotionSound = GetComponent<AudioSource>();
         // CurrentSentence = randomSentence.SentenceAmount;
         for (int i = 0; i < randomSentence.SentenceAmount; i++)
         {
@@ -80,13 +90,16 @@ public class THEController : MonoBehaviour
         IsReady = true;
         CurrentSentence = 0;
         ShowSentences(CurrentSentence, true);
+        backgroundVideo.Play();
         startGameBt.SetActive(false);
     }
     private void Temporizator()
     {
+        Debug.Log($"-------VIDEO TIME: {backgroundVideo.time}");
         if (timer <= 0)
         {
             SendNegativeFdB();
+
         }
         else
         {
@@ -109,6 +122,8 @@ public class THEController : MonoBehaviour
         {
             timer += 5f;
             timer = Mathf.Min(timer, 15f);
+            // Go back the background video 5 seconds.
+            backgroundVideo.time = MathF.Max((float)backgroundVideo.time - 5, 0);
         }
     }
     public void ShowSentences(int sentences, bool isFirst)
@@ -136,6 +151,7 @@ public class THEController : MonoBehaviour
         {
             SendPositiveFdB();
             IsReady = false;
+            backgroundVideo.Stop();
         }
     }
 
@@ -146,7 +162,7 @@ public class THEController : MonoBehaviour
         {
             //! CHANGE THE NUMBER COUNTER
             CurrentSentence++;
-            points.text = CurrentSentence.ToString("0");
+            //points.text = CurrentSentence.ToString("0");
             ShowSentences(currentSentence, false);
             savedScore = 0;
             Debug.Log("TU MALDITA MADRE");
@@ -168,6 +184,9 @@ public class THEController : MonoBehaviour
     }
     private void SendNegativeFdB()
     {
+        //explotionSound.Play();
+        //Debug.Log("BOOOM");
         negativeFeedBack.SetActive(true);
+
     }
 }
