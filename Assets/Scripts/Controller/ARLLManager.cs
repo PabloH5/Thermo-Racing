@@ -21,6 +21,21 @@ public class ARLLManager : MonoBehaviour
     [SerializeField] private GameObject positiveFeedback;
     [SerializeField] private GameObject negativeFeedback;
     [SerializeField] private CalculatorController calculatorController;
+    [SerializeField] private DragRotate dragRotateController;
+    [SerializeField] private ConstantBankUpdate constantBankUpdateController;
+    private WheelType _wheelTypeController;
+    public WheelType wheelTypeController
+    {
+        get { return _wheelTypeController; }
+        set { _wheelTypeController = value; }
+    }
+
+    private float _WheelSpecificHeat;
+    public float wheelSpecificHeat
+    {
+        get { return _WheelSpecificHeat; }
+        set { _WheelSpecificHeat = value; }
+    }
 
     public UnityEvent feedbackPositiveEvent;
     public UnityEvent feedbackNegativeEvent;
@@ -153,12 +168,12 @@ public class ARLLManager : MonoBehaviour
         switch (actualCanvasMinigame)
         {
             case "Weight_Bank":
-                GameObject specificHeatGO = ObtainSpecificGameObject(actualCanvasMinigame, "Specific Heat");
+                GameObject specificHeatGO = ObtainSpecificGameObject(actualCanvasMinigame, "Specific Heat Pression");
                 UnityEngine.Debug.Log(specificHeatGO.name);
                 Text valueSpecificHeat = specificHeatGO.transform.GetChild(0).GetComponent<Text>();
                 UnityEngine.Debug.Log(valueSpecificHeat.text);
 
-                if (valueSpecificHeat.text != "---")
+                if (valueSpecificHeat.text != "?")
                 {
                     TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
                     string input = valueSpecificHeat.text; 
@@ -178,8 +193,41 @@ public class ARLLManager : MonoBehaviour
                 
                 break;
             case "InflateBank":
+                GameObject finalVolumeGO = ObtainSpecificGameObject(actualCanvasMinigame, "Final Volume");
+                UnityEngine.Debug.Log(finalVolumeGO.name);
+                Text valueFinalVolume = finalVolumeGO.transform.GetChild(0).GetComponent<Text>();
+                UnityEngine.Debug.Log(valueFinalVolume.text);
+
+                if (valueFinalVolume.text != "?")
+                {
+                    TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
+                    if (textToValidateTheResult.text == "0.49") { feedbackPositiveEvent.Invoke(); }
+                    else { feedbackNegativeEvent.Invoke(); }   
+                }
                 break;
             case "Temperature_Bank":
+                GameObject finalTemperatureGO = ObtainSpecificGameObject(actualCanvasMinigame, "Final Temp");
+                UnityEngine.Debug.Log(finalTemperatureGO.name);
+                Text valueFinalTemperature = finalTemperatureGO.transform.GetChild(0).GetComponent<Text>();
+                UnityEngine.Debug.Log(valueFinalTemperature.text);
+
+                if (valueFinalTemperature.text != "?")
+                {
+                    TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
+                    string input = valueFinalTemperature.text; 
+                    string numberString = Regex.Match(input, @"\d+").Value; 
+
+                    float validationNumber;
+                    if (float.TryParse(numberString, out validationNumber))
+                    {
+                        validationNumber = wheelSpecificHeat * 10.0f * 55.0f; // If you need to multiply the number by 10
+                        UnityEngine.Debug.Log("Parsed number: " + validationNumber);
+                    }
+                    string validationString = validationNumber.ToString();
+                    if (textToValidateTheResult.text == validationString) { feedbackPositiveEvent.Invoke(); }
+                    else { feedbackNegativeEvent.Invoke(); }
+                }
+                else { feedbackNegativeEvent.Invoke(); }
                 break;
             case "Work_Bank":
                 break;
@@ -216,7 +264,7 @@ public class ARLLManager : MonoBehaviour
     {
         positiveFeedback.SetActive(true);
     }
-
+    
     public void OnPositiveFeedbackGUI()
     {
         TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
@@ -233,6 +281,13 @@ public class ARLLManager : MonoBehaviour
 
         bool _isCalculatorHide = calculatorController.ObtainAnimationValue();
         if (_isCalculatorHide) { calculatorController.ToggleMovement(); }
+
+        string actualCanvas = ValidateInWichOneCanvasActivate(allChildrenCanvasGO);        
+        if (actualCanvas == "----3. WheelRotation----")
+        {
+            dragRotateController.ModifyEnumAtribute(wheelTypeController);
+        }
+
         positiveFeedback.SetActive(false);
     }
 
@@ -246,5 +301,32 @@ public class ARLLManager : MonoBehaviour
         TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
         textToValidateTheResult.text = "0";
         negativeFeedback.SetActive(false);
+    }
+
+    public WheelType ParseWheelType(string tireName)
+    {
+        switch (tireName)
+        {
+            case "Caucho Natural":
+                wheelSpecificHeat = 20000;
+                constantBankUpdateController.UpdateSpecificHeat(wheelSpecificHeat);
+                return WheelType.Natural;
+            case "Caucho Sintético":
+                wheelSpecificHeat = 16000;
+                constantBankUpdateController.UpdateSpecificHeat(wheelSpecificHeat);
+                return WheelType.Synthectic;
+            case "Caucho Semisintético":
+                wheelSpecificHeat = 18000;
+                constantBankUpdateController.UpdateSpecificHeat(wheelSpecificHeat);
+                return WheelType.Semisynthectic;
+            default:
+                UnityEngine.Debug.LogError("Unknown tire type: " + tireName);
+                return wheelTypeController; // Return current value if not matched
+        }
+    }
+
+    public void SetWheelTypeInController(WheelType wheelType)
+    {
+        wheelTypeController = wheelType;
     }
 }

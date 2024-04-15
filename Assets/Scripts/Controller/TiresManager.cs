@@ -14,7 +14,10 @@ public class TiresManager : MonoBehaviour
 
     [SerializeField]
     private CheckWheelsController controller;
+    [SerializeField] ARLLManager aRLLManagerScript;
     private int selectedOption = 0;
+
+    private WheelType wheelTypeTiresManager;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +55,10 @@ public class TiresManager : MonoBehaviour
         image.sprite = tire.tireSprite;
         tireName.text = tire.typetires;
         heat.text = "Cp = " + tire.specificHeat.ToString() + " J/(kg°C)";
+
+        wheelTypeTiresManager = aRLLManagerScript.ParseWheelType(tireName.text);
+        aRLLManagerScript.SetWheelTypeInController(wheelTypeTiresManager);
+        Debug.Log($"Wheel Type {wheelTypeTiresManager} ");
     }
 
 }

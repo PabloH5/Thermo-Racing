@@ -73,7 +73,7 @@ public class SliderManager : MonoBehaviour
         if (sliderText.text == "992.985 J")
         {
             Debug.Log("Im in");
-            feedbackPositiveEvent.Invoke();
+            Invoke("InvokeFeedbackPositiveEvent", 0.5f);
         }
     }
 
@@ -85,5 +85,10 @@ public class SliderManager : MonoBehaviour
         float difference = 0.49f * 101325.0f * (customValue2 - customValue1);
 
         return difference.ToString();
+    }
+
+    private void InvokeFeedbackPositiveEvent()
+    {
+        feedbackPositiveEvent.Invoke();
     }
 }

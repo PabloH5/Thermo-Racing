@@ -36,7 +36,7 @@ public class DragRotate : MonoBehaviour
     }
     private bool _isCountDownFinished; // Flag indicating if the countdown is finished
     [SerializeField] private Thermometer thermometer; // Reference to the thermometer object
-
+    [SerializeField] private ConstantBankUpdate constantBankUpdateScript;
     private float lastInteractionTime = 1.5f;
     public UnityEvent feedbackPositiveEvent;
 
@@ -60,8 +60,8 @@ public class DragRotate : MonoBehaviour
     {
         if (totalCompleteTurns >= 19 && totalCompleteTurns <= 23)
         {
-            lastInteractionTime -= Time.deltaTime;
-            if (lastInteractionTime <= 0) { feedbackPositiveEvent.Invoke(); }
+                lastInteractionTime -= Time.deltaTime;
+                if (lastInteractionTime <= 0) { CalculateWinScenario(); }
         }
 
         _isCountDownFinished = CalculateTheCountDown(); // Calculate the countdown
@@ -83,7 +83,6 @@ public class DragRotate : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false; // Set dragging flag to false when mouse button is released
-            CalculateWinScenario();
         }
 
         if (isDragging)
@@ -244,15 +243,13 @@ public class DragRotate : MonoBehaviour
 
     private void CalculateWinScenario()
     {
-        lastInteractionTime -= Time.deltaTime;
-        int totalTurns = totalCompleteTurns;
-        if (lastInteractionTime == 0f) 
-        {
-            if (totalTurns >=19 || totalTurns <=23)
-            {
-                feedbackPositiveEvent.Invoke();
-            }
-        }
+        constantBankUpdateScript.UpdateFinalTemperature(80);
+        constantBankUpdateScript.UpdateFinalTemperatureWithString();
+    }
+
+    public void ModifyEnumAtribute(WheelType wheelTypeAtributeToChange)
+    {
+        wheelType = wheelTypeAtributeToChange;
     }
 
 }

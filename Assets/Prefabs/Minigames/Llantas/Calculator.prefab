@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6045068421327912327}
   - component: {fileID: 2268890860608352974}
   m_Layer: 5
-  m_Name: R:gases ideales
+  m_Name: 'R: Ideal Gases'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: 29.4}
+  m_AnchoredPosition: {x: 8.299997, y: -15.5}
   m_SizeDelta: {x: 342.6485, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6045068421327912327
@@ -2629,7 +2629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.001, y: 0}
+  m_AnchoredPosition: {x: -11, y: 0}
   m_SizeDelta: {x: 255.822, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2537270240824151425
@@ -2673,7 +2673,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PV =nRT
+  m_Text: PVf = nRT
 --- !u!1 &1931898902175534743
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,7 +3109,7 @@ GameObject:
   - component: {fileID: 9140979988669505920}
   - component: {fileID: 7898779015884400589}
   m_Layer: 5
-  m_Name: Volumen Final
+  m_Name: Final Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3132,7 +3132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21, y: -0.4}
+  m_AnchoredPosition: {x: -17.2, y: -25.800003}
   m_SizeDelta: {x: 163.9, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9140979988669505920
@@ -3443,7 +3443,7 @@ GameObject:
   - component: {fileID: 4955784472523794774}
   - component: {fileID: 411672038133751711}
   m_Layer: 5
-  m_Name: Temperatura dentro de la llanta
+  m_Name: Temperature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3466,7 +3466,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21.2, y: 18.6}
+  m_AnchoredPosition: {x: -16.900003, y: 16.299995}
   m_SizeDelta: {x: 163.9, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4955784472523794774
@@ -3657,7 +3657,7 @@ GameObject:
   - component: {fileID: 7556288583762208806}
   - component: {fileID: 3120841142438501742}
   m_Layer: 5
-  m_Name: Volumen Inicial
+  m_Name: Initial Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3680,7 +3680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21.2, y: 8.6}
+  m_AnchoredPosition: {x: -16.900003, y: -5.6000047}
   m_SizeDelta: {x: 163.9, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7556288583762208806
@@ -4713,7 +4713,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -30.7}
+  m_AnchoredPosition: {x: -1.3, y: -25.8}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3068227938925459883
@@ -5075,7 +5075,7 @@ GameObject:
   - component: {fileID: 6364926415688436706}
   - component: {fileID: 6623403731813286850}
   m_Layer: 5
-  m_Name: Presion Optima
+  m_Name: Pression
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5098,7 +5098,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.2, y: -0.6}
+  m_AnchoredPosition: {x: 11.8, y: -25.7}
   m_SizeDelta: {x: 50.4828, y: 52.792}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6364926415688436706
@@ -7330,7 +7330,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.1648, y: 37.853603}
+  m_AnchoredPosition: {x: -0.1648, y: 49.1}
   m_SizeDelta: {x: 342.6485, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2788209294787473387
@@ -7924,7 +7924,7 @@ GameObject:
   - component: {fileID: 7227303917067028622}
   - component: {fileID: 2724657201404566685}
   m_Layer: 5
-  m_Name: Cantidad moles de gas
+  m_Name: Cuantity of mols
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7947,7 +7947,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17.1, y: 20.4}
+  m_AnchoredPosition: {x: -17.000002, y: 5.5999956}
   m_SizeDelta: {x: 161.18, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7227303917067028622
@@ -8908,8 +8908,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.1, y: 15.1}
-  m_SizeDelta: {x: 315.83, y: 97.75}
+  m_AnchoredPosition: {x: 1.7, y: 15.3}
+  m_SizeDelta: {x: 321.526, y: 148.71}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5231253716145872230
 CanvasRenderer:
@@ -8944,15 +8944,17 @@ MonoBehaviour:
     m_FontSize: 19
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 47
+    m_MinSize: 1
+    m_MaxSize: 300
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Halla la presi\xF3n \xF3ptima para el buen funcionamiento de la llanta."
+  m_Text: "Halla la presi\xF3n \xF3ptima en atm para el buen funcionamiento de la
+    llanta.\nUsa la temperatura en K.\nRecuerde: 1 atm = 101325 Pa, su resultado
+    est\xE1 dado en pascales, convi\xE9rtalo."
 --- !u!1 &6101889183984943781
 GameObject:
   m_ObjectHideFlags: 0
@@ -9294,7 +9296,7 @@ GameObject:
   - component: {fileID: 668691274002342564}
   - component: {fileID: 5566000476233262491}
   m_Layer: 5
-  m_Name: Bank_Work
+  m_Name: Bank_Inflate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9319,8 +9321,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -492.00006, y: 49.999992}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -506, y: 59}
+  m_SizeDelta: {x: 100, y: 131.11}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &668691274002342564
 CanvasRenderer:
@@ -11216,8 +11218,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.999994, y: 0}
-  m_SizeDelta: {x: 125.9, y: 68.492}
+  m_AnchoredPosition: {x: 98.17, y: -2}
+  m_SizeDelta: {x: 292.23, y: 53.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3389518586324727954
 CanvasRenderer:
@@ -11260,7 +11262,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "25\xB0C"
+  m_Text: "25\xB0C  --> \xB0K = 298.15K"
 --- !u!1 &7795432845958059586
 GameObject:
   m_ObjectHideFlags: 0
@@ -11428,7 +11430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 36, y: 0}
+  m_AnchoredPosition: {x: 30, y: 0}
   m_SizeDelta: {x: 125.9, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2976978682821314787
@@ -11995,7 +11997,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 102, y: 0}
+  m_AnchoredPosition: {x: 91, y: 0}
   m_SizeDelta: {x: 155.354, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2539208686373919855
@@ -12153,7 +12155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 43, y: 0}
+  m_AnchoredPosition: {x: 34, y: 0}
   m_SizeDelta: {x: 161.18, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &254902968868269032
@@ -12197,7 +12199,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0.02 mol
+  m_Text: 0.5 mol
 --- !u!1 &8509631462694260401
 GameObject:
   m_ObjectHideFlags: 0
@@ -13119,7 +13121,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27.500011, y: 0}
+  m_AnchoredPosition: {x: 19, y: 0}
   m_SizeDelta: {x: 108.9, y: 68.492}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2590605079751964769

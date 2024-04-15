@@ -63,7 +63,7 @@ public class CheckWheelsController : MonoBehaviour
         float weight = WheelData.weight;
         float specificHeat = WheelData.specificHeat;
         constantBank.UpdateMass(weight);
-        constantBank.UpdateSpecificHeat(specificHeat);
+        constantBank.UpdateSpecificHeatPression(specificHeat);
         return weight;
     }
     public void HideArrows()

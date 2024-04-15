@@ -6,6 +6,8 @@ public class ConstantBankUpdate : MonoBehaviour
     [SerializeField]
     private Text massTxt;
     [SerializeField]
+    private Text specificHeatPression;
+    [SerializeField]
     private Text specificHeat;
     [SerializeField]
     private Text pressionTxt;
@@ -22,6 +24,10 @@ public class ConstantBankUpdate : MonoBehaviour
     {
         massTxt.text = value + " kg";
     }
+    public void UpdateSpecificHeatPression(float value)
+    {
+        specificHeatPression.text = value + " J/(kg·°C)";
+    }
     public void UpdateSpecificHeat(float value)
     {
         specificHeat.text = value + " J/(kg·°C)";
@@ -37,6 +43,10 @@ public class ConstantBankUpdate : MonoBehaviour
     public void UpdateFinalTemperature(float value)
     {
         finalTemperatureTxt.text = value + " °C";
+    }
+    public void UpdateFinalTemperatureWithString()
+    {
+        finalTemperatureTxt.text += " --> 353.15K";
     }
     public void UpdateE(float value)
     {

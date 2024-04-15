@@ -9,6 +9,7 @@ public class TouchAirBomb : MonoBehaviour
     [Header("Set in Inspector")]
     [SerializeField]
     private CheckWheelsController controller;
+    [SerializeField] private ConstantBankUpdate constantBankUpdateScript;
     /// <value>
     /// Handle Bar Gameobject
     /// </value>
@@ -56,6 +57,7 @@ public class TouchAirBomb : MonoBehaviour
     private float update;
 
     public UnityEvent feedbackPositiveEvent;
+    public UnityEvent updateConstantBank;
 
     /// <summary>
     /// Start <c>method</c> for initialize values
@@ -68,6 +70,11 @@ public class TouchAirBomb : MonoBehaviour
 
         feedbackPositiveEvent.AddListener(() => {
             GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivatePositiveFeedbackGUI();
+        });   
+        
+        updateConstantBank.AddListener(() => {
+            // constantBankUpdateScript.GetComponent<ConstantBankUpdate>().UpdatePression(0.49f);
+            constantBankUpdateScript.GetComponent<ConstantBankUpdate>().UpdateVolumme(0.025f);
         });   
 
     }
@@ -99,7 +106,8 @@ public class TouchAirBomb : MonoBehaviour
             if (update >= 1.5 && update < 2)
             {
                 Debug.Log("I am going away");   
-                feedbackPositiveEvent.Invoke();      
+                // feedbackPositiveEvent.Invoke();   
+                updateConstantBank.Invoke();   
             }
         }
         else if (touchCount > 18 && touchCount <= 40)
