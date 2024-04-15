@@ -76,7 +76,7 @@ public class CalculatorController : MonoBehaviour
 
     public void BtnDigit(string numberToPut)
     {
-        Debug.Log(numberToPut.GetType().ToString());
+        // Debug.Log(numberToPut.GetType().ToString());
         if (operationInputField.text.Length >= 44)
         {
             return; 
@@ -157,5 +157,10 @@ public class CalculatorController : MonoBehaviour
             }
             _isToggleCalculatorNotVisible = !_isToggleCalculatorNotVisible;
         }
+    }
+
+    public bool ObtainAnimationValue()
+    {
+        return _isToggleCalculatorNotVisible;
     }
 }

@@ -39,11 +39,6 @@ public class CheckWheelsController : MonoBehaviour
     [SerializeField]
     private WheelToInflate wheelInflate;
     [Tooltip("Put here Positive FeedBack")]
-    [SerializeField]
-    private GameObject positiveFeedBackIF;
-    [Tooltip("Put here Negative FeedBack")]
-    [SerializeField]
-    private GameObject negativeFeedBackIF;
 
     void Start()
     {
@@ -114,20 +109,20 @@ public class CheckWheelsController : MonoBehaviour
             wheelInflate.SwitchSprite(4);
         }
     }
-    public void ActivePositiveFB(int touchCount)
-    {
-        positiveFeedBackIF.SetActive(true);
-        //!PUT A REAL VALUE FOR PRESSION
-        constantBank.UpdatePression(0.49f);
-        //!PUT A REAL VALUE FOR FINAL VOLUMME
-        constantBank.UpdateVolumme(0.025f);
-        PauseGame();
-        thInflate.SwitchSprite(touchCount);
-    }
-    public void ActiveNegativeFB(int touchCount)
-    {
-        negativeFeedBackIF.SetActive(true);
-        PauseGame();
-        thInflate.SwitchSprite(touchCount);
-    }
+    // public void ActivePositiveFB(int touchCount)
+    // {
+    //     positiveFeedBackIF.SetActive(true);
+    //     //!PUT A REAL VALUE FOR PRESSION
+    //     constantBank.UpdatePression(0.49f);
+    //     //!PUT A REAL VALUE FOR FINAL VOLUMME
+    //     constantBank.UpdateVolumme(0.025f);
+    //     PauseGame();
+    //     thInflate.SwitchSprite(touchCount);
+    // }
+    // public void ActiveNegativeFB(int touchCount)
+    // {
+    //     negativeFeedBackIF.SetActive(true);
+    //     PauseGame();
+    //     thInflate.SwitchSprite(touchCount);
+    // }
 }

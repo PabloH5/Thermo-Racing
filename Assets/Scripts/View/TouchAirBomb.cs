@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Bomb Air <c>class</c> when update the position and the touches amount
@@ -53,6 +54,9 @@ public class TouchAirBomb : MonoBehaviour
     [SerializeField]
     private float coolDown;
     private float update;
+
+    public UnityEvent feedbackPositiveEvent;
+
     /// <summary>
     /// Start <c>method</c> for initialize values
     /// </summary>
@@ -61,6 +65,11 @@ public class TouchAirBomb : MonoBehaviour
         initPosHB = transform.localPosition; //Initialize the initial position of the Handle Bar
         mainCamera = Camera.main; //Initialize Main Camera of the scene
         rectTransform = handleBar.GetComponent<RectTransform>();//Equalize the Rect Transform Component to a variable
+
+        feedbackPositiveEvent.AddListener(() => {
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivatePositiveFeedbackGUI();
+        });   
+
     }
     /// <summary>
     /// Update <c>method</c> for update and compare values 
@@ -89,12 +98,13 @@ public class TouchAirBomb : MonoBehaviour
         {
             if (update >= 1.5 && update < 2)
             {
-                controller.ActivePositiveFB(touchCount);
+                Debug.Log("I am going away");   
+                feedbackPositiveEvent.Invoke();      
             }
         }
         else if (touchCount > 18 && touchCount <= 40)
         {
-            controller.ActiveNegativeFB(touchCount);
+            // controller.ActiveNegativeFB(touchCount);
         }
         if (update >= coolDown && TouchCount > 0)
         {

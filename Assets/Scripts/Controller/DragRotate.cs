@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DragRotate : MonoBehaviour
 {
@@ -33,25 +34,36 @@ public class DragRotate : MonoBehaviour
         get { return _totalCompleteTurns; }
         set { _totalCompleteTurns = value; }
     }
-    private int currentTurns; // Current number of turns
-    private float lastTotalRotationAtCompleteTurn = 0; // Last total rotation at complete turn
     private bool _isCountDownFinished; // Flag indicating if the countdown is finished
     [SerializeField] private Thermometer thermometer; // Reference to the thermometer object
+
+    private float lastInteractionTime = 1.5f;
+    public UnityEvent feedbackPositiveEvent;
 
     private void Start()
     {
         myCam = Camera.main; // Get the main camera
         col = GetComponent<Collider2D>(); // Get the collider component
         previousZRotation = transform.eulerAngles.z; // Get the initial rotation around the Z axis
-        countDownToDowngradeSprite = 5f; // Set the countdown timer
+        countDownToDowngradeSprite = 3f; // Set the countdown timer
         totalRotation = 0; // Initialize total rotation
         spriteRenderer = GetComponent<SpriteRenderer>(); // Cache sprite renderer on start
 
         LoadWheelSprites(currentIndexSprite); // Load the initial sprites for the wheel
+
+        feedbackPositiveEvent.AddListener(() => {
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivatePositiveFeedbackGUI();
+        });   
     }
 
     private void Update()
     {
+        if (totalCompleteTurns >= 19 && totalCompleteTurns <= 23)
+        {
+            lastInteractionTime -= Time.deltaTime;
+            if (lastInteractionTime <= 0) { feedbackPositiveEvent.Invoke(); }
+        }
+
         _isCountDownFinished = CalculateTheCountDown(); // Calculate the countdown
 
         if (Input.GetMouseButtonDown(0))
@@ -71,6 +83,7 @@ public class DragRotate : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false; // Set dragging flag to false when mouse button is released
+            CalculateWinScenario();
         }
 
         if (isDragging)
@@ -118,12 +131,12 @@ public class DragRotate : MonoBehaviour
     // Update the wheel state based on the total number of complete turns
     private void UpdateWheelState()
     {
-        if (totalCompleteTurns >= 0 && totalCompleteTurns < 15)
+        if (totalCompleteTurns >= 0 && totalCompleteTurns < 11)
         {
             LoadWheelSprites(0);
             currentIndexSprite = 0;
         }
-        else if (totalCompleteTurns >= 15 && totalCompleteTurns < 25)
+        else if (totalCompleteTurns >= 11 && totalCompleteTurns < 25)
         {
             LoadWheelSprites(1);
             currentIndexSprite = 1;
@@ -220,13 +233,26 @@ public class DragRotate : MonoBehaviour
         {
             _isCountDownFinished = true;
             DecreaseTurnsAndRotations(); // Call the new function here
-            countDownToDowngradeSprite = 5; // Reset the timer
+            countDownToDowngradeSprite = 3; // Reset the timer
         }
         else
         {
             _isCountDownFinished = false;
         }
         return _isCountDownFinished;
+    }
+
+    private void CalculateWinScenario()
+    {
+        lastInteractionTime -= Time.deltaTime;
+        int totalTurns = totalCompleteTurns;
+        if (lastInteractionTime == 0f) 
+        {
+            if (totalTurns >=19 || totalTurns <=23)
+            {
+                feedbackPositiveEvent.Invoke();
+            }
+        }
     }
 
 }

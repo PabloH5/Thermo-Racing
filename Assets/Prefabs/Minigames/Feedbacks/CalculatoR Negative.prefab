@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 1563260742208445302}
   - component: {fileID: 2353753176994477736}
   m_Layer: 5
-  m_Name: Calculatos FdB Negative
+  m_Name: CalculatoR Negative
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
