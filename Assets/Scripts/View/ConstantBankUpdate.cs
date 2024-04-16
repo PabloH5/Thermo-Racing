@@ -26,11 +26,11 @@ public class ConstantBankUpdate : MonoBehaviour
     }
     public void UpdateSpecificHeatPression(float value)
     {
-        specificHeatPression.text = value + " J/(kg·°C)";
+        specificHeatPression.text = value + " J/(kg·°K)";
     }
     public void UpdateSpecificHeat(float value)
     {
-        specificHeat.text = value + " J/(kg·°C)";
+        specificHeat.text = value + " J/(kg·°K)";
     }
     public void UpdatePression(float value)
     {

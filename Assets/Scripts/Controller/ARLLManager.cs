@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,9 +21,11 @@ public class ARLLManager : MonoBehaviour
     [SerializeField] private GameObject[] allChildrenBankParentGO;
     [SerializeField] private GameObject positiveFeedback;
     [SerializeField] private GameObject negativeFeedback;
+    [SerializeField] private GameObject finalFeedback;
     [SerializeField] private CalculatorController calculatorController;
     [SerializeField] private DragRotate dragRotateController;
     [SerializeField] private ConstantBankUpdate constantBankUpdateController;
+    [SerializeField] private GameObject calculatorToggleGO;
     private WheelType _wheelTypeController;
     public WheelType wheelTypeController
     {
@@ -169,9 +172,7 @@ public class ARLLManager : MonoBehaviour
         {
             case "Weight_Bank":
                 GameObject specificHeatGO = ObtainSpecificGameObject(actualCanvasMinigame, "Specific Heat Pression");
-                UnityEngine.Debug.Log(specificHeatGO.name);
                 Text valueSpecificHeat = specificHeatGO.transform.GetChild(0).GetComponent<Text>();
-                UnityEngine.Debug.Log(valueSpecificHeat.text);
 
                 if (valueSpecificHeat.text != "?")
                 {
@@ -182,8 +183,7 @@ public class ARLLManager : MonoBehaviour
                     int validationNumber;
                     if (int.TryParse(numberString, out validationNumber))
                     {
-                        validationNumber *= 10; // If you need to multiply the number by 10
-                        UnityEngine.Debug.Log("Parsed number: " + validationNumber);
+                        validationNumber *= 10;
                     }
                     string validationString = validationNumber.ToString();
                     if (textToValidateTheResult.text == validationString) { feedbackPositiveEvent.Invoke(); }
@@ -194,9 +194,7 @@ public class ARLLManager : MonoBehaviour
                 break;
             case "InflateBank":
                 GameObject finalVolumeGO = ObtainSpecificGameObject(actualCanvasMinigame, "Final Volume");
-                UnityEngine.Debug.Log(finalVolumeGO.name);
                 Text valueFinalVolume = finalVolumeGO.transform.GetChild(0).GetComponent<Text>();
-                UnityEngine.Debug.Log(valueFinalVolume.text);
 
                 if (valueFinalVolume.text != "?")
                 {
@@ -207,9 +205,7 @@ public class ARLLManager : MonoBehaviour
                 break;
             case "Temperature_Bank":
                 GameObject finalTemperatureGO = ObtainSpecificGameObject(actualCanvasMinigame, "Final Temp");
-                UnityEngine.Debug.Log(finalTemperatureGO.name);
                 Text valueFinalTemperature = finalTemperatureGO.transform.GetChild(0).GetComponent<Text>();
-                UnityEngine.Debug.Log(valueFinalTemperature.text);
 
                 if (valueFinalTemperature.text != "?")
                 {
@@ -220,8 +216,7 @@ public class ARLLManager : MonoBehaviour
                     float validationNumber;
                     if (float.TryParse(numberString, out validationNumber))
                     {
-                        validationNumber = wheelSpecificHeat * 10.0f * 55.0f; // If you need to multiply the number by 10
-                        UnityEngine.Debug.Log("Parsed number: " + validationNumber);
+                        validationNumber = wheelSpecificHeat * 10.0f * 55.0f; 
                     }
                     string validationString = validationNumber.ToString();
                     if (textToValidateTheResult.text == validationString) { feedbackPositiveEvent.Invoke(); }
@@ -231,7 +226,42 @@ public class ARLLManager : MonoBehaviour
                 break;
             case "Work_Bank":
                 break;
-            case "E_DeltaE_Bank":
+            case "E_Bank":
+                GameObject finalHeatAmountGO = ObtainSpecificGameObject(actualCanvasMinigame, "Heat amount");
+                Text valueFinalHeatAmount = finalHeatAmountGO.transform.GetChild(0).GetComponent<Text>();
+
+                if (valueFinalHeatAmount.text != "?")
+                {
+                    TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
+                    string input = valueFinalHeatAmount.text; 
+                    string numberString = Regex.Match(input, @"\d+").Value; 
+
+                    float validationNumber = (float)Math.Round(992.985f / (wheelSpecificHeat * 10f * 55f) * 100, 2);
+                    UnityEngine.Debug.Log(validationNumber);
+                    
+                    string validationString = validationNumber.ToString();
+                    if (textToValidateTheResult.text == validationString) { feedbackPositiveEvent.Invoke(); }
+                    else { feedbackNegativeEvent.Invoke(); }
+                }
+                else { feedbackNegativeEvent.Invoke(); }
+
+                break;
+            case "DeltaE_Bank":
+                GameObject finalEfficiencyGO = ObtainSpecificGameObject(actualCanvasMinigame, "e");
+                Text valueEfficiency = finalEfficiencyGO.transform.GetChild(0).GetComponent<Text>();
+
+                if (valueEfficiency.text != "?")
+                {
+                    TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
+
+                    float validationNumber = (float)Math.Round((wheelSpecificHeat * 10f * 55f) + 992.985f, 2);
+                    UnityEngine.Debug.Log(validationNumber);
+                    
+                    string validationString = validationNumber.ToString();
+                    if (textToValidateTheResult.text == validationString) { finalFeedback.SetActive(true); }
+                    else { feedbackNegativeEvent.Invoke(); }
+                }
+                else { feedbackNegativeEvent.Invoke(); }
                 break;
         }
     }
@@ -270,23 +300,56 @@ public class ARLLManager : MonoBehaviour
         TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
         string canvasToActivate = ValidateInWichOneCanvasActivate(allChildrenCanvasGO);
         string banksToActivate = ValidateInWichOneCanvasActivate(allChildrenBankParentGO);
-        UnityEngine.Debug.Log($"Bancos para activar: {banksToActivate} ");
         TurnOffMinigame(GetCurrentCanvasWithActiveChildren(allChildrenCanvasGO), allChildrenCanvasGO);
         TurnOffMinigame(GetCurrentCanvasWithActiveChildren(allChildrenBankParentGO), allChildrenBankParentGO);
-        UnityEngine.Debug.Log(canvasToActivate);
 
         TurnOnMinigame(canvasToActivate, allChildrenCanvasGO);
         TurnOnMinigame(banksToActivate, allChildrenBankParentGO);
         textToValidateTheResult.text = "0";
 
-        bool _isCalculatorHide = calculatorController.ObtainAnimationValue();
-        if (_isCalculatorHide) { calculatorController.ToggleMovement(); }
-
-        string actualCanvas = ValidateInWichOneCanvasActivate(allChildrenCanvasGO);        
-        if (actualCanvas == "----3. WheelRotation----")
+        string nextCanvas = ValidateInWichOneCanvasActivate(allChildrenCanvasGO);    
+        if (nextCanvas == "----3. WheelRotation----")
         {
             dragRotateController.ModifyEnumAtribute(wheelTypeController);
         }
+
+        string actualCanvas = GetCurrentCanvasWithActiveChildren(allChildrenCanvasGO);
+        string actualBank = GetCurrentCanvasWithActiveChildren(allChildrenBankParentGO); 
+        bool _isCalculatorHide = calculatorController.ObtainAnimationValue();
+    
+        if (actualCanvas == "----5. LastCalculations----")
+        {
+            GameObject finalSpecificHeatGO = ObtainSpecificGameObject(actualBank, "Heat amount");
+            UnityEngine.Debug.Log(actualBank);
+            Text valueFinalSpecificHeat = finalSpecificHeatGO.transform.GetChild(0).GetComponent<Text>();
+            valueFinalSpecificHeat.text = $"{wheelSpecificHeat * 10 * 55}" + " J/(kg·°K)";
+
+            if (!_isCalculatorHide) 
+            { 
+                calculatorController.ToggleMovement(); 
+            }
+            calculatorToggleGO.SetActive(false);
+        }
+
+        if (actualCanvas == "----6. LastCalculations----")
+        {
+
+            GameObject finalEfficiencyGO = ObtainSpecificGameObject(actualBank, "e");
+            Text valueFinalEfficiency = finalEfficiencyGO.transform.GetChild(0).GetComponent<Text>();
+            valueFinalEfficiency.text = $"{(float)Math.Round(992.985f / (wheelSpecificHeat * 10f * 55f) * 100, 2)}" + "%";
+
+            float finalHeatAmountDeltaE = wheelSpecificHeat * 10.0f * 55.0f;
+            GameObject finalHeatAmountDeltaEGO = ObtainSpecificGameObject(actualBank, "Heat amount");
+            Text valueFinalHeatAmountDeltaEText = finalHeatAmountDeltaEGO.transform.GetChild(0).GetComponent<Text>();
+            valueFinalHeatAmountDeltaEText.text = finalHeatAmountDeltaE.ToString() + " J/(kg·°K)";
+
+            if (_isCalculatorHide) 
+            { 
+                calculatorController.ToggleMovement(); 
+            }
+        }
+        
+        if (_isCalculatorHide) { calculatorController.ToggleMovement();  }
 
         positiveFeedback.SetActive(false);
     }
@@ -308,15 +371,15 @@ public class ARLLManager : MonoBehaviour
         switch (tireName)
         {
             case "Caucho Natural":
-                wheelSpecificHeat = 20000;
+                wheelSpecificHeat = 2000f;
                 constantBankUpdateController.UpdateSpecificHeat(wheelSpecificHeat);
                 return WheelType.Natural;
             case "Caucho Sintético":
-                wheelSpecificHeat = 16000;
+                wheelSpecificHeat = 1600f;
                 constantBankUpdateController.UpdateSpecificHeat(wheelSpecificHeat);
                 return WheelType.Synthectic;
             case "Caucho Semisintético":
-                wheelSpecificHeat = 18000;
+                wheelSpecificHeat = 1800f;
                 constantBankUpdateController.UpdateSpecificHeat(wheelSpecificHeat);
                 return WheelType.Semisynthectic;
             default:

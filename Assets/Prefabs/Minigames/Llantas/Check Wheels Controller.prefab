@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc72169674ed80b499e441e53855a56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constantBank: {fileID: 0}
   dragAndDropUI: {fileID: 0}
   tireManager: {fileID: 0}
+  descriptionScale: {fileID: 0}
   arrowNext: {fileID: 0}
   arrowBack: {fileID: 0}
   thermometerInflate: {fileID: 0}
   wheelInflate: {fileID: 0}
-  positiveFeedBackIF: {fileID: 0}
-  negativeFeedBackIF: {fileID: 0}

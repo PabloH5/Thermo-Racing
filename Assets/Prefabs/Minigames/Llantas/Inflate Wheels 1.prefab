@@ -769,10 +769,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  constantBankUpdateScript: {fileID: 0}
   handleBar: {fileID: 2846946732749392860}
   newPosHB: {x: 59, y: -35, z: 0}
   isOn: 0
   coolDown: 2
+  feedbackPositiveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  updateConstantBank:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8846592875246045124
 GameObject:
   m_ObjectHideFlags: 0
