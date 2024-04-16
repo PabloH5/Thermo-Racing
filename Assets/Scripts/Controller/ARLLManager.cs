@@ -26,6 +26,12 @@ public class ARLLManager : MonoBehaviour
     [SerializeField] private DragRotate dragRotateController;
     [SerializeField] private ConstantBankUpdate constantBankUpdateController;
     [SerializeField] private GameObject calculatorToggleGO;
+
+    [Space(5)]
+    [Header("BD informarion")]
+    private ARLLQuestionModel questionBD;
+
+
     private WheelType _wheelTypeController;
     public WheelType wheelTypeController
     {
@@ -46,9 +52,13 @@ public class ARLLManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ARLLWheelModel wheelTest =  ARLLWheelModel.GetARLLWheelById(2);
+        //ARLLWheelModel wheelTest = ARLLWheelModel.GetARLLWheelById(2);
         // Debug.Log(wheelTest.created_at);
         // Debug.Log(wheelTest.arll_wheel_name);
+
+        // Bring the information from BD
+        questionBD = ARLLQuestionModel.GetARLLQuestionById(1);
+        UnityEngine.Debug.Log($"Hola BD: {questionBD.change_internal_energy} - {questionBD.arll_wheel_name}");
 
 
         feedbackPositiveEvent.AddListener(() => {
