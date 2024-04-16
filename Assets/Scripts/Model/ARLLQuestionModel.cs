@@ -7,16 +7,8 @@ using System.Linq;
 public class ARLLQuestionModel
 {
     public int arll_question_id { get; set; }
-    public float initial_temperature { get; set; }
-    public float number_moles { get; set; }
-    public float initial_volume { get; set; }
-    public float final_volume { get; set; }
-    public float pressure { get; set; }
     public int arll_wheel_id { get; set; }
-    public float wheel_mass { get; set; }
     public float heat_capacity { get; set; }
-    public float work { get; set; }
-    public float delta_temp { get; set; }
     public float amount_heatQ { get; set; }
     public float efficiency { get; set; }
     public float change_internal_energy { get; set; }
@@ -36,8 +28,8 @@ public class ARLLQuestionModel
     {
         NpgsqlConnection con = DBController.EstablishConnectionDB();
         con.Open();
-        var wheel = con.QuerySingle<ARLLQuestionModel>($"SELECT * FROM arll_questions WHERE arll_question_id ={arll_question_id};");
+        var arllQuestion = con.QuerySingle<ARLLQuestionModel>($"SELECT aq.arll_question_id,aq.arll_wheel_id,aq.heat_capacity,aq.\"amount_heatQ\",aq.efficiency, aq.change_internal_energy,aw.arll_wheel_name,aw.specific_heat FROM arll_questions as aq INNER JOIN arll_wheels as aw ON aq.arll_wheel_id = aw.arll_wheel_id WHERE aq.arll_wheel_id =(SELECT aq.arll_wheel_id FROM arll_questions aq WHERE aq.arll_question_id=@QuestionId);",new { QuestionId = arll_question_id });
         con.Close();
-        return wheel;
+        return arllQuestion;
     }
 }

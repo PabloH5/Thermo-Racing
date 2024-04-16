@@ -14,6 +14,14 @@ public class EnviromentVariablesConfig : MonoBehaviour
     void Awake()
     {
         LoadConfig();
+        
+
+    }
+
+    void Start()
+    {
+        ARLLQuestionModel aRLLQuestionModel = ARLLQuestionModel.GetARLLQuestionById(1);
+        Debug.Log(aRLLQuestionModel.efficiency);
     }
 
     private void LoadConfig()
