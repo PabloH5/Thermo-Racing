@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using static UnityEngine.ParticleSystem;
 
 public class THEController : MonoBehaviour
 {
@@ -33,7 +35,8 @@ public class THEController : MonoBehaviour
     [Tooltip("Put here Negative FeedBack")]
     [SerializeField]
     private GameObject negativeFeedBack;
-    private AudioSource explotionSound;
+    [SerializeField]private ParticleSystem explotionParticleSystem;
+    private bool hasExploted = false;
 
     private float timer = 15;
     private float changeInterval = 0.5f;
@@ -58,8 +61,6 @@ public class THEController : MonoBehaviour
     }
     void Start()
     {
-
-        explotionSound = GetComponent<AudioSource>();
         // CurrentSentence = randomSentence.SentenceAmount;
         for (int i = 0; i < randomSentence.SentenceAmount; i++)
         {
@@ -92,12 +93,14 @@ public class THEController : MonoBehaviour
         ShowSentences(CurrentSentence, true);
         backgroundVideo.Play();
         startGameBt.SetActive(false);
+        
     }
     private void Temporizator()
     {
-        Debug.Log($"-------VIDEO TIME: {backgroundVideo.time}");
+        //Debug.Log($"-------VIDEO TIME: {backgroundVideo.time}");
         if (timer <= 0)
         {
+            
             SendNegativeFdB();
 
         }
@@ -150,6 +153,7 @@ public class THEController : MonoBehaviour
         else
         {
             SendPositiveFdB();
+            explotionParticleSystem.Play();
             IsReady = false;
             backgroundVideo.Stop();
         }
@@ -162,7 +166,7 @@ public class THEController : MonoBehaviour
         {
             //! CHANGE THE NUMBER COUNTER
             CurrentSentence++;
-            //points.text = CurrentSentence.ToString("0");
+            points.text = CurrentSentence.ToString("0");
             ShowSentences(currentSentence, false);
             savedScore = 0;
             Debug.Log("TU MALDITA MADRE");
@@ -186,7 +190,12 @@ public class THEController : MonoBehaviour
     {
         //explotionSound.Play();
         //Debug.Log("BOOOM");
-        negativeFeedBack.SetActive(true);
+        if (hasExploted == false)
+        {
+            explotionParticleSystem.Play();
+            hasExploted = true;
+        }
 
+        negativeFeedBack.SetActive(true);
     }
 }
