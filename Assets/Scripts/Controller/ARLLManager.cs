@@ -57,8 +57,8 @@ public class ARLLManager : MonoBehaviour
         // Debug.Log(wheelTest.arll_wheel_name);
 
         // Bring the information from BD
-        questionBD = ARLLQuestionModel.GetARLLQuestionById(1);
-        UnityEngine.Debug.Log($"Hola BD: {questionBD.change_internal_energy} - {questionBD.arll_wheel_name}");
+        // questionBD = ARLLQuestionModel.GetARLLQuestionById(1);
+        // UnityEngine.Debug.Log($"Hola BD: {questionBD.change_internal_energy} - {questionBD.arll_wheel_name}");
 
 
         feedbackPositiveEvent.AddListener(() => {

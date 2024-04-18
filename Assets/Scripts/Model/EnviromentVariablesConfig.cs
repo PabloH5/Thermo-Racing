@@ -26,16 +26,26 @@ public class EnviromentVariablesConfig : MonoBehaviour
 
     private void LoadConfig()
     {
-
         string filePath;
 
-        // Read the selected configuration file.
-        if(_currentEnviroment == DevelopmentEnviroment.local){
-            filePath = Path.Combine(Application.dataPath, "config.local.json");
-        }else{
-            filePath = Path.Combine(Application.dataPath, "config.json");
+        // Check if the application is running on Android
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            // For Android, use a different configuration file path
+            filePath = Path.Combine(Application.persistentDataPath, "config.json");
         }
-        
+        else
+        {
+            // For other platforms (e.g., Windows), use the original configuration file path
+            if (_currentEnviroment == DevelopmentEnviroment.local)
+            {
+                filePath = Path.Combine(Application.dataPath, "config.local.json");
+            }
+            else
+            {
+                filePath = Path.Combine(Application.dataPath, "config.json");
+            }
+        }
 
         if (File.Exists(filePath))
         {
@@ -48,11 +58,10 @@ public class EnviromentVariablesConfig : MonoBehaviour
             EnviromentVariablesManager.Instance.DBPort = loadedData.DBPort;
             EnviromentVariablesManager.Instance.DBPassword = loadedData.DBPassword;
             EnviromentVariablesManager.Instance.DBHost = loadedData.DBHost;
-
         }
         else
         {
-            Debug.LogError("Cannot find config file. Verify if 'config.json' exists.");
+            Debug.LogError("Cannot find config file. Verify if 'config.json' or 'config.local.json' exists.");
         }
     }
 }
