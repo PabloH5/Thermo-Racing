@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -961,7 +961,7 @@ GameObject:
   - component: {fileID: 1030153416}
   - component: {fileID: 1030153415}
   m_Layer: 5
-  m_Name: Button (Legacy) (1)
+  m_Name: ThermoEcuacionador
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1029,7 +1029,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1030153416}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 43832938}
+        m_TargetAssemblyTypeName: Interfaces, Assembly-CSharp
+        m_MethodName: PlayScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ThermoEcuacionador
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1030153416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,7 +1526,7 @@ GameObject:
   - component: {fileID: 2110911806}
   - component: {fileID: 2110911805}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: ARLL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1592,7 +1604,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: ARevisarLasLlantas
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2110911806

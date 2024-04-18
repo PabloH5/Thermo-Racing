@@ -54,7 +54,7 @@ public class SliderManager : MonoBehaviour
         slider2ValueMappings.Add(1, 0.019f);
         slider2ValueMappings.Add(2, 0.022f);
         slider2ValueMappings.Add(3, 0.025f);
-        slider2ValueMappings.Add(4, 0.028f);
+        slider2ValueMappings.Add(4, 0.027f);
         slider2ValueMappings.Add(5, 0.032f);
         // Note: Populate these dictionaries with all 11 mappings for each slider.
     }
