@@ -81,8 +81,16 @@ public class CheckWheelsController : MonoBehaviour
     }
     public void SwitchSpriteTH(int touchCount)
     {
-        thInflate.SwitchSprite(touchCount);
-        Debug.Log(touchCount);
+        if (touchCount > -1 && touchCount < 30)
+        {
+            thInflate.SwitchSprite(touchCount);
+        }
+        else
+        {
+            Debug.Log("KABOM");
+        }
+
+        // Debug.Log(touchCount);
     }
 
     // This method controll the change of wheel sprites depend of thr touchcount and active the feedback depend of the time
@@ -100,14 +108,16 @@ public class CheckWheelsController : MonoBehaviour
         {
             wheelInflate.SwitchSprite(2);
         }
-        else if (touchCount >= 12 && touchCount < 18)
+        else if (touchCount >= 12 && touchCount < 23)
         {
             wheelInflate.SwitchSprite(3);
         }
-        else if (touchCount > 18 && touchCount <= 40)
+        else if (touchCount > 24 && touchCount <= 29)
         {
             wheelInflate.SwitchSprite(4);
+            //!HECTOR METE TU  EXPLOSION AQUI
         }
+        else { Debug.Log("KABOOOM"); }
     }
     // public void ActivePositiveFB(int touchCount)
     // {
