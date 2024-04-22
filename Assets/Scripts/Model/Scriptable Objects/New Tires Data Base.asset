@@ -15,13 +15,31 @@ MonoBehaviour:
   tires:
   - typetires: Caucho Natural
     tireSprite: {fileID: -378422837, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
+    inflateTireSprite:
+    - {fileID: -1296794128, guid: 545c04cd5b69a5440816742027156be2, type: 3}
+    - {fileID: -2103009081, guid: 545c04cd5b69a5440816742027156be2, type: 3}
+    - {fileID: 917962485, guid: 545c04cd5b69a5440816742027156be2, type: 3}
+    - {fileID: 862626024, guid: 545c04cd5b69a5440816742027156be2, type: 3}
+    - {fileID: -473805589, guid: 545c04cd5b69a5440816742027156be2, type: 3}
     specificHeat: 2000
     weight: 10
   - typetires: "Caucho Sint\xE9tico"
     tireSprite: {fileID: 1064169689, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
+    inflateTireSprite:
+    - {fileID: -1294718956, guid: f101f676db2ba604d9fbd28004bb0dd7, type: 3}
+    - {fileID: 1254244282, guid: f101f676db2ba604d9fbd28004bb0dd7, type: 3}
+    - {fileID: 1377524586, guid: f101f676db2ba604d9fbd28004bb0dd7, type: 3}
+    - {fileID: 1009857011, guid: f101f676db2ba604d9fbd28004bb0dd7, type: 3}
+    - {fileID: -209901450, guid: f101f676db2ba604d9fbd28004bb0dd7, type: 3}
     specificHeat: 1600
     weight: 10
   - typetires: "Caucho Semisint\xE9tico"
     tireSprite: {fileID: -1491128820, guid: 4425ba983dc4fd84eab1ad962f4df6e2, type: 3}
+    inflateTireSprite:
+    - {fileID: -2102611379, guid: dab8218728cc4ac4dbcffabef16decf0, type: 3}
+    - {fileID: 79598609, guid: dab8218728cc4ac4dbcffabef16decf0, type: 3}
+    - {fileID: 1904701392, guid: dab8218728cc4ac4dbcffabef16decf0, type: 3}
+    - {fileID: -1169802300, guid: dab8218728cc4ac4dbcffabef16decf0, type: 3}
+    - {fileID: -411759006, guid: dab8218728cc4ac4dbcffabef16decf0, type: 3}
     specificHeat: 1800
     weight: 10

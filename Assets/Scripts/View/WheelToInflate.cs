@@ -6,10 +6,16 @@ public class WheelToInflate : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField]
     private List<Sprite> spritesWH;
-    // Start is called before the first frame update
+
+    public List<Sprite> SpritesWH
+    {
+        get { return spritesWH; }
+        set { spritesWH = value; }
+    }
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = SpritesWH[0];
     }
 
     public void SwitchSprite(int spritePos)

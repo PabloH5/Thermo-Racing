@@ -18,6 +18,8 @@ public class TiresManager : MonoBehaviour
     private int selectedOption = 0;
 
     private WheelType wheelTypeTiresManager;
+    [SerializeField]
+    private WheelToInflate wheelInflate;
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +57,7 @@ public class TiresManager : MonoBehaviour
         image.sprite = tire.tireSprite;
         tireName.text = tire.typetires;
         heat.text = "Cp = " + tire.specificHeat.ToString() + " J/(kg°C)";
-
+        wheelInflate.SpritesWH = tire.inflateTireSprite;
         wheelTypeTiresManager = aRLLManagerScript.ParseWheelType(tireName.text);
         aRLLManagerScript.SetWheelTypeInController(wheelTypeTiresManager);
         Debug.Log($"Wheel Type {wheelTypeTiresManager} ");
