@@ -68,14 +68,16 @@ public class TouchAirBomb : MonoBehaviour
         mainCamera = Camera.main; //Initialize Main Camera of the scene
         rectTransform = handleBar.GetComponent<RectTransform>();//Equalize the Rect Transform Component to a variable
 
-        feedbackPositiveEvent.AddListener(() => {
+        feedbackPositiveEvent.AddListener(() =>
+        {
             GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivatePositiveFeedbackGUI();
-        });   
-        
-        updateConstantBank.AddListener(() => {
+        });
+
+        updateConstantBank.AddListener(() =>
+        {
             // constantBankUpdateScript.GetComponent<ConstantBankUpdate>().UpdatePression(0.49f);
             constantBankUpdateScript.GetComponent<ConstantBankUpdate>().UpdateVolumme(0.025f);
-        });   
+        });
 
     }
     /// <summary>
@@ -101,16 +103,16 @@ public class TouchAirBomb : MonoBehaviour
                 }
             }
         }
-        if (touchCount >= 12 && touchCount < 14)
+        if (touchCount >= 12 && touchCount < 23)
         {
             if (update >= 1.5 && update < 2)
             {
-                Debug.Log("I am going away");   
+                Debug.Log("I am going away");
                 // feedbackPositiveEvent.Invoke();   
-                updateConstantBank.Invoke();   
+                updateConstantBank.Invoke();
             }
         }
-        else if (touchCount > 18 && touchCount <= 40)
+        else if (touchCount > 18 && touchCount <= 30)
         {
             // controller.ActiveNegativeFB(touchCount);
         }
