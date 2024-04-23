@@ -73,6 +73,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+/[Aa]ssets/[Ss]treamingAssets/*
+/[Aa]ssets/[Ss]treamingAssets/config.json.meta
+
 /[Aa]ssets/config.json
 /[Aa]ssets/config.local.json
 /[Aa]ssets/config.local.json.meta
