@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class RegisterController : MonoBehaviour
 {
-    [Header("UI elements")]
+    [Header("UI Register form")]
     [SerializeField] private TMP_InputField usernameInput;
     [SerializeField] private TMP_Text usernameValidationMessage;
     [SerializeField] private RawImage usernameValidationMark;
@@ -18,16 +18,23 @@ public class RegisterController : MonoBehaviour
     [SerializeField] private TMP_Text userCodeValidationMessage;
     [SerializeField] private RawImage userCodeValidationMark;
     [SerializeField] private RawImage userCodeValidationError;
+
     [Space(10)]
     [SerializeField] private TMP_InputField passwordInput;
     [SerializeField] private TMP_Text passwordValidationMessage;
     [SerializeField] private RawImage passwordValidationMark;
     [SerializeField] private RawImage passwordValidationError;
+
     [Space(10)]
     [SerializeField] private TMP_InputField confirmpasswordInput;
     [SerializeField] private TMP_Text confirmPasswordValidationMessage;
     [SerializeField] private RawImage confirmPasswordValidationMark;
     [SerializeField] private RawImage confirmPasswordValidationError;
+
+    [Space(10)]
+    [Header("Privacy policy")]
+    [SerializeField] private Toggle togglePrivacyPolicy;
+    [SerializeField] private TMP_Text privacyPolicyValidation;
 
     [Header("Ban words PopUp")]
     [SerializeField] private GameObject banWordPopUp;
@@ -36,6 +43,7 @@ public class RegisterController : MonoBehaviour
     [Header("Vars")]
     [SerializeField] private static HashSet<string> bannedWords;
     [SerializeField] private List<string> detectedBannedWords;
+    
 
     public void Awake()
     {
@@ -54,7 +62,13 @@ public class RegisterController : MonoBehaviour
         string password = passwordInput.text.Trim();
         string confirmPassword = confirmpasswordInput.text.Trim();
 
-        
+        if (!togglePrivacyPolicy.isOn)
+        {
+            privacyPolicyValidation.gameObject.SetActive(true);
+            Debug.Log("ACEPTE LOS TÉRMINOS Y CONDICIONES SAPA");
+            return;
+        }
+        privacyPolicyValidation.gameObject.SetActive(false);
 
         // * --------------- USERNAME VALIDATIONS --------------------
         // 1.1 validate the username lenght
@@ -152,8 +166,6 @@ public class RegisterController : MonoBehaviour
 
         usernameValidationError.gameObject.SetActive(false);
         usernameValidationMark.gameObject.SetActive(true);
-
-
 
         // Hash the password.
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
