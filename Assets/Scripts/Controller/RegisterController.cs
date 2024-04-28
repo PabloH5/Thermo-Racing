@@ -29,8 +29,13 @@ public class RegisterController : MonoBehaviour
     [SerializeField] private RawImage confirmPasswordValidationMark;
     [SerializeField] private RawImage confirmPasswordValidationError;
 
+    [Header("Ban words PopUp")]
+    [SerializeField] private GameObject banWordPopUp;
+    [SerializeField] private TMP_Text bannedWordDetected;
+
     [Header("Vars")]
     [SerializeField] private static HashSet<string> bannedWords;
+    [SerializeField] private List<string> detectedBannedWords;
 
     public void Awake()
     {
@@ -39,11 +44,17 @@ public class RegisterController : MonoBehaviour
 
     public void RegisterUser()
     {
+        // Clear ban words detected.
+        detectedBannedWords.Clear();
+        bannedWordDetected.text = "";
+
         // Obtain the values from TextMeshPro textFields
         string username = usernameInput.text.Trim();
         string code = codeInput.text.Trim();
         string password = passwordInput.text.Trim();
         string confirmPassword = confirmpasswordInput.text.Trim();
+
+        
 
         // * --------------- USERNAME VALIDATIONS --------------------
         // 1.1 validate the username lenght
@@ -57,6 +68,8 @@ public class RegisterController : MonoBehaviour
         // 1.2 Valid banned words in username
         if (ValidateBannedWordsUsername(username))
         {
+
+            banWordPopUp.gameObject.SetActive(true);
             usernameValidationMessage.text = "El nombre NO puede contener palabras obscenas.";
             usernameValidationError.gameObject.SetActive(true);
             return;
@@ -175,8 +188,31 @@ public class RegisterController : MonoBehaviour
 
     public bool ValidateBannedWordsUsername(string username)
     {
-        bool test = bannedWords.Any(word => username.ToLower().Contains(word));
+        bool test = bannedWords.Any(word =>
+        {
+            if (username.ToLower().Contains(word))
+            {
+                detectedBannedWords.Add(word);
+                bannedWordDetected.text = word;
+                return true;
+            }
+            return false;
+        }
+        );
+        Debug.Log("ANTES DEL FOREACH");
+        detectedBannedWords.ForEach(word=>Debug.Log(word));
+        //foreach (var item in detectedBannedWords)
+        //{
+        //    Debug.Log(item);
+        //    Debug.Log("FOREACH");
+        //}
         Debug.Log($"Banned word detected: {test}");
         return test;
     }
+
+    public void CloseBanWordPopUp()
+    {
+        banWordPopUp.SetActive(false);
+    }
+
 }
