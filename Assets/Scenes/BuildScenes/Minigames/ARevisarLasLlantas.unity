@@ -1917,11 +1917,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 47.11281
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -63.645485
+      value: -3.6
       objectReference: {fileID: 0}
     - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1951,29 +1951,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
-      propertyPath: prewarm
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: lengthInSec
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8136067643069261171, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_Name
       value: Explosion
-      objectReference: {fileID: 0}
-    - target: {fileID: 8136067643069261171, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

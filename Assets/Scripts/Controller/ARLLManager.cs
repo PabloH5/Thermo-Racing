@@ -370,6 +370,7 @@ public class ARLLManager : MonoBehaviour
     {
         explosionGO.SetActive(true);
         explosionGO.GetComponent<ParticleSystem>().Play();
+        explosionGO.GetComponent<AudioSource>().Play();
         StartCoroutine(ProcessExplosion());
     }
 
@@ -382,7 +383,7 @@ public class ARLLManager : MonoBehaviour
 
     private IEnumerator ProcessExplosion()
     {
-        yield return StartCoroutine(DeactivateGameObject(1.0f, explosionGO));
+        yield return StartCoroutine(DeactivateGameObject(1.5f, explosionGO));
         ActivateNegativeFeedbackGUI();
     }
 
