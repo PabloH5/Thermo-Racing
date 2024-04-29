@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CheckWheelsController : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public class CheckWheelsController : MonoBehaviour
         get { return wheelData; }
         set { wheelData = value; }
     }
+
     public float WheelWeigh(float i)
     {
         float weight = WheelData.weight;
@@ -66,12 +68,14 @@ public class CheckWheelsController : MonoBehaviour
         constantBank.UpdateSpecificHeatPression(specificHeat);
         return weight;
     }
+
     public void HideArrows()
     {
         arrowNext.SetActive(false);
         arrowBack.SetActive(false);
         descriptionScale.SetActive(false);
     }
+
     public void ToInitStateWheel()
     {
         dragAndDropUI.ToInitialState();
@@ -79,60 +83,42 @@ public class CheckWheelsController : MonoBehaviour
         arrowBack.SetActive(true);
         descriptionScale.SetActive(true);
     }
+    
     public void SwitchSpriteTH(int touchCount)
     {
         if (touchCount > -1 && touchCount < 30)
         {
             thInflate.SwitchSprite(touchCount);
         }
-        else
-        {
-            Debug.Log("KABOM");
-        }
-
-        // Debug.Log(touchCount);
     }
 
     // This method controll the change of wheel sprites depend of thr touchcount and active the feedback depend of the time
-    public void SwitchSpriteWH(int touchCount, float time)
+    public void SwitchSpriteWH(int touchCount)
     {
         if (touchCount <= 5)
         {
             wheelInflate.SwitchSprite(0);
         }
-        else if (touchCount > 5 && touchCount < 7)
+        else if (touchCount > 5 && touchCount <= 7)
         {
             wheelInflate.SwitchSprite(1);
         }
-        else if (touchCount > 7 && touchCount < 12)
+        else if (touchCount > 7 && touchCount <= 12)
         {
             wheelInflate.SwitchSprite(2);
         }
-        else if (touchCount >= 12 && touchCount < 23)
+        else if (touchCount > 12 && touchCount <= 23)
         {
             wheelInflate.SwitchSprite(3);
         }
-        else if (touchCount > 24 && touchCount <= 29)
+        else if (touchCount > 23 && touchCount <= 29)
         {
             wheelInflate.SwitchSprite(4);
-            //!HECTOR METE TU  EXPLOSION AQUI
         }
-        else { Debug.Log("KABOOOM"); }
     }
-    // public void ActivePositiveFB(int touchCount)
-    // {
-    //     positiveFeedBackIF.SetActive(true);
-    //     //!PUT A REAL VALUE FOR PRESSION
-    //     constantBank.UpdatePression(0.49f);
-    //     //!PUT A REAL VALUE FOR FINAL VOLUMME
-    //     constantBank.UpdateVolumme(0.025f);
-    //     PauseGame();
-    //     thInflate.SwitchSprite(touchCount);
-    // }
-    // public void ActiveNegativeFB(int touchCount)
-    // {
-    //     negativeFeedBackIF.SetActive(true);
-    //     PauseGame();
-    //     thInflate.SwitchSprite(touchCount);
-    // }
+
+    public void UpdateLocalScale()
+    {
+        wheelInflate.transform.localScale = new Vector3(81.66f, 81.66f, 81.66f);
+    }
 }

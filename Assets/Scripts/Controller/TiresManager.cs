@@ -48,6 +48,7 @@ public class TiresManager : MonoBehaviour
         }
         updateTires(selectedOption);
     }
+    
     private void updateTires(int selectedOption)
     {
         Tires tire = tireDB.GetTires(selectedOption);

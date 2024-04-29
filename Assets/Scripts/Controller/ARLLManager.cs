@@ -26,6 +26,8 @@ public class ARLLManager : MonoBehaviour
     [SerializeField] private DragRotate dragRotateController;
     [SerializeField] private ConstantBankUpdate constantBankUpdateController;
     [SerializeField] private GameObject calculatorToggleGO;
+    [SerializeField] private GameObject explosionGO;
+    [SerializeField] private GameObject goodBehaviourAudioGO;
 
     [Space(5)]
     [Header("BD informarion")]
@@ -362,6 +364,32 @@ public class ARLLManager : MonoBehaviour
         if (_isCalculatorHide) { calculatorController.ToggleMovement();  }
 
         positiveFeedback.SetActive(false);
+    }
+
+    public void ActiveExplosion()
+    {
+        explosionGO.SetActive(true);
+        explosionGO.GetComponent<ParticleSystem>().Play();
+        StartCoroutine(ProcessExplosion());
+    }
+
+    public void ActivateGoodAudioBehaviour()
+    {
+        goodBehaviourAudioGO.SetActive(true);
+        goodBehaviourAudioGO.GetComponent<AudioSource>().Play();
+        StartCoroutine(DeactivateGameObject(1.0f, explosionGO));
+    }
+
+    private IEnumerator ProcessExplosion()
+    {
+        yield return StartCoroutine(DeactivateGameObject(1.0f, explosionGO));
+        ActivateNegativeFeedbackGUI();
+    }
+
+    private IEnumerator DeactivateGameObject(float waitTime, GameObject goToDeactivate)
+    {
+        yield return new WaitForSeconds(waitTime);
+        goToDeactivate.SetActive(false);
     }
 
     public void ActivateNegativeFeedbackGUI()
