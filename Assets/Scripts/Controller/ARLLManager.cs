@@ -2,12 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using TMPro;
-using UnityEngine.Rendering;
-using Unity.VisualScripting;
-using Jace.Operations;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 
@@ -49,7 +44,14 @@ public class ARLLManager : MonoBehaviour
     }
 
     public UnityEvent feedbackPositiveEvent;
-    public UnityEvent feedbackNegativeEvent;
+
+    public enum ErrorARLLmanager 
+    {
+        ErrorCalculator, 
+        ErrorNotInteraction,
+        ErrorInflateWheel,
+        ErrorRotateWheel,
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -66,12 +68,17 @@ public class ARLLManager : MonoBehaviour
         feedbackPositiveEvent.AddListener(() => {
             ActivatePositiveFeedbackGUI();
         }); 
-
-        feedbackNegativeEvent.AddListener(() => {
-            ActivateNegativeFeedbackGUI();
-        }); 
     }
 
+    /// <summary>
+    /// Activates a specific minigame object within a list of game objects.
+    /// </summary>
+    /// <param name="gameObjectToTurnOn">The name of the game object to be activated.</param>
+    /// <param name="listToVerify">Array of GameObjects that are checked for the specified game object.</param>
+    /// <remarks>
+    /// This method iterates through an array of GameObjects, checking each to find a match with 'gameObjectToTurnOn'.
+    /// Once a match is found, it activates all child objects of the matched GameObject and stops further searching.
+    /// </remarks>
     public void TurnOnMinigame(string gameObjectToTurnOn, GameObject[] listToVerify)
     {
         foreach (GameObject child in listToVerify)
@@ -87,6 +94,17 @@ public class ARLLManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Deactivates the child game objects of a specific parent game object within a provided list.
+    /// </summary>
+    /// <param name="gameObjectToTurnOffChildren">The name of the parent game object whose children are to be deactivated.</param>
+    /// <param name="listToVerify">Array of GameObjects that are checked for the specified parent game object.</param>
+    /// <remarks>
+    /// This method iterates through an array of GameObjects to find a specific game object by name.
+    /// If the specified game object is found, all its child objects are deactivated.
+    /// If 'gameObjectToTurnOffChildren' is set to "NoChildren", the method returns immediately without making any changes.
+    /// This prevents the deactivation of children if the specific condition is met.
+    /// </remarks>
     private void TurnOffMinigame(string gameObjectToTurnOffChildren, GameObject[] listToVerify)
     {
         if (gameObjectToTurnOffChildren == "NoChildren")
@@ -107,6 +125,16 @@ public class ARLLManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Determines whether any child objects of a given game object are currently active in the hierarchy.
+    /// </summary>
+    /// <param name="gameObject">The parent game object to check for active children.</param>
+    /// <returns>True if at least one child object is active in the hierarchy; otherwise, false.</returns>
+    /// <remarks>
+    /// This method iterates through all child objects of the specified parent game object.
+    /// It returns true as soon as it finds an active child object, indicating that not all children are inactive.
+    /// If no active children are found after checking all, it returns false.
+    /// </remarks>
     private bool HasActiveChildren(GameObject gameObject)
     {
         foreach (Transform child in gameObject.transform)
@@ -119,6 +147,18 @@ public class ARLLManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Retrieves the name of the next game object in an array, based on a given current index.
+    /// </summary>
+    /// <param name="currentIndex">The current index in the array from which to find the next game object.</param>
+    /// <param name="listToVerify">The array of GameObjects to check.</param>
+    /// <returns>The name of the next game object if available; otherwise, returns a message indicating no further objects or null.</returns>
+    /// <remarks>
+    /// This method checks if there is a next game object in the array beyond the current index.
+    /// If the next game object exists and is not null, its name is returned.
+    /// If the next game object is null, a specific message indicating that the next GameObject is null is returned.
+    /// If the current index is at the end of the array, a message indicating the end of the list is reached is returned.
+    /// </remarks>
     private string GetNextCanvasName(int currentIndex, GameObject[] listToVerify)
     {
         if (currentIndex + 1 < listToVerify.Length)
@@ -130,14 +170,22 @@ public class ARLLManager : MonoBehaviour
             }
             else
             {
-                UnityEngine.Debug.LogError($"El siguiente GameObject en listToVerify[{currentIndex + 1}] es nulo.");
                 return "Siguiente GameObject es nulo";
             }
         }
-        UnityEngine.Debug.Log("No hay más GameObjects después del índice " + currentIndex);
         return "Fin de la lista alcanzado";
     }
 
+    /// <summary>
+    /// Searches an array of GameObjects and returns the name of the first GameObject with active children.
+    /// </summary>
+    /// <param name="listToVerify">The array of GameObjects to search through.</param>
+    /// <returns>The name of the first GameObject with active children; returns "NoChildren" if none are found or if all GameObjects are null.</returns>
+    /// <remarks>
+    /// This method iterates through the provided array of GameObjects, checking each one for active children using the HasActiveChildren method.
+    /// If a GameObject is null, it logs an error message and continues to the next GameObject in the array.
+    /// It returns the name of the first GameObject that has active children. If no such GameObject is found, it returns "NoChildren".
+    /// </remarks>
     private string GetCurrentCanvasWithActiveChildren(GameObject[] listToVerify)
     {
         for (int i = 0; i < listToVerify.Length; i++)
@@ -145,7 +193,6 @@ public class ARLLManager : MonoBehaviour
             GameObject currentChild = listToVerify[i];
             if (currentChild == null)
             {
-                UnityEngine.Debug.LogError($"GameObject en listToVerify[{i}] es nulo.");
                 continue;
             }
 
@@ -157,6 +204,17 @@ public class ARLLManager : MonoBehaviour
         return "NoChildren";
     }
 
+    /// <summary>
+    /// Determines which canvas should be activated next based on the first GameObject with active children in a given array.
+    /// </summary>
+    /// <param name="listToVerify">The array of GameObjects to inspect.</param>
+    /// <returns>The name of the canvas that follows the first GameObject with active children; returns a message if no active children are found.</returns>
+    /// <remarks>
+    /// This method iterates through an array of GameObjects, searching for the first GameObject that has active children using the HasActiveChildren method.
+    /// If a GameObject is found with active children, it retrieves the name of the next GameObject in the array using GetNextCanvasName.
+    /// If a GameObject is null, it logs an error and continues to the next GameObject.
+    /// If no GameObjects with active children are found, it returns a specific message indicating that no such GameObjects were found.
+    /// </remarks>
     private string ValidateInWichOneCanvasActivate(GameObject[] listToVerify)
     {
         for (int i = 0; i < listToVerify.Length; i++)
@@ -164,7 +222,6 @@ public class ARLLManager : MonoBehaviour
             GameObject currentChild = listToVerify[i];
             if (currentChild == null)
             {
-                UnityEngine.Debug.LogError($"GameObject en listToVerify[{i}] es nulo.");
                 continue;
             }
 
@@ -199,9 +256,9 @@ public class ARLLManager : MonoBehaviour
                     }
                     string validationString = validationNumber.ToString();
                     if (textToValidateTheResult.text == validationString) { feedbackPositiveEvent.Invoke(); }
-                    else { feedbackNegativeEvent.Invoke(); }
+                    else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorCalculator); }
                 }
-                else { feedbackNegativeEvent.Invoke(); }
+                else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorNotInteraction); }
                 
                 break;
             case "InflateBank":
@@ -212,8 +269,9 @@ public class ARLLManager : MonoBehaviour
                 {
                     TextMeshProUGUI textToValidateTheResult = ObtainActualTextForValidation();
                     if (textToValidateTheResult.text == "0.49") { feedbackPositiveEvent.Invoke(); }
-                    else { feedbackNegativeEvent.Invoke(); }   
+                    else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorCalculator); }   
                 }
+                else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorNotInteraction); }
                 break;
             case "Temperature_Bank":
                 GameObject finalTemperatureGO = ObtainSpecificGameObject(actualCanvasMinigame, "Final Temp");
@@ -232,9 +290,9 @@ public class ARLLManager : MonoBehaviour
                     }
                     string validationString = validationNumber.ToString();
                     if (textToValidateTheResult.text == validationString) { feedbackPositiveEvent.Invoke(); }
-                    else { feedbackNegativeEvent.Invoke(); }
+                    else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorCalculator); }
                 }
-                else { feedbackNegativeEvent.Invoke(); }
+                else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorNotInteraction); }
                 break;
             case "Work_Bank":
                 break;
@@ -253,9 +311,9 @@ public class ARLLManager : MonoBehaviour
                     
                     string validationString = validationNumber.ToString();
                     if (textToValidateTheResult.text == validationString) { feedbackPositiveEvent.Invoke(); }
-                    else { feedbackNegativeEvent.Invoke(); }
+                    else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorCalculator); }
                 }
-                else { feedbackNegativeEvent.Invoke(); }
+                else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorNotInteraction); }
 
                 break;
             case "DeltaE_Bank":
@@ -271,9 +329,9 @@ public class ARLLManager : MonoBehaviour
                     
                     string validationString = validationNumber.ToString();
                     if (textToValidateTheResult.text == validationString) { finalFeedback.SetActive(true); }
-                    else { feedbackNegativeEvent.Invoke(); }
+                    else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorCalculator); }
                 }
-                else { feedbackNegativeEvent.Invoke(); }
+                else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorNotInteraction); }
                 break;
         }
     }
@@ -366,12 +424,12 @@ public class ARLLManager : MonoBehaviour
         positiveFeedback.SetActive(false);
     }
 
-    public void ActiveExplosion()
+    public void ActiveExplosion(ErrorARLLmanager errorARLL)
     {
         explosionGO.SetActive(true);
         explosionGO.GetComponent<ParticleSystem>().Play();
         explosionGO.GetComponent<AudioSource>().Play();
-        StartCoroutine(ProcessExplosion());
+        StartCoroutine(ProcessExplosion(errorARLL));
     }
 
     public void ActivateGoodAudioBehaviour()
@@ -381,10 +439,10 @@ public class ARLLManager : MonoBehaviour
         StartCoroutine(DeactivateGameObject(1.0f, explosionGO));
     }
 
-    private IEnumerator ProcessExplosion()
+    private IEnumerator ProcessExplosion(ErrorARLLmanager errorARLL)
     {
         yield return StartCoroutine(DeactivateGameObject(1.5f, explosionGO));
-        ActivateNegativeFeedbackGUI();
+        ActivateNegativeFeedbackGUI(errorARLL);
     }
 
     private IEnumerator DeactivateGameObject(float waitTime, GameObject goToDeactivate)
@@ -393,9 +451,33 @@ public class ARLLManager : MonoBehaviour
         goToDeactivate.SetActive(false);
     }
 
-    public void ActivateNegativeFeedbackGUI()
+    public void ActivateNegativeFeedbackGUI(ErrorARLLmanager error)
     {
         negativeFeedback.SetActive(true);
+        switch (error)
+        {
+            case ErrorARLLmanager.ErrorCalculator:
+                ModifyNegativeFeedback("Tu cálculo no es correcto, por favor vuelve a intentarlo.");
+            break;
+            case ErrorARLLmanager.ErrorNotInteraction:
+                ModifyNegativeFeedback("No has desbloqueado tu variable objetivo, por favor interactúa antes de utilizar la calculadora.");
+            break;
+            case ErrorARLLmanager.ErrorInflateWheel:
+                ModifyNegativeFeedback("Debes de moderar la cantidad de aire que tiene la llanta. Vuelve a intentarlo.");
+            break;
+            case ErrorARLLmanager.ErrorRotateWheel:
+                ModifyNegativeFeedback("La llanta alcanzó una temperatura muy alta, ten cuidado la próxima vez.");
+            break;
+            default:
+                ModifyNegativeFeedback("Por favor vuelve a intentarlo.");
+            break;
+        }
+    }
+
+    private void ModifyNegativeFeedback(string textToModify)
+    {
+        Transform childTxtFeedback = negativeFeedback.transform.GetChild(0);
+        childTxtFeedback.GetComponent<Text>().text = textToModify;
     }
 
     public void OnNegativeFeedbackGUI()

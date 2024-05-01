@@ -2379,6 +2379,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 739119401}
+    - target: {fileID: 2923956233156029116, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
+      propertyPath: m_Name
+      value: FeedbackTxtToModify
+      objectReference: {fileID: 0}
     - target: {fileID: 4087254114248723936, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2477,7 +2481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189377643675141585, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3861,7 +3865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1912483905
 RectTransform:
   m_ObjectHideFlags: 0
