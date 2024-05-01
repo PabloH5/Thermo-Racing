@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-namespace KartGame.KartSystems {
+namespace KartGame.KartSystems
+{
 
     public class KeyboardInput : BaseInput
     {
@@ -8,12 +9,16 @@ namespace KartGame.KartSystems {
         public string AccelerateButtonName = "Accelerate";
         public string BrakeButtonName = "Brake";
 
-        public override InputData GenerateInput() {
+        public Joystick joystick;
+        public override InputData GenerateInput()
+        {
+            float turn = Input.GetAxis("Horizontal");
+            Debug.Log("Turn Input: " + turn);
             return new InputData
             {
                 Accelerate = Input.GetButton(AccelerateButtonName),
                 Brake = Input.GetButton(BrakeButtonName),
-                TurnInput = Input.GetAxis("Horizontal")
+                TurnInput = joystick.Horizontal
             };
         }
     }

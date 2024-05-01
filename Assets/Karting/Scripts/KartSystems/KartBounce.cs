@@ -63,13 +63,13 @@ namespace KartGame.KartSystems
                 if (Physics.Raycast(origin, direction, out RaycastHit hit, RayDistance, CollisionLayer) && Time.time > resumeTime && !hasCollided && kart.LocalSpeed() > 0)
                 {
                     // If the hit normal is pointing up, then we don't want to bounce
-                    if (Vector3.Dot(hit.normal, Vector3.up) > 0.2f)
-                    {
+                    if (Vector3.Dot(hit.normal, Vector3.up) > 0.2f) 
+                    { 
                         return;
                     }
 
                     // Calculate the incident vector of the kart colliding into whatever object
-                    Vector3 incidentVector = hit.point - origin;
+                    Vector3 incidentVector =  hit.point - origin;
 
                     // Calculate the reflection vector using the incident vector of the collision
                     Vector3 hitNormal = hit.normal.normalized;
@@ -87,7 +87,7 @@ namespace KartGame.KartSystems
 
                     if (BounceSound)
                     {
-                        // AudioUtility.CreateSFX(BounceSound, transform.position, AudioUtility.AudioGroups.Collision, 0f);
+                        AudioUtility.CreateSFX(BounceSound, transform.position, AudioUtility.AudioGroups.Collision, 0f);
                     }
                     return;
                 }
@@ -95,16 +95,16 @@ namespace KartGame.KartSystems
 
             if (Time.time < resumeTime)
             {
-                Vector3 targetPos = origin + reflectionVector;
-                Vector3 direction = targetPos - origin;
+                Vector3 targetPos         = origin + reflectionVector;
+                Vector3 direction         = targetPos - origin;
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                kart.transform.rotation = Quaternion.Slerp(kart.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+                kart.transform.rotation   = Quaternion.Slerp(kart.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
             }
         }
 
         void LateUpdate()
         {
-            if (Time.time > resumeTime && hasCollided)
+            if (Time.time > resumeTime && hasCollided) 
             {
                 kart.SetCanMove(true);
                 hasCollided = false;
