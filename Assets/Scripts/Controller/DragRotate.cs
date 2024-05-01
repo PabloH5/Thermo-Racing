@@ -61,7 +61,7 @@ public class DragRotate : MonoBehaviour
 
         explosionFeedbackEvent.AddListener(() =>
         {
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActiveExplosion();
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActiveExplosion(ARLLManager.ErrorARLLmanager.ErrorRotateWheel);
         });
 
         feedbackAudioPositiveEvent.AddListener(() =>
