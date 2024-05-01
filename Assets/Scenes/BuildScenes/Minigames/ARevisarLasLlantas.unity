@@ -1634,9 +1634,6 @@ MonoBehaviour:
   feedbackPositiveEvent:
     m_PersistentCalls:
       m_Calls: []
-  feedbackNegativeEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &739119402
 Transform:
   m_ObjectHideFlags: 0
@@ -2375,6 +2372,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1040458186}
     m_Modifications:
+    - target: {fileID: 619209027748423004, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1563260742208445302, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2382,6 +2383,10 @@ PrefabInstance:
     - target: {fileID: 2923956233156029116, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
       propertyPath: m_Name
       value: FeedbackTxtToModify
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923956233156029116, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4087254114248723936, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
       propertyPath: m_Pivot.x
@@ -2475,13 +2480,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4172171469092827386, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 298.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 4172171469092827386, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 76.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4172171469092827386, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -67.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8189377643675141585, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
       propertyPath: m_Name
       value: CalculatoR Negative
       objectReference: {fileID: 0}
     - target: {fileID: 8189377643675141585, guid: b5c53f6718692514e9bd4414c073309f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3865,7 +3882,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1912483905
 RectTransform:
   m_ObjectHideFlags: 0
