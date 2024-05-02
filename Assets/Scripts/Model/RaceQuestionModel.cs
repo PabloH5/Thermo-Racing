@@ -7,15 +7,15 @@ using System.Linq;
 public class RaceQuestionModel
 {
 
-    public int race_question_id { get; set; }
-    public string wording { get; set; }
-    public string first_option { get; set; }
-    public string second_option { get; set; }
-    public string third_option { get; set; }
-    public string fourth_option { get; set; }
-    public string correct_option { get; set; }
-    public DateTime created_at { get; set; }
-    public DateTime? updated_at { get; set; }
+    public int race_question_id { get; }
+    public string wording { get; }
+    public string first_option { get;}
+    public string second_option { get; }
+    public string third_option { get; }
+    public string fourth_option { get; }
+    public string correct_option { get; }
+    public DateTime created_at { get; }
+    public DateTime? updated_at { get; }
 
     public static List<RaceQuestionModel> GetAllRaceQuestions()
     {

@@ -8,7 +8,8 @@ public class RaceController : MonoBehaviour
     void Start()
     {
         List<RaceQuestionModel> raceQuestions = RaceQuestionModel.GetRaceQuestions();
-        raceQuestions.ForEach(question => Debug.Log(question.race_question_id));
+        raceQuestions.ForEach(question => Debug.Log(question.wording));
+
     }
 
     // Update is called once per frame
