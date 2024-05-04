@@ -42,7 +42,6 @@ public class RegisterController : MonoBehaviour
 
     [Header("Vars")]
     [SerializeField] private static HashSet<string> bannedWords;
-    [SerializeField] private List<string> detectedBannedWords;
     
 
     public void Awake()
@@ -52,9 +51,6 @@ public class RegisterController : MonoBehaviour
 
     public void RegisterUser()
     {
-        // Clear ban words detected.
-        detectedBannedWords.Clear();
-        bannedWordDetected.text = "";
 
         // Obtain the values from TextMeshPro textFields
         string username = usernameInput.text.Trim();
@@ -200,24 +196,7 @@ public class RegisterController : MonoBehaviour
 
     public bool ValidateBannedWordsUsername(string username)
     {
-        bool test = bannedWords.Any(word =>
-        {
-            if (username.ToLower().Contains(word))
-            {
-                detectedBannedWords.Add(word);
-                bannedWordDetected.text = word;
-                return true;
-            }
-            return false;
-        }
-        );
-        Debug.Log("ANTES DEL FOREACH");
-        detectedBannedWords.ForEach(word=>Debug.Log(word));
-        //foreach (var item in detectedBannedWords)
-        //{
-        //    Debug.Log(item);
-        //    Debug.Log("FOREACH");
-        //}
+        bool test = bannedWords.Any(word => (username.ToLower().Contains(word)));
         Debug.Log($"Banned word detected: {test}");
         return test;
     }
