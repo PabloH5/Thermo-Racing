@@ -335,11 +335,6 @@ Transform:
   - {fileID: 1956913991}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &299401851 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2929252283123773939, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
-  m_PrefabInstance: {fileID: 1894533392}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &299401852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
@@ -350,25 +345,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
   m_PrefabInstance: {fileID: 1894533392}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299401851}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &299401856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299401851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9344494c95d357748a8c05cf1938a7b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  joystick: {fileID: 299401853}
 --- !u!1 &414560695
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,6 +363,7 @@ GameObject:
   - component: {fileID: 414560699}
   - component: {fileID: 414560698}
   - component: {fileID: 414560697}
+  - component: {fileID: 414560700}
   m_Layer: 5
   m_Name: pedal BT accelerator
   m_TagString: Untagged
@@ -489,6 +472,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414560695}
   m_CullTransparentMesh: 1
+--- !u!114 &414560700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414560695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1528032983}
+          m_TargetAssemblyTypeName: KartGame.KartSystems.KeyboardInput, Assembly-CSharp
+          m_MethodName: AcccelerateUI
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1528032983}
+          m_TargetAssemblyTypeName: KartGame.KartSystems.KeyboardInput, Assembly-CSharp
+          m_MethodName: StopAccelerateUI
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &605779977
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,6 +954,7 @@ GameObject:
   - component: {fileID: 919135328}
   - component: {fileID: 919135327}
   - component: {fileID: 919135326}
+  - component: {fileID: 919135329}
   m_Layer: 5
   m_Name: pedal BT reverse
   m_TagString: Untagged
@@ -1034,6 +1063,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919135324}
   m_CullTransparentMesh: 1
+--- !u!114 &919135329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919135324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1528032983}
+          m_TargetAssemblyTypeName: KartGame.KartSystems.KeyboardInput, Assembly-CSharp
+          m_MethodName: BrakeUI
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1528032983}
+          m_TargetAssemblyTypeName: KartGame.KartSystems.KeyboardInput, Assembly-CSharp
+          m_MethodName: StopBrakeUI
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &944297199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,6 +1256,14 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 299401853}
+    - target: {fileID: 488446896204417198, guid: d7a651bda02e5694684f6c83275d9a85, type: 3}
+      propertyPath: brakeUIButton
+      value: 
+      objectReference: {fileID: 919135326}
+    - target: {fileID: 488446896204417198, guid: d7a651bda02e5694684f6c83275d9a85, type: 3}
+      propertyPath: accelerateUIButton
+      value: 
+      objectReference: {fileID: 414560697}
     - target: {fileID: 525864702152638817, guid: d7a651bda02e5694684f6c83275d9a85, type: 3}
       propertyPath: m_Layer
       value: 2
@@ -1460,6 +1542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8938538834434584768, guid: d7a651bda02e5694684f6c83275d9a85, type: 3}
+    - {fileID: 413876061592200702, guid: d7a651bda02e5694684f6c83275d9a85, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1746,6 +1829,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 237486053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1528032983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 488446896204417198, guid: d7a651bda02e5694684f6c83275d9a85, type: 3}
+  m_PrefabInstance: {fileID: 1125758624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f292ffb948323c49ac31e54ff737ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1597224075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,10 +2260,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2929252283123773939, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 299401856}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
 --- !u!1 &1903223647
 GameObject:

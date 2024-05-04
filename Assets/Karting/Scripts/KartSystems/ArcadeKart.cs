@@ -414,7 +414,10 @@ namespace KartGame.KartSystems
                     m_LastCollisionNormal = contact.normal;
             }
         }
-
+        public void AccelerateUI()
+        {
+            MoveVehicle(true, false, 0);
+        }
         void MoveVehicle(bool accelerate, bool brake, float turnInput)
         {
             float accelInput = (accelerate ? 1.0f : 0.0f) - (brake ? 1.0f : 0.0f);

@@ -12,6 +12,6 @@ public class JoystickInput : MonoBehaviour
         float sideways = Input.GetAxis("Sideways");
 
         // Imprime los valores en la consola para verificar
-        Debug.Log("Horizontal: " + joystick.Horizontal + ", Vertical: " + vertical + ", Sideways: " + sideways);
+        // Debug.Log("Horizontal: " + joystick.Horizontal + ", Vertical: " + vertical + ", Sideways: " + sideways);
     }
 }
