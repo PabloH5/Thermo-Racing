@@ -12,8 +12,8 @@ namespace KartGame.KartSystems
         public Joystick joystick;
         public override InputData GenerateInput()
         {
-            float turn = Input.GetAxis("Horizontal");
-            Debug.Log("Turn Input: " + turn);
+            // float turn = Input.GetAxis("Horizontal");
+            // Debug.Log("Turn Input: " + turn);
             return new InputData
             {
                 Accelerate = Input.GetButton(AccelerateButtonName),
@@ -21,5 +21,6 @@ namespace KartGame.KartSystems
                 TurnInput = joystick.Horizontal
             };
         }
+
     }
 }

@@ -323,7 +323,6 @@ namespace KartGame.KartSystems
 
             UpdateDriftVFXOrientation();
         }
-
         void GatherInputs()
         {
             // reset input
