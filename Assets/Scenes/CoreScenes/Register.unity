@@ -439,14 +439,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Bienvenido a Thermoracing. Al descargar, instalar o utilizar esta aplicaci\xF3n,
-    usted acepta quedar vinculado por estos t\xE9rminos y condiciones, que establecen
-    una relaci\xF3n contractual entre usted y los desarrolladores de la aplicaci\xF3n.
-    Si no est\xE1 de acuerdo con estos t\xE9rminos, no debe acceder ni utilizar la
-    aplicaci\xF3n. Se le concede una licencia limitada, no exclusiva e intransferible
-    para descargar, instalar y utilizar la aplicaci\xF3n exclusivamente para fines
-    acad\xE9micos y no comerciales. Thermoracing recopila y utiliza datos ingresados
-    por los usuarios con el \xFAnico fin de facilitar y mejorar la experiencia acad\xE9mica.
+  m_Text: "<b>Bienvenido a Thermoracing</b>\n\nAl descargar, instalar o utilizar
+    esta aplicaci\xF3n, usted acepta quedar vinculado por estos t\xE9rminos y condiciones,
+    que establecen una relaci\xF3n contractual entre usted y los desarrolladores
+    de la aplicaci\xF3n. Si no est\xE1 de acuerdo con estos t\xE9rminos, no debe
+    acceder ni utilizar la aplicaci\xF3n. Se le concede una licencia limitada, no
+    exclusiva e intransferible para descargar, instalar y utilizar la aplicaci\xF3n
+    exclusivamente para fines acad\xE9micos y no comerciales. \n\n<b>Pol\xEDtica
+    de privacidad</b>\n\nThermoracing recopila y utiliza datos ingresados por los
+    usuarios con el \xFAnico fin de facilitar y mejorar la experiencia acad\xE9mica.
     Estos datos se tratan con la m\xE1xima confidencialidad y son utilizados solo
     para los fines mencionados.\r\n\r\nLa protecci\xF3n de su privacidad es de suma
     importancia para nosotros, y la informaci\xF3n personal recopilada a trav\xE9s
@@ -460,7 +461,7 @@ MonoBehaviour:
     le proporcionaremos al menos 30 d\xEDas de aviso antes de que los nuevos t\xE9rminos
     entren en efecto. Podemos terminar o suspender su acceso a la aplicaci\xF3n inmediatamente,
     sin previo aviso ni responsabilidad, por cualquier raz\xF3n, incluyendo sin limitaci\xF3n
-    si usted incumple los t\xE9rminos. Si tiene preguntas sobre estos t\xE9rminos,
+    si usted incumple los t\xE9rminos.\n\nSi tiene preguntas sobre estos t\xE9rminos,
     por favor contacte a los administradores de la aplicaci\xF3n."
 --- !u!222 &89784507
 CanvasRenderer:
@@ -1066,7 +1067,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1230974880}
   m_HandleRect: {fileID: 1230974879}
   m_Direction: 2
-  m_Value: 0.9764743
+  m_Value: 0.9764744
   m_Size: 0.38644087
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1854,7 +1855,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Politicas de privacidad
+  m_Text: "T\xE9rminos y condiciones"
 --- !u!222 &438754364
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1873,7 +1874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 455674210}
   m_Layer: 5
-  m_Name: Privacy policy
+  m_Name: TherAndCond Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1897,7 +1898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -306.50027, y: -171.4}
+  m_AnchoredPosition: {x: -306.50027, y: -181.3}
   m_SizeDelta: {x: 222.14148, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &462464144
@@ -2282,8 +2283,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 222.1415, y: 20}
+  m_AnchoredPosition: {x: 1.8694, y: 0}
+  m_SizeDelta: {x: 225.8803, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &641529950
 MonoBehaviour:
@@ -3227,7 +3228,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: 1112234
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
@@ -4014,8 +4015,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1185788501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5991247}
-  m_AnchorMax: {x: 1, y: 0.9855656}
+  m_AnchorMin: {x: 0, y: 0.5991248}
+  m_AnchorMax: {x: 1, y: 0.98556566}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4229,7 +4230,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -319.60144, y: -202}
+  m_AnchoredPosition: {x: -318.9, y: -215.7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1298799871
@@ -4360,8 +4361,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -54.2, y: -39.8}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 12.5342, y: -69.8}
+  m_SizeDelta: {x: 371.0957, y: 0.745}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1305110781
 MonoBehaviour:
@@ -4446,7 +4447,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0.7309875, z: -216.38017, w: 27.243628}
+  m_margin: {x: 0, y: -10.780827, z: 0.8555908, w: -0.62711835}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5529,7 +5530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: '*******'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
@@ -5725,7 +5726,6 @@ MonoBehaviour:
   privacyPolicyValidation: {fileID: 1305110781}
   banWordPopUp: {fileID: 1697240904}
   bannedWordDetected: {fileID: 2011242052}
-  detectedBannedWords: []
 --- !u!4 &1628853578
 Transform:
   m_ObjectHideFlags: 0
@@ -6143,7 +6143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1697240905
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6387,7 +6387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -291.4, y: 191}
+  m_AnchoredPosition: {x: -291.4, y: 202.5}
   m_SizeDelta: {x: 327.8478, y: 57.768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1719672199
@@ -6719,7 +6719,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: '**********'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
@@ -7081,7 +7081,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Aceptar pol\xEDticas de privacidad"
+  m_Text: "Aceptar t\xE9rminos y condiciones. Ver aqu\xED"
 --- !u!222 &1917760952
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7875,7 +7875,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: JuanFelipe345
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
