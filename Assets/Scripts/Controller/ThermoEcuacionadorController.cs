@@ -15,6 +15,10 @@ public class ThermoEcuacionadorController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // TEST FOR LOGGED USER
+        Debug.Log($"LOAD USERCODE FROM LOGGED CLASS: {LoggedUser.UserCode}");
+        Debug.Log($"LOAD USERNAME FROM LOGGED CLASS: {LoggedUser.Username}");
+
         dragAndDropOP.Add(Option1.GetComponent<DragAndDropOP>());
         dragAndDropOP.Add(Option2.GetComponent<DragAndDropOP>());
         dragAndDropOP.Add(Option3.GetComponent<DragAndDropOP>());

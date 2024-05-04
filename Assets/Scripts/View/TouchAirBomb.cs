@@ -83,7 +83,7 @@ public class TouchAirBomb : MonoBehaviour
 
         explosionFeedbackEvent.AddListener(() =>
         {
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActiveExplosion();
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActiveExplosion(ARLLManager.ErrorARLLmanager.ErrorInflateWheel);
         });
 
     }

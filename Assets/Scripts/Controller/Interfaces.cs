@@ -16,6 +16,15 @@ public class Interfaces : MonoBehaviour
         Application.Quit();
     }
 
+    public void Acivate()
+    {
+        CanvasToOn.SetActive(true);
+    }
+    public void Desactivate()
+    {
+        CanvasToOff.SetActive(false);
+    }
+
     public void ActivateAndDesactivate()
     {
         CanvasToOff.SetActive(false);

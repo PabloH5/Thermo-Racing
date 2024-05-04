@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LogInController : MonoBehaviour
@@ -69,8 +67,9 @@ public class LogInController : MonoBehaviour
         userCodeValidationError.gameObject.SetActive(false);
         userCodeValidationMark.gameObject.SetActive(true);
 
-        bool verifyPassword = BCrypt.Net.BCrypt.Verify(password,userDB.password);
-        if(!verifyPassword)
+        // Compare the hash saved in DB with the user password input.
+        bool verifyPassword = BCrypt.Net.BCrypt.Verify(password, userDB.password);
+        if (!verifyPassword)
         {
             passwordValidationMessage.text = "La contraseña no es correcta. Inténtalo nuevamente.";
             passwordValidationError.gameObject.SetActive(true);
@@ -80,8 +79,13 @@ public class LogInController : MonoBehaviour
         passwordValidationMessage.text = "";
         passwordValidationError.gameObject.SetActive(false);
         passwordValidationMark.gameObject.SetActive(true);
-        Debug.Log("SE LOGGUEÓ CORRECTAMENTE.");
-        
+
+        // Save the logged user data in memory.
+        LoggedUser.LogInUser(userDB.user_id, userDB.username);
+        // Change to Home menu
+        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("ThermoEcuacionador");
+
     }
 
 
