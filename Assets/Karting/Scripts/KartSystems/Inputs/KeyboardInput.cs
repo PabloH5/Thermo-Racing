@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace KartGame.KartSystems
 {
-
     public class KeyboardInput : BaseInput
     {
         public string TurnInputName = "Horizontal";
@@ -10,16 +10,43 @@ namespace KartGame.KartSystems
         public string BrakeButtonName = "Brake";
 
         public Joystick joystick;
+        public Button accelerateUIButton;
+        public Button brakeUIButton;
+        private bool uiAccelerate = false;
+        private bool uiBrake = false;
+
+        // void Start()
+        // {
+        //     if (accelerateUIButton != null)
+        //     {
+        //         accelerateUIButton.onClick.AddListener(() => { uiAccelerate = true; });
+        //     }
+        // }
         public override InputData GenerateInput()
         {
-            float turn = Input.GetAxis("Horizontal");
-            Debug.Log("Turn Input: " + turn);
             return new InputData
             {
-                Accelerate = Input.GetButton(AccelerateButtonName),
-                Brake = Input.GetButton(BrakeButtonName),
+                Accelerate = uiAccelerate,
+                Brake = uiBrake,
                 TurnInput = joystick.Horizontal
             };
+        }
+        public void AcccelerateUI()
+        {
+            uiAccelerate = true;
+        }
+        public void StopAccelerateUI()
+        {
+            uiAccelerate = false;
+        }
+
+        public void BrakeUI()
+        {
+            uiBrake = true;
+        }
+        public void StopBrakeUI()
+        {
+            uiBrake = false;
         }
     }
 }

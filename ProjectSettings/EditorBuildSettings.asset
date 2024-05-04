@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Interfaces/MainMenu.unity
     guid: 60c567c330d7839488fc3743dc4230bd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Interfaces/SelectGame.unity
     guid: efd5b5404640b6d4387b3f994399bd82
   - enabled: 0
@@ -23,13 +23,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BuildScenes/Minigames/ARevisarLasLlantas.unity
     guid: 3b3b774dfc872a24d96828928efbd391
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Minigames/ThermoEcuacionador.unity
     guid: 368b113e6807adb43a93c5b7eff9134b
   - enabled: 0
     path: Assets/Scenes/CoreScenes/Hector Scene1.unity
     guid: 4badac706788a0b4eab766e1248341e4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CoreScenes/Login.unity
     guid: 438d0130fe07fdb4bb96f71c004aedb1
+  - enabled: 1
+    path: Assets/Scenes/CoreScenes/Pablos Karts Scene.unity
+    guid: 4b24c28a93cbc0d4e93f4d7eb774ec58
   m_configObjects: {}
