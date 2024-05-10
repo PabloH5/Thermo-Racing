@@ -8,29 +8,29 @@ namespace KartGame.KartSystems
         public string TurnInputName = "Horizontal";
         public string AccelerateButtonName = "Accelerate";
         public string BrakeButtonName = "Brake";
-
-        public Joystick joystick;
-        public Button accelerateUIButton;
-        public Button brakeUIButton;
+        private Joystick joystick;
         private bool uiAccelerate = false;
         private bool uiBrake = false;
 
-        // void Start()
-        // {
-        //     if (accelerateUIButton != null)
-        //     {
-        //         accelerateUIButton.onClick.AddListener(() => { uiAccelerate = true; });
-        //     }
-        // }
+        void Awake()
+        {
+            if (GameObject.Find("FixedJoystick") != null)
+            {
+                joystick = GameObject.Find("FixedJoystick").GetComponent<Joystick>();
+            }
+            else { Debug.Log("Controllers Not founded"); }
+        }
         public override InputData GenerateInput()
         {
+            float turnInput = joystick != null ? joystick.Horizontal : 0f;
             return new InputData
             {
                 Accelerate = uiAccelerate,
                 Brake = uiBrake,
-                TurnInput = joystick.Horizontal
+                TurnInput = turnInput
             };
         }
+
         public void AcccelerateUI()
         {
             uiAccelerate = true;
@@ -39,7 +39,6 @@ namespace KartGame.KartSystems
         {
             uiAccelerate = false;
         }
-
         public void BrakeUI()
         {
             uiBrake = true;
