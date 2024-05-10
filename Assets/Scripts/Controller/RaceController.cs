@@ -1,6 +1,8 @@
-using System.Collections.Generic;
 using TMPro;
+using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RaceController : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class RaceController : MonoBehaviour
     [SerializeField] private GameObject[] answersGameObjects;
     [SerializeField] private GameObject positiveAudio;
     [SerializeField] private GameObject negativeAudio;
+
+    [SerializeField] GameObject[] camerasGameObject;
 
     private List<RaceQuestionModel> raceQuestions;
     private string correctAnswer;
@@ -20,6 +24,8 @@ public class RaceController : MonoBehaviour
         raceQuestions.ForEach(question => Debug.Log(question.wording));
         FillQuestionText();
     }
+
+    #region  QuickTimeEventFeedbackMethods
 
     private void FillQuestionText()
     {
@@ -90,9 +96,20 @@ public class RaceController : MonoBehaviour
         canvasRaceQuestions.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    #endregion
+
+    public void SwitchCameras()
     {
-        
+        if (camerasGameObject[0].gameObject.activeInHierarchy)
+        {
+            camerasGameObject[0].gameObject.SetActive(false);
+            camerasGameObject[1].gameObject.SetActive(true);
+        }
+        else
+        {
+            camerasGameObject[1].gameObject.SetActive(false);
+            camerasGameObject[0].gameObject.SetActive(true);
+        }
     }
+
 }

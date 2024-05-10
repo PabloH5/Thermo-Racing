@@ -2,10 +2,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.VFX;
+using Photon.Pun;
 
 namespace KartGame.KartSystems
 {
-    public class ArcadeKart : MonoBehaviour
+    public class ArcadeKart : MonoBehaviourPunCallbacks
     {
         [System.Serializable]
         public class StatPowerup
@@ -187,6 +188,12 @@ namespace KartGame.KartSystems
         public void AddPowerup(StatPowerup statPowerup) => m_ActivePowerupList.Add(statPowerup);
         public void SetCanMove(bool move) => m_CanMove = move;
         public float GetMaxSpeed() => Mathf.Max(m_FinalStats.TopSpeed, m_FinalStats.ReverseSpeed);
+
+
+        // ALL THE LOGIC RELATED WIT ROOMS AND MULTIPLAYER CAN BE REACHED WITH:
+        // GameMultiplayerManager.Instance
+        // Get out of the multiplayer GameMultiplayerManager.Instance.LeaveRoom();
+
 
         private void ActivateDriftVFX(bool active)
         {

@@ -35,4 +35,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CoreScenes/Pablos Karts Scene.unity
     guid: 4b24c28a93cbc0d4e93f4d7eb774ec58
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/UIRace.unity
+    guid: 2454cbf26dca3964b9e6a480d83d4ea4
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/Race.unity
+    guid: ec6185d03f5ae7c45868b5786c8a2e16
   m_configObjects: {}
