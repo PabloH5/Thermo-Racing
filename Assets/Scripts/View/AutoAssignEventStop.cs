@@ -6,16 +6,11 @@ namespace KartGame.KartSystems
     public class AutoAssignEventStop : MonoBehaviour
     {
         private KeyboardInput keyboardInput;
-        void Awake()
-        {
-            if (GameObject.Find("KartPlayer") != null)
-            {
-                keyboardInput = GameObject.Find("KartPlayer").GetComponent<KeyboardInput>();
-            }
-            else { Debug.Log("KartPlayer Not Found"); }
-        }
+
         void Start()
         {
+            Invoke("ActivateKeyboardInput", 2.0f);
+            
             EventTrigger trigger = gameObject.GetComponent<EventTrigger>() ?? gameObject.AddComponent<EventTrigger>();
 
             EventTrigger.Entry pointerDownEntry = new EventTrigger.Entry();
@@ -39,6 +34,15 @@ namespace KartGame.KartSystems
         {
             Debug.Log("Pointer Up");
             keyboardInput.StopBrakeUI();
+        }
+
+        private void ActivateKeyboardInput()
+        {
+            if (GameObject.Find("KartPlayer") != null)
+            {
+                keyboardInput = GameObject.Find("KartPlayer").GetComponent<KeyboardInput>();
+            }
+            else { Debug.Log("KartPlayer Not Found"); }
         }
     }
 }

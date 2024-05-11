@@ -10,6 +10,8 @@ TagManager:
   - CorrectOption2
   - CorrectOption3
   - BadOption
+  - Bullet
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

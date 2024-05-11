@@ -5,14 +5,38 @@ using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 using Photon.Realtime;
+using KartGame.KartSystems;
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameMultiplayerManager : MonoBehaviourPunCallbacks
 {
-    public static GameManager Instance;
+    public static GameMultiplayerManager Instance;
+    [Tooltip("The prefab to use for representing the player")]
+    [SerializeField] private GameObject playerPrefab;
+    private Transform spawnPoint;
+    private GameObject actualKart;
 
     void Start()
     {
+        spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").GetComponent<Transform>();
         Instance = this;
+        if (playerPrefab == null)
+        {
+            Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
+        }
+        else
+        {
+            if (ArcadeKart.LocalPlayerInstance == null)
+            {
+                Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+                actualKart = PhotonNetwork.Instantiate(this.playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
+                actualKart.name = "KartPlayer";
+            }
+            else
+            {
+                Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+            }
+        }
     }
 
     #region Photon Callbacks
@@ -60,8 +84,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
             return;
         }
-        Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-        PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.CurrentRoom.PlayerCount);
+        Debug.LogFormat("PhotonNetwork : Loading Level : Race");
+        PhotonNetwork.LoadLevel("Race");
     }
 
 #endregion

@@ -193,6 +193,9 @@ namespace KartGame.KartSystems
         // ALL THE LOGIC RELATED WIT ROOMS AND MULTIPLAYER CAN BE REACHED WITH:
         // GameMultiplayerManager.Instance
         // Get out of the multiplayer GameMultiplayerManager.Instance.LeaveRoom();
+        [SerializeField] private Camera playerCamera;
+        [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+        public static GameObject LocalPlayerInstance;
 
 
         private void ActivateDriftVFX(bool active)
@@ -272,6 +275,21 @@ namespace KartGame.KartSystems
                     Instantiate(NozzleVFX, nozzle, false);
                 }
             }
+
+            // #Important
+            // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+            if (photonView.IsMine)
+            {
+                ArcadeKart.LocalPlayerInstance = this.gameObject;
+                playerCamera.enabled = true;
+            }
+            else
+            {
+                playerCamera.enabled = false;
+            }
+            // #Critical
+            // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
+            DontDestroyOnLoad(this.gameObject);
         }
 
         void AddTrailToWheel(WheelCollider wheel)
@@ -292,6 +310,8 @@ namespace KartGame.KartSystems
 
         void FixedUpdate()
         {
+            if (!photonView.IsMine) return;
+
             UpdateSuspensionParams(FrontLeftWheel);
             UpdateSuspensionParams(FrontRightWheel);
             UpdateSuspensionParams(RearLeftWheel);
@@ -332,6 +352,7 @@ namespace KartGame.KartSystems
         }
         void GatherInputs()
         {
+            if (!photonView.IsMine) return;
             // reset input
             Input = new InputData();
             WantsToDrift = false;
