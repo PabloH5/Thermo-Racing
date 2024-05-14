@@ -2,10 +2,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.VFX;
+using Unity.Netcode;
 
 namespace KartGame.KartSystems
 {
-    public class ArcadeKart : MonoBehaviour
+    public class ArcadeKart : NetworkBehaviour
     {
         [System.Serializable]
         public class StatPowerup
@@ -188,6 +189,13 @@ namespace KartGame.KartSystems
         public void SetCanMove(bool move) => m_CanMove = move;
         public float GetMaxSpeed() => Mathf.Max(m_FinalStats.TopSpeed, m_FinalStats.ReverseSpeed);
 
+
+        // Netcode Variables
+        [SerializeField] private GameObject mainCameraKart;
+        [SerializeField] private GameObject canvasControllerUI;
+        [SerializeField] private GameObject engineAudio;
+    
+
         private void ActivateDriftVFX(bool active)
         {
             foreach (var vfx in m_DriftSparkInstances)
@@ -234,7 +242,7 @@ namespace KartGame.KartSystems
             wheel.suspensionSpring = spring;
         }
 
-        void Awake()
+        private void Awake() 
         {
             Rigidbody = GetComponent<Rigidbody>();
             m_Inputs = GetComponents<IInput>();
@@ -264,7 +272,24 @@ namespace KartGame.KartSystems
                 {
                     Instantiate(NozzleVFX, nozzle, false);
                 }
+            }     
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            gameObject.name = "KartPlayer";
+            if (IsOwner)
+            {
+                mainCameraKart.gameObject.SetActive(true);
+                canvasControllerUI.gameObject.SetActive(true);
+                engineAudio.gameObject.SetActive(true);
             }
+            else
+            {
+                mainCameraKart.gameObject.SetActive(false);
+                canvasControllerUI.gameObject.SetActive(false);
+                engineAudio.gameObject.SetActive(false);
+            }         
         }
 
         void AddTrailToWheel(WheelCollider wheel)
@@ -323,8 +348,10 @@ namespace KartGame.KartSystems
 
             UpdateDriftVFXOrientation();
         }
+
         void GatherInputs()
         {
+            if (!IsOwner) return;
             // reset input
             Input = new InputData();
             WantsToDrift = false;
