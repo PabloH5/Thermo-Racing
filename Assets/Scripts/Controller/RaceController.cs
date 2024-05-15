@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Unity.Netcode;
 
 public class RaceController : MonoBehaviour
 {
     [SerializeField] private GameObject canvasRaceQuestions;
-    [SerializeField] private TextMeshProUGUI textQuestion;  
+    [SerializeField] private TextMeshProUGUI textQuestion;
     [SerializeField] private GameObject[] answersGameObjects;
     [SerializeField] private GameObject positiveAudio;
     [SerializeField] private GameObject negativeAudio;
@@ -13,22 +14,59 @@ public class RaceController : MonoBehaviour
     private List<RaceQuestionModel> raceQuestions;
     private string correctAnswer;
 
+    private static GameObject spawnPointParent;
+    private static List<Transform> spawnPositionTransformList;
+
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         raceQuestions = RaceQuestionModel.GetRaceQuestions();
         raceQuestions.ForEach(question => Debug.Log(question.wording));
         FillQuestionText();
+
+        InitializeSpawnPoints();
+    }
+
+    private void InitializeSpawnPoints()
+    {
+        if (spawnPointParent == null)
+        {
+            Debug.Log("I find spawnpoint");
+            spawnPointParent = GameObject.FindGameObjectWithTag("Spawnpoint");
+            spawnPositionTransformList = new List<Transform>();
+            foreach (Transform child in spawnPointParent.transform)
+            {
+                spawnPositionTransformList.Add(child);
+            }
+        }
+        else
+        {
+            Debug.Log("I not found spawnpoint");
+        }
+    }
+
+    public Vector3 GetRandomSpawnPoint()
+    {
+        if (spawnPositionTransformList != null && spawnPositionTransformList.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, spawnPositionTransformList.Count);
+            Transform spawnPoint = spawnPositionTransformList[randomIndex];
+            spawnPositionTransformList.RemoveAt(randomIndex);
+            return spawnPoint.position;
+        }
+        else
+        {
+            Debug.LogError("No spawn points available or spawnPositionTransformList not initialized.");
+            return Vector3.zero;
+        }
     }
 
     private void FillQuestionText()
     {
-        // Step 1: Select the question
         int index = Random.Range(0, raceQuestions.Count);
         RaceQuestionModel raceQuestion = raceQuestions[index];
         raceQuestions.RemoveAt(index);
 
-        // Step 2: Prepare options
         string[] options = new string[]
         {
             raceQuestion.first_option,
@@ -37,7 +75,6 @@ public class RaceController : MonoBehaviour
             raceQuestion.fourth_option
         };
 
-        // Step 3: Shuffle options
         for (int i = options.Length - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
@@ -46,10 +83,8 @@ public class RaceController : MonoBehaviour
             options[j] = temp;
         }
 
-        // Set the question text
         textQuestion.text = raceQuestion.wording;
 
-        // Step 4: Assign to answer objects
         for (int i = 0; i < answersGameObjects.Length && i < options.Length; i++)
         {
             TextMeshProUGUI answerText = answersGameObjects[i].GetComponentInChildren<TextMeshProUGUI>();
@@ -59,7 +94,6 @@ public class RaceController : MonoBehaviour
             }
         }
 
-        // Step 5: Save the correct answer
         correctAnswer = raceQuestion.correct_option;
     }
 
@@ -88,11 +122,5 @@ public class RaceController : MonoBehaviour
     private void DeactivateRaceQuestionCanvas()
     {
         canvasRaceQuestions.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

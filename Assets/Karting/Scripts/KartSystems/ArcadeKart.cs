@@ -54,8 +54,6 @@ namespace KartGame.KartSystems
             [Tooltip("Additional gravity for when the kart is in the air.")]
             public float AddedGravity;
 
-
-
             // allow for stat adding for powerups.
             public static Stats operator +(Stats a, Stats b)
             {
@@ -194,7 +192,135 @@ namespace KartGame.KartSystems
         [SerializeField] private GameObject mainCameraKart;
         [SerializeField] private GameObject canvasControllerUI;
         [SerializeField] private GameObject engineAudio;
-    
+
+        private void Awake() 
+        {
+            Rigidbody = GetComponent<Rigidbody>();
+            m_Inputs = GetComponents<IInput>();
+
+            UpdateSuspensionParams(FrontLeftWheel);
+            UpdateSuspensionParams(FrontRightWheel);
+            UpdateSuspensionParams(RearLeftWheel);
+            UpdateSuspensionParams(RearRightWheel);
+
+            m_CurrentGrip = baseStats.Grip;
+
+            if (DriftSparkVFX != null)
+            {
+                AddSparkToWheel(RearLeftWheel, -DriftSparkHorizontalOffset, -DriftSparkRotation);
+                AddSparkToWheel(RearRightWheel, DriftSparkHorizontalOffset, DriftSparkRotation);
+            }
+
+            if (DriftTrailPrefab != null)
+            {
+                AddTrailToWheel(RearLeftWheel);
+                AddTrailToWheel(RearRightWheel);
+            }
+
+            if (NozzleVFX != null)
+            {
+                foreach (var nozzle in Nozzles)
+                {
+                    Instantiate(NozzleVFX, nozzle, false);
+                }
+            }     
+        }
+
+        void FixedUpdate()
+        {
+            UpdateSuspensionParams(FrontLeftWheel);
+            UpdateSuspensionParams(FrontRightWheel);
+            UpdateSuspensionParams(RearLeftWheel);
+            UpdateSuspensionParams(RearRightWheel);
+
+            GatherInputs();
+
+            // apply our powerups to create our finalStats
+            TickPowerups();
+
+            // apply our physics properties
+            Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
+
+            int groundedCount = 0;
+            if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
+                groundedCount++;
+            if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
+                groundedCount++;
+            if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
+                groundedCount++;
+            if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
+                groundedCount++;
+
+            // calculate how grounded and airborne we are
+            GroundPercent = (float)groundedCount / 4.0f;
+            AirPercent = 1 - GroundPercent;
+
+            // apply vehicle physics
+            if (m_CanMove)
+            {
+                MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
+            }
+            GroundAirbourne();
+
+            m_PreviousGroundPercent = GroundPercent;
+
+            UpdateDriftVFXOrientation();
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            gameObject.name = "KartPlayer";
+
+            if (IsOwner)
+            {
+                RaceController raceController = FindObjectOfType<RaceController>();
+                if (raceController != null && NetworkManager.Singleton.IsServer)
+                {
+                    Debug.Log($"My position actual is: {transform.position}");
+                    transform.position = raceController.GetRandomSpawnPoint();
+                    Debug.Log($"My position change to: {transform.position}");
+                }
+                else if (raceController != null)
+                {
+                    RequestSpawnPositionServerRpc();
+                }
+                else
+                {
+                    Debug.LogError("RaceController not found.");
+                }
+
+                mainCameraKart.gameObject.SetActive(true);
+                canvasControllerUI.gameObject.SetActive(true);
+                engineAudio.gameObject.SetActive(true);
+            }
+            else
+            {
+                mainCameraKart.gameObject.SetActive(false);
+                canvasControllerUI.gameObject.SetActive(false);
+                engineAudio.gameObject.SetActive(false);
+            }
+        }
+
+        [ServerRpc]
+        private void RequestSpawnPositionServerRpc(ServerRpcParams rpcParams = default)
+        {
+            RaceController raceController = FindObjectOfType<RaceController>();
+            if (raceController != null)
+            {
+                Vector3 spawnPosition = raceController.GetRandomSpawnPoint();
+                SetSpawnPositionClientRpc(spawnPosition, rpcParams.Receive.SenderClientId);
+            }
+        }
+
+        [ClientRpc]
+        private void SetSpawnPositionClientRpc(Vector3 spawnPosition, ulong clientId)
+        {
+            if (NetworkManager.Singleton.LocalClientId == clientId)
+            {
+                transform.position = spawnPosition;
+                Debug.Log($"Player moved to: {transform.position}");
+            }
+        }
 
         private void ActivateDriftVFX(bool active)
         {
@@ -242,54 +368,19 @@ namespace KartGame.KartSystems
             wheel.suspensionSpring = spring;
         }
 
-        private void Awake() 
+        void GatherInputs()
         {
-            Rigidbody = GetComponent<Rigidbody>();
-            m_Inputs = GetComponents<IInput>();
+            if (!IsOwner) return;
+            // reset input
+            Input = new InputData();
+            WantsToDrift = false;
 
-            UpdateSuspensionParams(FrontLeftWheel);
-            UpdateSuspensionParams(FrontRightWheel);
-            UpdateSuspensionParams(RearLeftWheel);
-            UpdateSuspensionParams(RearRightWheel);
-
-            m_CurrentGrip = baseStats.Grip;
-
-            if (DriftSparkVFX != null)
+            // gather nonzero input from our sources
+            for (int i = 0; i < m_Inputs.Length; i++)
             {
-                AddSparkToWheel(RearLeftWheel, -DriftSparkHorizontalOffset, -DriftSparkRotation);
-                AddSparkToWheel(RearRightWheel, DriftSparkHorizontalOffset, DriftSparkRotation);
+                Input = m_Inputs[i].GenerateInput();
+                WantsToDrift = Input.Brake && Vector3.Dot(Rigidbody.velocity, transform.forward) > 0.0f;
             }
-
-            if (DriftTrailPrefab != null)
-            {
-                AddTrailToWheel(RearLeftWheel);
-                AddTrailToWheel(RearRightWheel);
-            }
-
-            if (NozzleVFX != null)
-            {
-                foreach (var nozzle in Nozzles)
-                {
-                    Instantiate(NozzleVFX, nozzle, false);
-                }
-            }     
-        }
-
-        public override void OnNetworkSpawn()
-        {
-            gameObject.name = "KartPlayer";
-            if (IsOwner)
-            {
-                mainCameraKart.gameObject.SetActive(true);
-                canvasControllerUI.gameObject.SetActive(true);
-                engineAudio.gameObject.SetActive(true);
-            }
-            else
-            {
-                mainCameraKart.gameObject.SetActive(false);
-                canvasControllerUI.gameObject.SetActive(false);
-                engineAudio.gameObject.SetActive(false);
-            }         
         }
 
         void AddTrailToWheel(WheelCollider wheel)
@@ -306,62 +397,6 @@ namespace KartGame.KartSystems
             ParticleSystem spark = vfx.GetComponent<ParticleSystem>();
             spark.Stop();
             m_DriftSparkInstances.Add((wheel, horizontalOffset, -rotation, spark));
-        }
-
-        void FixedUpdate()
-        {
-            UpdateSuspensionParams(FrontLeftWheel);
-            UpdateSuspensionParams(FrontRightWheel);
-            UpdateSuspensionParams(RearLeftWheel);
-            UpdateSuspensionParams(RearRightWheel);
-
-            GatherInputs();
-
-            // apply our powerups to create our finalStats
-            TickPowerups();
-
-            // apply our physics properties
-            Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
-
-            int groundedCount = 0;
-            if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
-                groundedCount++;
-            if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
-                groundedCount++;
-
-            // calculate how grounded and airborne we are
-            GroundPercent = (float)groundedCount / 4.0f;
-            AirPercent = 1 - GroundPercent;
-
-            // apply vehicle physics
-            if (m_CanMove)
-            {
-                MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
-            }
-            GroundAirbourne();
-
-            m_PreviousGroundPercent = GroundPercent;
-
-            UpdateDriftVFXOrientation();
-        }
-
-        void GatherInputs()
-        {
-            if (!IsOwner) return;
-            // reset input
-            Input = new InputData();
-            WantsToDrift = false;
-
-            // gather nonzero input from our sources
-            for (int i = 0; i < m_Inputs.Length; i++)
-            {
-                Input = m_Inputs[i].GenerateInput();
-                WantsToDrift = Input.Brake && Vector3.Dot(Rigidbody.velocity, transform.forward) > 0.0f;
-            }
         }
 
         void TickPowerups()
