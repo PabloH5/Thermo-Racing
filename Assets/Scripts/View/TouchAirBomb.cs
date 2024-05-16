@@ -51,13 +51,16 @@ public class TouchAirBomb : MonoBehaviour
         get { return touchCount; }
         set { touchCount = value; }
     }
-    public bool isOn = true;
+
     [SerializeField]
     private float coolDown;
     private float update;
 
-    public UnityEvent feedbackPositiveEvent;
+    public UnityEvent feedbackAudioPositiveEvent;
     public UnityEvent updateConstantBank;
+    public UnityEvent explosionFeedbackEvent;
+
+    private bool _CanInteract = true;
 
     /// <summary>
     /// Start <c>method</c> for initialize values
@@ -68,15 +71,19 @@ public class TouchAirBomb : MonoBehaviour
         mainCamera = Camera.main; //Initialize Main Camera of the scene
         rectTransform = handleBar.GetComponent<RectTransform>();//Equalize the Rect Transform Component to a variable
 
-        feedbackPositiveEvent.AddListener(() =>
+        feedbackAudioPositiveEvent.AddListener(() =>
         {
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivatePositiveFeedbackGUI();
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivateGoodAudioBehaviour();
         });
 
         updateConstantBank.AddListener(() =>
         {
-            // constantBankUpdateScript.GetComponent<ConstantBankUpdate>().UpdatePression(0.49f);
             constantBankUpdateScript.GetComponent<ConstantBankUpdate>().UpdateVolumme(0.025f);
+        });
+
+        explosionFeedbackEvent.AddListener(() =>
+        {
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActiveExplosion(ARLLManager.ErrorARLLmanager.ErrorInflateWheel);
         });
 
     }
@@ -85,43 +92,51 @@ public class TouchAirBomb : MonoBehaviour
     /// </summary>
     void Update()
     {
-        update += Time.deltaTime;
-        if (Input.touchCount > 0) //Verify if user touch the screen
+        if (_CanInteract)
         {
-            Touch touch = Input.GetTouch(0); //save the current touch information in touch
-            if (touch.phase == TouchPhase.Began) //compare the phase of touches in the screen with the last touch
+            update += Time.deltaTime;
+            if (Input.touchCount > 0) //Verify if user touch the screen
             {
-                Vector2 pos = touch.position; //save de position of the touch
-                if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, pos, mainCamera)) //compare if the pos of touch is in the RectTransform area
+                Touch touch = Input.GetTouch(0); //save the current touch information in touch
+                if (touch.phase == TouchPhase.Began) //compare the phase of touches in the screen with the last touch
                 {
-                    MoveHandleBar(); //Invoke MoveHandleBar
-                    TouchCount++;// add 1 for each touch
-                    controller.SwitchSpriteTH(TouchCount);
-                    controller.SwitchSpriteWH(TouchCount, update);
-                    update = 0.0f;
-                    Debug.Log("Update Reload");
+                    Vector2 pos = touch.position; //save de position of the touch
+                    if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, pos, mainCamera)) //compare if the pos of touch is in the RectTransform area
+                    {
+                        MoveHandleBar(); //Invoke MoveHandleBar
+                        TouchCount++;// add 1 for each touch
+                        controller.SwitchSpriteTH(TouchCount);
+                        controller.SwitchSpriteWH(TouchCount);
+                        update = 0.0f;
+                        Debug.Log("Update Reload");
+                    }
                 }
             }
-        }
-        if (touchCount >= 12 && touchCount < 23)
-        {
-            if (update >= 1.5 && update < 2)
+
+            if (touchCount >= 12 && touchCount < 23)
             {
-                Debug.Log("I am going away");
-                // feedbackPositiveEvent.Invoke();   
-                updateConstantBank.Invoke();
+                if (update >= 1.5 && update < 2)
+                {
+                    updateConstantBank.Invoke();
+                    feedbackAudioPositiveEvent.Invoke();
+                    _CanInteract = false;
+                }
             }
-        }
-        else if (touchCount > 18 && touchCount <= 30)
-        {
-            // controller.ActiveNegativeFB(touchCount);
-        }
-        if (update >= coolDown && TouchCount > 0)
-        {
-            controller.SwitchSpriteTH(TouchCount--);
-            controller.SwitchSpriteWH(TouchCount--, update);
-            Debug.Log(update);
-            update = 0.0f;
+            else if (touchCount > 29)
+            {
+                explosionFeedbackEvent.Invoke(); 
+                touchCount = 0;
+                controller.SwitchSpriteTH(0);
+                controller.SwitchSpriteWH(0);
+                controller.UpdateLocalScale();
+            }
+
+            if (update >= coolDown && TouchCount > 0)
+            {
+                controller.SwitchSpriteTH(TouchCount--);
+                controller.SwitchSpriteWH(TouchCount--);
+                update = 0.0f;
+            }
         }
     }
 

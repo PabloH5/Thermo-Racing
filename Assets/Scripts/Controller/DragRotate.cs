@@ -37,8 +37,12 @@ public class DragRotate : MonoBehaviour
     private bool _isCountDownFinished; // Flag indicating if the countdown is finished
     [SerializeField] private Thermometer thermometer; // Reference to the thermometer object
     [SerializeField] private ConstantBankUpdate constantBankUpdateScript;
-    private float lastInteractionTime = 1.5f;
+    private float lastInteractionTime = 0.0f;
     public UnityEvent feedbackPositiveEvent;
+    public UnityEvent explosionFeedbackEvent;
+    public UnityEvent feedbackAudioPositiveEvent;
+
+    private bool _CanInteract = true;
 
     private void Start()
     {
@@ -54,51 +58,70 @@ public class DragRotate : MonoBehaviour
         feedbackPositiveEvent.AddListener(() => {
             GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivatePositiveFeedbackGUI();
         });   
+
+        explosionFeedbackEvent.AddListener(() =>
+        {
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActiveExplosion(ARLLManager.ErrorARLLmanager.ErrorRotateWheel);
+        });
+
+        feedbackAudioPositiveEvent.AddListener(() =>
+        {
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<ARLLManager>().ActivateGoodAudioBehaviour();
+        });
     }
 
     private void Update()
     {
-        if (totalCompleteTurns >= 19 && totalCompleteTurns <= 23)
+        if (_CanInteract)
         {
-                lastInteractionTime -= Time.deltaTime;
-                if (lastInteractionTime <= 0) { CalculateWinScenario(); }
-        }
-
-        _isCountDownFinished = CalculateTheCountDown(); // Calculate the countdown
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mousePosInitial = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
-
-            if (col == Physics2D.OverlapPoint(mousePosInitial))
+            if (totalCompleteTurns >= 19 && totalCompleteTurns <= 23)
             {
-                isDragging = true; // Set dragging flag to true
-                screenPoint = myCam.WorldToScreenPoint(transform.position); // Get the position of the object on the screen
-                Vector3 vec3 = Input.mousePosition - screenPoint;
-                angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg; // Calculate the angle offset for dragging
-                previousZRotation = transform.eulerAngles.z; // Store the previous rotation around the Z axis
+                    lastInteractionTime += Time.deltaTime;
+                    if (lastInteractionTime >= 1.5 && lastInteractionTime <= 2) 
+                    { 
+                        CalculateWinScenario(); 
+                        feedbackAudioPositiveEvent.Invoke();
+                        _CanInteract = false;
+                    }
             }
-        }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            isDragging = false; // Set dragging flag to false when mouse button is released
-        }
+            _isCountDownFinished = CalculateTheCountDown(); // Calculate the countdown
 
-        if (isDragging)
-        {
-            Vector3 mousePos = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
-
-            if (col == Physics2D.OverlapPoint(mousePos))
+            if (Input.GetMouseButtonDown(0))
             {
-                Vector3 vec3 = Input.mousePosition - screenPoint;
-                float angle = Mathf.Atan2(vec3.y, vec3.x) * Mathf.Rad2Deg; // Calculate the angle based on mouse position
-                transform.eulerAngles = new Vector3(0, 0, angle + angleOffset); // Set the rotation of the object
+                Vector3 mousePosInitial = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
 
-                float currentZRotation = transform.eulerAngles.z; // Get the current rotation around the Z axis
-                float rotationDifference = Mathf.Abs(Mathf.DeltaAngle(currentZRotation, previousZRotation)); // Calculate the rotation difference
+                if (col == Physics2D.OverlapPoint(mousePosInitial))
+                {
+                    isDragging = true; // Set dragging flag to true
+                    screenPoint = myCam.WorldToScreenPoint(transform.position); // Get the position of the object on the screen
+                    Vector3 vec3 = Input.mousePosition - screenPoint;
+                    angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(vec3.y, vec3.x)) * Mathf.Rad2Deg; // Calculate the angle offset for dragging
+                    previousZRotation = transform.eulerAngles.z; // Store the previous rotation around the Z axis
+                }
+            }
 
-                UpdateTotalRotation(rotationDifference); // Update the total rotation of the object
+            if (Input.GetMouseButtonUp(0))
+            {
+                isDragging = false; // Set dragging flag to false when mouse button is released
+            }
+
+            if (isDragging)
+            {
+                Vector3 mousePos = myCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, myCam.WorldToScreenPoint(transform.position).z));
+
+                if (col == Physics2D.OverlapPoint(mousePos))
+                {
+                    Vector3 vec3 = Input.mousePosition - screenPoint;
+                    float angle = Mathf.Atan2(vec3.y, vec3.x) * Mathf.Rad2Deg; // Calculate the angle based on mouse position
+                    transform.eulerAngles = new Vector3(0, 0, angle + angleOffset); // Set the rotation of the object
+
+                    float currentZRotation = transform.eulerAngles.z; // Get the current rotation around the Z axis
+                    float rotationDifference = Mathf.Abs(Mathf.DeltaAngle(currentZRotation, previousZRotation)); // Calculate the rotation difference
+
+                    UpdateTotalRotation(rotationDifference); // Update the total rotation of the object
+                    lastInteractionTime = 0.0f;
+                }
             }
         }
     }
@@ -147,7 +170,10 @@ public class DragRotate : MonoBehaviour
         }
         else
         {
-            Debug.Log("EXPLOSIONNNNNNNN");
+            explosionFeedbackEvent.Invoke();
+            totalRotation = 0;
+            UpdateTotalRotation(0.0f);
+            DecreaseNumberOfTurns(-1);
         }
         countDownToDowngradeSprite = 5; // Reset the countdown timer after updating the state
     }

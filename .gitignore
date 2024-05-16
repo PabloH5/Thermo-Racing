@@ -80,3 +80,5 @@ crashlytics-build.properties
 /[Aa]ssets/config.local.json
 /[Aa]ssets/config.local.json.meta
 /[Aa]ssets/config.json.meta
+/[Aa]ssets/Visual3D/
+/[Aa]ssets/Visual3D.meta
