@@ -193,7 +193,7 @@ namespace KartGame.KartSystems
         [SerializeField] private GameObject canvasControllerUI;
         [SerializeField] private GameObject engineAudio;
 
-        private void Awake() 
+        private void Awake()
         {
             Rigidbody = GetComponent<Rigidbody>();
             m_Inputs = GetComponents<IInput>();
@@ -223,9 +223,13 @@ namespace KartGame.KartSystems
                 {
                     Instantiate(NozzleVFX, nozzle, false);
                 }
-            }     
+            }
         }
-
+        private void Start()
+        {
+            Rigidbody.interpolation = RigidbodyInterpolation.None;
+            Rigidbody.isKinematic = true;
+        }
         void FixedUpdate()
         {
             UpdateSuspensionParams(FrontLeftWheel);
@@ -435,12 +439,12 @@ namespace KartGame.KartSystems
             }
         }
 
-        public void Reset()
-        {
-            Vector3 euler = transform.rotation.eulerAngles;
-            euler.x = euler.z = 0f;
-            transform.rotation = Quaternion.Euler(euler);
-        }
+        // public void Reset()
+        // {
+        //     Vector3 euler = transform.rotation.eulerAngles;
+        //     euler.x = euler.z = 0f;
+        //     transform.rotation = Quaternion.Euler(euler);
+        // }
 
         public float LocalSpeed()
         {
@@ -475,10 +479,6 @@ namespace KartGame.KartSystems
                 if (Vector3.Dot(contact.normal, Vector3.up) > dot)
                     m_LastCollisionNormal = contact.normal;
             }
-        }
-        public void AccelerateUI()
-        {
-            MoveVehicle(true, false, 0);
         }
         void MoveVehicle(bool accelerate, bool brake, float turnInput)
         {

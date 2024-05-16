@@ -15,7 +15,7 @@ public class TestSpawn : NetworkBehaviour
                 if (raceController != null)
                 {
                     Debug.Log($"My position actual is: {transform.position}");
-                    transform.position = raceController.GetRandomSpawnPoint();
+                    transform.localPosition = raceController.GetRandomSpawnPoint();
                     Debug.Log($"My position change to: {transform.position}");
                 }
                 else
@@ -36,7 +36,7 @@ public class TestSpawn : NetworkBehaviour
         while (raceController == null)
         {
             raceController = FindObjectOfType<RaceController>();
-            yield return null; 
+            yield return null;
         }
 
         RequestSpawnPositionServerRpc();
