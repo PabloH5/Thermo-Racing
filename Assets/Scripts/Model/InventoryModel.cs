@@ -48,4 +48,15 @@ public class InventoryModel
         return possibleChassisRewards;
     }
 
+    public static List<SteeringWheelModel> GetPossibleSteeringWheelRewards(int userId)
+    {
+
+        using NpgsqlConnection con = DBController.EstablishConnectionDB();
+
+        con.Open();
+        var possibleChassisRewards = con.Query<SteeringWheelModel>("select * from chassis c where chassis_id not in(select chassis_id from inventories where user_id = @userId AND chassis_id IS NOT NULL);", new { userId }).ToList();
+        con.Close();
+        return possibleChassisRewards;
+    }
+
 }
