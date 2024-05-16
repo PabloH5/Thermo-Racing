@@ -192,6 +192,7 @@ namespace KartGame.KartSystems
         [SerializeField] private GameObject mainCameraKart;
         [SerializeField] private GameObject canvasControllerUI;
         [SerializeField] private GameObject engineAudio;
+        private bool _IsSafeToSpawn = true;
 
         private void Awake()
         {
@@ -225,50 +226,74 @@ namespace KartGame.KartSystems
                 }
             }
         }
-        private void Start()
-        {
-            Rigidbody.interpolation = RigidbodyInterpolation.None;
-            Rigidbody.isKinematic = true;
-        }
+
         void FixedUpdate()
         {
-            UpdateSuspensionParams(FrontLeftWheel);
-            UpdateSuspensionParams(FrontRightWheel);
-            UpdateSuspensionParams(RearLeftWheel);
-            UpdateSuspensionParams(RearRightWheel);
-
-            GatherInputs();
-
-            // apply our powerups to create our finalStats
-            TickPowerups();
-
-            // apply our physics properties
-            Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
-
-            int groundedCount = 0;
-            if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
-                groundedCount++;
-            if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
-                groundedCount++;
-
-            // calculate how grounded and airborne we are
-            GroundPercent = (float)groundedCount / 4.0f;
-            AirPercent = 1 - GroundPercent;
-
-            // apply vehicle physics
-            if (m_CanMove)
+            if (IsOwner)
             {
-                MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
+                UpdateSuspensionParams(FrontLeftWheel);
+                UpdateSuspensionParams(FrontRightWheel);
+                UpdateSuspensionParams(RearLeftWheel);
+                UpdateSuspensionParams(RearRightWheel);
+
+                GatherInputs();
+
+                // apply our powerups to create our finalStats
+                TickPowerups();
+
+                // apply our physics properties
+                Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
+
+                int groundedCount = 0;
+                if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
+                    groundedCount++;
+                if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
+                    groundedCount++;
+                if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
+                    groundedCount++;
+                if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
+                    groundedCount++;
+
+                // calculate how grounded and airborne we are
+                GroundPercent = (float)groundedCount / 4.0f;
+                AirPercent = 1 - GroundPercent;
+
+                // apply vehicle physics
+                if (m_CanMove)
+                {
+                    MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
+                }
+                GroundAirbourne();
+
+                m_PreviousGroundPercent = GroundPercent;
+
+                UpdateDriftVFXOrientation();
+
+
+                if (_IsSafeToSpawn)
+                {
+                    Rigidbody.interpolation = RigidbodyInterpolation.None;
+                    Rigidbody.isKinematic = true;
+                    RaceController raceController = FindObjectOfType<RaceController>();
+                    if (raceController != null)
+                    {
+                        Debug.Log($"My position actual is: {transform.position}");
+                        transform.position = raceController.GetRandomSpawnPoint();
+                        Debug.Log($"My position change to: {transform.position}");
+                    }
+                    else if (raceController != null)
+                    {
+                        RequestSpawnPositionServerRpc();
+                    }
+                    else
+                    {
+                        Debug.LogError("RaceController not found.");
+                    }
+                    Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+                    Rigidbody.isKinematic = false;
+                    _IsSafeToSpawn = false;
+                }
             }
-            GroundAirbourne();
-
-            m_PreviousGroundPercent = GroundPercent;
-
-            UpdateDriftVFXOrientation();
         }
 
         public override void OnNetworkSpawn()
@@ -277,25 +302,12 @@ namespace KartGame.KartSystems
 
             if (IsOwner)
             {
-                RaceController raceController = FindObjectOfType<RaceController>();
-                if (raceController != null && NetworkManager.Singleton.IsServer)
-                {
-                    Debug.Log($"My position actual is: {transform.position}");
-                    transform.position = raceController.GetRandomSpawnPoint();
-                    Debug.Log($"My position change to: {transform.position}");
-                }
-                else if (raceController != null)
-                {
-                    RequestSpawnPositionServerRpc();
-                }
-                else
-                {
-                    Debug.LogError("RaceController not found.");
-                }
-
                 mainCameraKart.gameObject.SetActive(true);
                 canvasControllerUI.gameObject.SetActive(true);
                 engineAudio.gameObject.SetActive(true);
+
+                Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+                Rigidbody.isKinematic = false;
             }
             else
             {
@@ -305,12 +317,14 @@ namespace KartGame.KartSystems
             }
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void RequestSpawnPositionServerRpc(ServerRpcParams rpcParams = default)
         {
             RaceController raceController = FindObjectOfType<RaceController>();
             if (raceController != null)
             {
+                Rigidbody.interpolation = RigidbodyInterpolation.None;
+                Rigidbody.isKinematic = true;
                 Vector3 spawnPosition = raceController.GetRandomSpawnPoint();
                 SetSpawnPositionClientRpc(spawnPosition, rpcParams.Receive.SenderClientId);
             }
@@ -323,6 +337,8 @@ namespace KartGame.KartSystems
             {
                 transform.position = spawnPosition;
                 Debug.Log($"Player moved to: {transform.position}");
+                Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+                Rigidbody.isKinematic = false;
             }
         }
 
