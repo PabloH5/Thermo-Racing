@@ -16,12 +16,14 @@ public class TestingNetcodeUI : MonoBehaviour
     void StartHost() {
         Debug.Log("Starting host");
         NetworkManager.Singleton.StartHost();
+        RaceController.Instance.LocalPlayerIsReady();
         Hide();
     }
 
     void StartClient() {
         Debug.Log("Starting client");
         NetworkManager.Singleton.StartClient();
+        RaceController.Instance.LocalPlayerIsReady();
         Hide();
     }
 
