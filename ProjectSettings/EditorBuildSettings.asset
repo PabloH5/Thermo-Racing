@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/Minigames/ARevisarLasLlantas.unity
     guid: 3b3b774dfc872a24d96828928efbd391
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Minigames/ThermoEcuacionador.unity
     guid: 368b113e6807adb43a93c5b7eff9134b
   - enabled: 1
@@ -32,7 +32,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CoreScenes/Login.unity
     guid: 438d0130fe07fdb4bb96f71c004aedb1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CoreScenes/Pablos Karts Scene.unity
     guid: 4b24c28a93cbc0d4e93f4d7eb774ec58
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/Race.unity
+    guid: ec6185d03f5ae7c45868b5786c8a2e16
   m_configObjects: {}
