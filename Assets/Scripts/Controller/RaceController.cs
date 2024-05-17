@@ -18,7 +18,6 @@ public class RaceController : NetworkBehaviour
     private List<RaceQuestionModel> raceQuestions;
     private string correctAnswer;
 
-    private float countDownToStartTimer = 3.0f;
 
     private static GameObject spawnPointParent;
     private static List<Transform> spawnPositionTransformList;
@@ -31,6 +30,7 @@ public class RaceController : NetworkBehaviour
         GameOver,
     }
 
+    private NetworkVariable<float> countDownToStartTimer = new NetworkVariable<float>(3.0f);
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
 
     private bool _IsLocalPlayerReady { get; set; } = false;
@@ -79,8 +79,8 @@ public class RaceController : NetworkBehaviour
             case State.WaitingToStart:
                 break;
             case State.CountdownToStart:
-                countDownToStartTimer -= Time.deltaTime;
-                if ( countDownToStartTimer < 0f)
+                countDownToStartTimer.Value -= Time.deltaTime;
+                if ( countDownToStartTimer.Value < 0f)
                 {
                     state.Value = State.GamePlaying;
     
