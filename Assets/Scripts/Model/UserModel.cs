@@ -64,5 +64,14 @@ public class UserModel
         con.Close();
         return user;
     }
+
+    public static void UpdateCurrentGoKart(int wheelId, int chassisId, string userId)
+    {
+        using NpgsqlConnection con = DBController.EstablishConnectionDB();
+        con.Open();
+        con.Execute($"UPDATE users SET current_wheels = @wheelId, current_chassis= @chassisId where user_id = @userId", new {wheelId, chassisId, userId });
+        con.Close();
+        
+    }
 }
 

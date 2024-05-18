@@ -6,18 +6,18 @@ public class CustomManager : MonoBehaviour
 {
     public enum WheelType
     {
-        SpikesW,
-        OldW,
-        StarW,
-        DefaultW
+        DefaultW = 1,
+        SpikesW = 2,
+        OldW = 3,
+        StarW = 4,
     }
 
     public enum ChasisType
     {
-        SpikesC,
-        OldC,
-        StarC,
-        DefaultC
+        DefaultC = 1,
+        SpikesC = 2,
+        OldC =3,
+        StarC = 4,
     }
 
     [SerializeField]
@@ -114,7 +114,13 @@ public class CustomManager : MonoBehaviour
         }
     }
 
-
+    public void ChangeCurrentGoKartUser()
+    {
+        // Update current register from DB with user '2222222'
+        // TODO: use the user id from loggedUser class
+        Debug.Log(LoggedUser.Username);
+        UserModel.UpdateCurrentGoKart((int)_wheelType, (int)_chasisType, "2222222");
+    }
 
 
 }
