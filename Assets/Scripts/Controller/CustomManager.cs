@@ -37,6 +37,15 @@ public class CustomManager : MonoBehaviour
     {
         SwitchChasisAndWheels();
     }
+    public void SetWheelType(int wheelTypeIndex)
+    {
+        _wheelType = (WheelType)wheelTypeIndex;
+    }
+
+    public void SetChasisType(int chasisTypeIndex)
+    {
+        _chasisType = (ChasisType)chasisTypeIndex;
+    }
     private void SwitchChasisAndWheels()
     {
         kartPlayer.transform.Find("DEFAULT CHASIS")?.gameObject.SetActive(false);
