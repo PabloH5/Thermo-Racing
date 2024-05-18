@@ -60,7 +60,7 @@ public class UserModel
     {
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
         con.Open();
-        var user = con.QuerySingle<UserModel>($"INSERT INTO users VALUES (@user_id,@username,@password,null,null,null,default,null) RETURNING *;", new { user_id = userID, username, password });
+        var user = con.QuerySingle<UserModel>($"INSERT INTO users VALUES (@user_id,@username,@password,default,default,default,default,null) RETURNING *;", new { user_id = userID, username, password });
         con.Close();
         return user;
     }
