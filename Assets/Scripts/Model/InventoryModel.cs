@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class InventoryModel
+public class InventoryRawModel
 {
     public int inventory_id { get; set; }
     public int user_id { get; set; }
@@ -14,13 +14,13 @@ public class InventoryModel
     public DateTime created_at { get; set; }
     public DateTime? updated_at { get; set; }
 
-    public static List<InventoryModel> GetUserInventory(int userId)
+    public static List<InventoryRawModel> GetRawUserInventory(int userId)
     {
-        
+
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
 
         con.Open();
-        var userInventory = con.Query<InventoryModel>("select * from inventories where user_id = @userId;", new { userId }).ToList();
+        var userInventory = con.Query<InventoryRawModel>("select * from inventories where user_id = @userId;", new { userId }).ToList();
         con.Close();
         return userInventory;
     }
@@ -50,7 +50,6 @@ public class InventoryModel
 
     public static List<SteeringWheelModel> GetPossibleSteeringWheelRewards(int userId)
     {
-
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
 
         con.Open();
@@ -59,4 +58,56 @@ public class InventoryModel
         return possibleChassisRewards;
     }
 
+}
+
+
+public class InventoryUser
+{
+    //public int inventory_id { get; set; }
+    //public int user_id { get; set; }
+    //public int? wheel_id { get; set; }
+    //public string? wheel_name { get; set; }
+    //public int? chassis_id { get; set; }
+    //public string? chassis_name { get; set; }
+
+    public int inventory_id { get; set; }
+    public int user_id { get; set; }
+    public int item_id { get; set; }
+    public string item_name { get; set; }
+    public string item_type { get; set; }
+
+    public static List<InventoryUser> GetUserInventoryNerf(int userId)
+    {
+        using NpgsqlConnection con = DBController.EstablishConnectionDB();
+
+        con.Open();
+        var userInventory = con.Query<InventoryUser>("select i.inventory_id,i.user_id,i.wheel_id,w.wheel_name,i.chassis_id, c.chassis_name from inventories i\r\nleft JOIN wheels w ON i.wheel_id = w.wheel_id left join chassis c ON i.chassis_id = c.chassis_id where user_id=@userId AND (i.wheel_id IS NOT NULL OR i.chassis_id IS NOT NULL);", new { userId }).ToList();
+        con.Close();
+        return userInventory;
+    }
+
+    public static List<InventoryUser> GetUserInventory(int userId)
+    {
+        using NpgsqlConnection con = DBController.EstablishConnectionDB();
+
+        con.Open();
+        var userInventory = con.Query<InventoryUser>(@"
+        SELECT 
+            i.inventory_id, 
+            i.user_id, 
+            COALESCE(i.wheel_id, i.chassis_id) AS item_id, 
+            COALESCE(w.wheel_name, c.chassis_name) AS item_name,
+            CASE
+                WHEN i.wheel_id IS NOT NULL AND i.chassis_id IS NULL THEN 'WHEEL'
+                WHEN i.wheel_id IS NULL AND i.chassis_id IS NOT NULL THEN 'CHASSIS'
+            END AS item_type
+        FROM inventories i
+        LEFT JOIN wheels w ON i.wheel_id = w.wheel_id
+        LEFT JOIN chassis c ON i.chassis_id = c.chassis_id
+        WHERE i.user_id = @userId AND (i.wheel_id IS NOT NULL OR i.chassis_id IS NOT NULL)
+        ORDER BY i.inventory_id;
+        ", new { userId }).ToList();
+        con.Close();
+        return userInventory;
+    }
 }
