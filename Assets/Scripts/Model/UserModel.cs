@@ -10,9 +10,9 @@ public class UserModel
     public string user_id { get; set; }
     public string username { get; set; }
     public string password { get; set; }
-    public int? current_wheels { get; set; }
-    public int? current_chassis { get; set; }
-    public int? current_steeringWheel { get; set; }
+    public int current_wheels { get; set; }
+    public int current_chassis { get; set; }
+    public int current_steeringWheel { get; set; }
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
 

@@ -122,5 +122,11 @@ public class CustomManager : MonoBehaviour
         UserModel.UpdateCurrentGoKart((int)_wheelType, (int)_chasisType, "2222222");
     }
 
+    public void ModifyEnumCustom(int wheelIndex,int chassisIndex)
+    {
+        _wheelType = (WheelType) wheelIndex;
+        _chasisType = (ChasisType) chassisIndex;
+    }
+
 
 }
