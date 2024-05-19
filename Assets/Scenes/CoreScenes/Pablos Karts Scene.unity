@@ -1942,7 +1942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &189506288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6416,7 +6416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &437232458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7735,7 +7735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &520091675
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9274,7 +9274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &708613998
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12998,7 +12998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1047484439
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15141,7 +15141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1208939678
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17226,7 +17226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1334355806
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25584,8 +25584,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1972551045}
-  - component: {fileID: 1972551046}
   - component: {fileID: 1972551047}
+  - component: {fileID: 1972551046}
   m_Layer: 0
   m_Name: CustomManager
   m_TagString: Untagged
@@ -25623,6 +25623,8 @@ MonoBehaviour:
   _wheelType: 1
   _chasisType: 1
   kartPlayer: {fileID: 1544388167}
+  wheelContainer: {fileID: 1988111270}
+  chassisContainer: {fileID: 1373109074}
 --- !u!114 &1972551047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25904,7 +25906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1981728322
 RectTransform:
   m_ObjectHideFlags: 0

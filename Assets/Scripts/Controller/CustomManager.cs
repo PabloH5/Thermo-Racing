@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CustomManager : MonoBehaviour
@@ -16,7 +17,7 @@ public class CustomManager : MonoBehaviour
     {
         DefaultC = 1,
         SpikesC = 2,
-        OldC =3,
+        OldC = 3,
         StarC = 4,
     }
 
@@ -25,8 +26,16 @@ public class CustomManager : MonoBehaviour
     [SerializeField]
     private ChasisType _chasisType;
     public GameObject kartPlayer;
+
+
+    [SerializeField] private GameObject wheelContainer;
+    [SerializeField] private GameObject chassisContainer;
+
     void Start()
     {
+        LoadUserInventory();
+
+
         if (GameObject.Find("KartPlayer4Custom") != null)
         {
             kartPlayer = GameObject.Find("KartPlayer4Custom");
@@ -122,11 +131,42 @@ public class CustomManager : MonoBehaviour
         UserModel.UpdateCurrentGoKart((int)_wheelType, (int)_chasisType, "2222222");
     }
 
-    public void ModifyEnumCustom(int wheelIndex,int chassisIndex)
+    public void ModifyEnumCustom(int wheelIndex, int chassisIndex)
     {
-        _wheelType = (WheelType) wheelIndex;
-        _chasisType = (ChasisType) chassisIndex;
+        _wheelType = (WheelType)wheelIndex;
+        _chasisType = (ChasisType)chassisIndex;
     }
 
+    public void LoadUserInventory()
+    {
+        //---------------------------------------
+        // LOGGED USER HERE IS TEMPORARY
+        LoggedUser.LogInUser("2222222", "test");
+        // ------------------------------------------------
 
+
+
+        // BRING THE USER INVENTORY FROM DB
+        List<InventoryUser> userInventory = InventoryUser.GetUserInventory(LoggedUser.UserCode);
+        Transform foo;
+        foreach (var item in userInventory)
+        {
+            
+            switch (item.item_type)
+            {
+                
+                case "WHEEL":
+                    foo = wheelContainer.gameObject.transform.GetChild(item.item_id - 1);
+                    foo.Find("LockedBG").gameObject.SetActive(false);
+                    break;
+                case "CHASSIS":
+                    foo = chassisContainer.gameObject.transform.GetChild(item.item_id - 1);
+                    foo.Find("LockedBG").gameObject.SetActive(false);
+                    break;
+                default:
+                    break;
+            }
+        }
+        userInventory.ForEach(item => Debug.Log($"ID {item.item_id} - {item.item_name} - {item.item_type}"));
+    }
 }

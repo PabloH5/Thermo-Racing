@@ -86,7 +86,7 @@ public class InventoryUser
         return userInventory;
     }
 
-    public static List<InventoryUser> GetUserInventory(int userId)
+    public static List<InventoryUser> GetUserInventory(string userId)
     {
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
 

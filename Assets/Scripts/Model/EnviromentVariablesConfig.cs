@@ -67,9 +67,11 @@ public class EnviromentVariablesConfig : MonoBehaviour
         {
             Debug.Log("I'm not Android");
             // For other platforms (e.g., Windows), use the original configuration file path
+
             if (_currentEnviroment == DevelopmentEnviroment.local)
             {
                 filePath = Path.Combine(Application.dataPath, "config.local.json");
+                Debug.Log(filePath);
             }
             else
             {
