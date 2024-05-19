@@ -8,22 +8,23 @@ public class RaceCanvasController : MonoBehaviour
 
     private void Start()
     {
-        RaceController.Instance.OnStateChanged += RaceController_OnStateChanged;
-        RaceController.Instance.OnLocalPlayerReadyChanged += RaceController_OnLocalPlayerReadyChanged;
+        RaceMultiplayerController.Instance.OnStateChanged += RaceController_OnStateChanged;
+        RaceMultiplayerController.Instance.OnLocalPlayerReadyChanged += RaceController_OnLocalPlayerReadyChanged;
 
         InitializeCountdownText();
         Hide();
     }
 
-    private IEnumerator StartCountdown()
+    private void Update()
     {
-        for (int i = 3; i >= 0; i--)
+        if (RaceMultiplayerController.Instance.IsCountdownToStartActive())
         {
-            countdownText.text = i.ToString();
-            yield return new WaitForSeconds(1f);
+            countdownText.text = Mathf.CeilToInt(RaceMultiplayerController.Instance.countDownToStartTimer.Value).ToString();
         }
-
-        Hide();
+        else
+        {
+            Hide();
+        }
     }
 
     private void InitializeCountdownText()
@@ -40,7 +41,7 @@ public class RaceCanvasController : MonoBehaviour
 
     private void RaceController_OnLocalPlayerReadyChanged(object sender, System.EventArgs e)
     {
-        if (RaceController.Instance.IsLocalPlayerReady())
+        if (RaceMultiplayerController.Instance.IsLocalPlayerReady())
         {
             Hide();
         }
@@ -48,19 +49,18 @@ public class RaceCanvasController : MonoBehaviour
 
     private void RaceController_OnStateChanged(object sender, System.EventArgs e)
     {
-        if (RaceController.Instance.IsCountdownToStartActive())
+        if (RaceMultiplayerController.Instance.IsCountdownToStartActive())
         {
             Show();
-            StartCoroutine(StartCountdown());
         }
     }
 
     private void OnDestroy()
     {
-        if (RaceController.Instance != null)
+        if (RaceMultiplayerController.Instance != null)
         {
-            RaceController.Instance.OnStateChanged -= RaceController_OnStateChanged;
-            RaceController.Instance.OnLocalPlayerReadyChanged -= RaceController_OnLocalPlayerReadyChanged;
+            RaceMultiplayerController.Instance.OnStateChanged -= RaceController_OnStateChanged;
+            RaceMultiplayerController.Instance.OnLocalPlayerReadyChanged -= RaceController_OnLocalPlayerReadyChanged;
         }
     }
 

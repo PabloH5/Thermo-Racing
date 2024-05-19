@@ -6,15 +6,15 @@ public class WaitingOtherPlayersUI : MonoBehaviour
 {
     private void Start()
     {
-        RaceController.Instance.OnLocalPlayerReadyChanged += RaceController_OnLocalPlayerReadyChanged;
-        RaceController.Instance.OnStateChanged += RaceController_OnStateChanged;
+        RaceMultiplayerController.Instance.OnLocalPlayerReadyChanged += RaceController_OnLocalPlayerReadyChanged;
+        RaceMultiplayerController.Instance.OnStateChanged += RaceController_OnStateChanged;
 
         Hide();
     }
 
     private void RaceController_OnStateChanged(object sender, System.EventArgs e)
     {
-        if (RaceController.Instance.IsCountdownToStartActive())
+        if (RaceMultiplayerController.Instance.IsCountdownToStartActive())
         {
             Hide();
         }
@@ -22,7 +22,7 @@ public class WaitingOtherPlayersUI : MonoBehaviour
 
     private void RaceController_OnLocalPlayerReadyChanged(object sender, System.EventArgs e)
     {
-        if (RaceController.Instance.IsLocalPlayerReady())
+        if (RaceMultiplayerController.Instance.IsLocalPlayerReady())
         {
             Show();
         }
