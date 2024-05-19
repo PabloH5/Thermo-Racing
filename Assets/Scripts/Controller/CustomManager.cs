@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CustomManager : MonoBehaviour
 {
@@ -33,15 +34,18 @@ public class CustomManager : MonoBehaviour
 
     void Start()
     {
-        LoadUserInventory();
-
-
+        if (SceneManager.GetActiveScene().name == "Customization")
+        {
+            LoadUserInventory();
+        }
+        
         if (GameObject.Find("KartPlayer4Custom") != null)
         {
             kartPlayer = GameObject.Find("KartPlayer4Custom");
         }
         else { Debug.LogWarning("KartPlayer4Custom Not Found"); }
     }
+
     void FixedUpdate()
     {
         SwitchChasisAndWheels();
