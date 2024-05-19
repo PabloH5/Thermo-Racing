@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Unity.Netcode;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class RaceController : NetworkBehaviour
 {
-    public static RaceController Instance { get; private set; }
-
     [SerializeField] private GameObject canvasRaceQuestions;
     [SerializeField] private TextMeshProUGUI textQuestion;
     [SerializeField] private GameObject[] answersGameObjects;
@@ -18,44 +16,11 @@ public class RaceController : NetworkBehaviour
     private List<RaceQuestionModel> raceQuestions;
     private string correctAnswer;
 
+    [SerializeField] private Transform playerPrefab;
 
     private static GameObject spawnPointParent;
-    private static List<Transform> spawnPositionTransformList;
+    private NetworkList<Vector3> networkSpawnPositionList = new NetworkList<Vector3>();
 
-    public enum State
-    {
-        WaitingToStart,
-        CountdownToStart,
-        GamePlaying,
-        GameOver,
-    }
-
-    private NetworkVariable<float> countDownToStartTimer = new NetworkVariable<float>(3.0f);
-    private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
-
-    private bool _IsLocalPlayerReady { get; set; } = false;
-    public event EventHandler OnLocalPlayerReadyChanged;
-    public event EventHandler OnStateChanged;
-
-    public class StateEventArgs : EventArgs
-    {
-        public State CurrentState { get; private set; }
-
-        public StateEventArgs(State state)
-        {
-            CurrentState = state;
-        }
-    }
-
-    private Dictionary<ulong, bool> playerReadyDictionary;
-
-
-    private void Awake()
-    {
-        Instance = this;
-
-        playerReadyDictionary = new Dictionary<ulong, bool>();
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -63,132 +28,77 @@ public class RaceController : NetworkBehaviour
         raceQuestions = RaceQuestionModel.GetRaceQuestions();
         raceQuestions.ForEach(question => Debug.Log(question.wording));
         FillQuestionText();
-
-        InitializeSpawnPoints(); 
-    }
-
-    public void Update()
-    {
-        if (!IsServer)
-        {
-            return;
-        }
-
-        switch (state.Value)
-        {
-            case State.WaitingToStart:
-                break;
-            case State.CountdownToStart:
-                countDownToStartTimer.Value -= Time.deltaTime;
-                if ( countDownToStartTimer.Value < 0f)
-                {
-                    state.Value = State.GamePlaying;
-    
-                }
-                break;
-            case State.GamePlaying:
-                break;
-            case State.GameOver:
-                break;
-        }
     }
 
     public override void OnNetworkSpawn()
     {
-        state.OnValueChanged += State_OnValueChanged;
-    }
-
-    private void State_OnValueChanged(State previousValue, State newValue)
-    {
-        OnStateChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void SetPlayer()
-    {
-        SetPlayerReadyServerRpc();
-    }
-
-    public void VerifyIfPlayersReadyOnSpawn()
-    {
-        VerifyPlayerReadyServerRpc();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void VerifyPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        bool allClientsReady = true;
-        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClients.Keys)
+        if (IsServer)
         {
-            if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
-            {
-                // This player is not ready
-                allClientsReady = false;
-                break;
-            }
-        }
-        Debug.Log("AllClientsReady: " + allClientsReady);
-
-        if(allClientsReady)
-        {
-            state.Value = State.CountdownToStart;
+            InitializeSpawnPoints();
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        Debug.Log($"Setting player ready for client {serverRpcParams.Receive.SenderClientId}");
-        playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
-    }
-
-    public void LocalPlayerIsReady()
-    {
-        if (state.Value == State.WaitingToStart)
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            _IsLocalPlayerReady = true;
-            OnLocalPlayerReadyChanged?.Invoke(this, EventArgs.Empty);
+            Transform playerTransform = Instantiate(playerPrefab);
+            
+            Rigidbody playerRigidbody = playerPrefab.GetComponent<Rigidbody>();
+            playerRigidbody.interpolation = RigidbodyInterpolation.None;
+            playerRigidbody.isKinematic = true;
+
+            playerTransform.position = GetRandomSpawnPoint();
+            playerTransform.rotation = Quaternion.Euler(0, 0, 0);
+            
+            playerRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+            playerRigidbody.isKinematic = false;
+
+            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         }
     }
 
-    public bool IsLocalPlayerReady()
-    { return _IsLocalPlayerReady; }
-    public bool IsGamePlaying()
-    { return state.Value == State.GamePlaying; }
-    public bool IsCountdownToStartActive()
-    { return state.Value == State.CountdownToStart; }
-        public bool IsGameOver()
-    { return state.Value == State.GameOver; }
+    private void NetworkManager_OnClientDisconnectCallback(ulong obj)
+    {
+        throw new NotImplementedException();
+
+        // Send the player to the menu
+    }
 
     private void InitializeSpawnPoints()
     {
-        if (spawnPointParent == null)
+        if (IsServer)
         {
-            Debug.Log("I find spawnpoint");
             spawnPointParent = GameObject.FindGameObjectWithTag("Spawnpoint");
-            spawnPositionTransformList = new List<Transform>();
-            foreach (Transform child in spawnPointParent.transform)
+            if (spawnPointParent != null)
             {
-                spawnPositionTransformList.Add(child);
+                Debug.Log("I find spawnpoint");
+                foreach (Transform child in spawnPointParent.transform)
+                {
+                    networkSpawnPositionList.Add(child.position);
+                }
+            }
+            else
+            {
+                Debug.LogError("Spawnpoint parent not found.");
             }
         }
-        else
-        {
-            Debug.Log("I not found spawnpoint");
-        }
-    }
+    }   
 
     public Vector3 GetRandomSpawnPoint()
     {
-        if (spawnPositionTransformList != null && spawnPositionTransformList.Count > 0)
+        if (networkSpawnPositionList.Count > 0)
         {
-            int randomIndex = UnityEngine.Random.Range(0, spawnPositionTransformList.Count);
-            Transform spawnPoint = spawnPositionTransformList[randomIndex];
-            spawnPositionTransformList.RemoveAt(randomIndex);
-            return spawnPoint.position;
+            int randomIndex = UnityEngine.Random.Range(0, networkSpawnPositionList.Count);
+            Vector3 spawnPoint = networkSpawnPositionList[randomIndex];
+            networkSpawnPositionList.RemoveAt(randomIndex);
+            return spawnPoint;
         }
         else
         {
-            Debug.LogError("No spawn points available or spawnPositionTransformList not initialized.");
+            Debug.LogError("No spawn points available or spawnPositionList not initialized.");
             return Vector3.zero;
         }
     }

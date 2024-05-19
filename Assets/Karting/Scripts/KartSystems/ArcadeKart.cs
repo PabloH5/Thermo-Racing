@@ -199,8 +199,6 @@ namespace KartGame.KartSystems
         // {
         //     Wa
         // }
-
-        private bool _IsLocalPlayerReady;
         public event EventHandler OnLocalPlayerReadyChanged;
 
 
@@ -282,23 +280,8 @@ namespace KartGame.KartSystems
 
                 if (_IsSafeToSpawn)
                 {
-                    Rigidbody.interpolation = RigidbodyInterpolation.None;
-                    Rigidbody.isKinematic = true;
-                    RaceController raceController = FindObjectOfType<RaceController>();
-                    if (raceController != null)
-                    {
-                        Debug.Log($"My position actual is: {transform.position}");
-                        transform.position = raceController.GetRandomSpawnPoint();
-                        Debug.Log($"My position change to: {transform.position}");
-                    }
-                    else
-                    {
-                        Debug.LogError("RaceController not found.");
-                    }
-                    Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-                    Rigidbody.isKinematic = false;
+                    RaceMultiplayerController.Instance.SetPlayerReady();
                     _IsSafeToSpawn = false;
-                    StartCoroutine("SetIDPlayer");
                 }
             }
         }
@@ -322,14 +305,18 @@ namespace KartGame.KartSystems
                 canvasControllerUI.gameObject.SetActive(false);
                 engineAudio.gameObject.SetActive(false);
             }
+
+            if (IsServer)
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            }
         }
 
-        IEnumerator SetIDPlayer() {
-            yield return new WaitForSeconds(2f);
-            RaceController.Instance.SetPlayer();
-            if (!IsServer)
+        private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+        {
+            if (clientId == OwnerClientId)
             {
-                RaceController.Instance.VerifyIfPlayersReadyOnSpawn();
+                //Some logic to think if exist a problem related with disconnects
             }
         }
 
@@ -489,7 +476,7 @@ namespace KartGame.KartSystems
         }
         void MoveVehicle(bool accelerate, bool brake, float turnInput)
         {
-            if (RaceController.Instance.IsGamePlaying())
+            if (RaceMultiplayerController.Instance.IsGamePlaying())
             {
                 float accelInput = (accelerate ? 1.0f : 0.0f) - (brake ? 1.0f : 0.0f);
 
