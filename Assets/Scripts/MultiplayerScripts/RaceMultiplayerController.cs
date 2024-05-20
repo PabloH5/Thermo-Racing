@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RaceMultiplayerController : NetworkBehaviour
 {
@@ -26,6 +27,12 @@ public class RaceMultiplayerController : NetworkBehaviour
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
 
     private bool _IsLocalPlayerReady { get; set; } = false;
+
+    private Button track1Button;
+    private bool _IsTrack1Selected = false;
+    private Button track2Button;
+    private bool _IsTrack2Selected = false;
+
     public event EventHandler OnLocalPlayerReadyChanged;
     public event EventHandler OnStateChanged;
 
@@ -50,9 +57,22 @@ public class RaceMultiplayerController : NetworkBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Track1")
+        if (scene.name == "SelectRace")
         {
-            LocalPlayerIsReady();
+            track1Button = GameObject.Find("Track1Button").GetComponent<Button>();
+            track2Button = GameObject.Find("Track2Button").GetComponent<Button>();
+
+            track1Button.onClick.AddListener(() => {
+                _IsTrack1Selected = true;
+            });
+            track2Button.onClick.AddListener(() => {
+                _IsTrack2Selected = true;
+            });
+        }
+
+
+        if (scene.name == "Track1" || scene.name == "Track2")
+        {
             if (IsServer)
             {
                 Debug.Log("Host Ready");
@@ -87,6 +107,20 @@ public class RaceMultiplayerController : NetworkBehaviour
             case State.GameOver:
                 break;
         }
+    }
+
+    public string ObtainStringRace()
+    {
+        if (_IsTrack1Selected)
+        {
+            return "Track1";
+        }
+        if (_IsTrack2Selected)
+        {
+            return "Track2";
+        }
+
+        return null;
     }
 
     public override void OnNetworkSpawn()

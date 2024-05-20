@@ -14771,8 +14771,9 @@ GameObject:
   - component: {fileID: 2497746253006758395}
   - component: {fileID: 4645152790585064884}
   - component: {fileID: 6967339269289293465}
+  - component: {fileID: 9137714828702357818}
   m_Layer: 2
-  m_Name: KartPlayerPrefab
+  m_Name: KartPlayerPrefab 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14951,6 +14952,22 @@ MonoBehaviour:
   TurnInputName: Horizontal
   AccelerateButtonName: Accelerate
   BrakeButtonName: Brake
+--- !u!114 &9137714828702357818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895516804454287898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57f9e76271f37844a1565e16659bd77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerAnimator: {fileID: 3082440286285027194}
+  Kart: {fileID: 4645152790585064884}
+  SteeringParam: Steering
+  GroundedParam: Grounded
 --- !u!1 &6927099871050379755
 GameObject:
   m_ObjectHideFlags: 0

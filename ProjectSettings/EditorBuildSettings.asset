@@ -27,21 +27,24 @@ EditorBuildSettings:
     path: Assets/Scenes/BuildScenes/Minigames/ThermoEcuacionador.unity
     guid: 368b113e6807adb43a93c5b7eff9134b
   - enabled: 1
+    path: Assets/Scenes/BuildScenes/LobbyScene.unity
+    guid: 48d584fcffee7024e936e8b1b36be4eb
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/SelectRace.unity
+    guid: 23136a9ff0999a14d9f5b7c514c2c08b
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Track1.unity
     guid: 4badac706788a0b4eab766e1248341e4
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/Track2.unity
+    guid: cc3c050fd6419fa4584f8dba831db221
   - enabled: 0
     path: Assets/Scenes/CoreScenes/Login.unity
     guid: 438d0130fe07fdb4bb96f71c004aedb1
   - enabled: 0
     path: Assets/Scenes/BuildScenes/Interfaces/Customization.unity
     guid: 4b24c28a93cbc0d4e93f4d7eb774ec58
-  - enabled: 1
-    path: Assets/Scenes/BuildScenes/LobbyScene.unity
-    guid: 48d584fcffee7024e936e8b1b36be4eb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Race.unity
     guid: ec6185d03f5ae7c45868b5786c8a2e16
-  - enabled: 1
-    path: Assets/Scenes/BuildScenes/SelectRace.unity
-    guid: 23136a9ff0999a14d9f5b7c514c2c08b
   m_configObjects: {}
