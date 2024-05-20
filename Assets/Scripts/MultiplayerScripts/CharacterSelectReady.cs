@@ -42,7 +42,7 @@ public class CharacterSelectReady : NetworkBehaviour
 
         if(allClientsReady)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("Race", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("Track1", LoadSceneMode.Single);
         }
     }
 }

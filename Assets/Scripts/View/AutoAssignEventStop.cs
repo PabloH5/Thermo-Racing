@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.Netcode;
-//Script for automatic assignation of brake pedal in UI
+
 namespace KartGame.KartSystems
 {
     public class AutoAssignEventStop : MonoBehaviour
@@ -24,6 +24,11 @@ namespace KartGame.KartSystems
                     if (AllChildrenActive(playerObject))
                     {
                         keyboardInput = playerObject.GetComponent<KeyboardInput>();
+                        if (keyboardInput != null)
+                        {
+                            Debug.Log("I found KeyboardInput");
+                            break;
+                        }
                     }
                 }
             }
@@ -56,13 +61,27 @@ namespace KartGame.KartSystems
         void OnPointerDownDelegate(PointerEventData data)
         {
             Debug.Log("Pointer Down");
-            keyboardInput.BrakeUI();
+            if (keyboardInput != null)
+            {
+                keyboardInput.BrakeUI();
+            }
+            else
+            {
+                Debug.LogError("keyboardInput is null. Cannot call BrakeUI.");
+            }
         }
 
         void OnPointerUpDelegate(PointerEventData data)
         {
             Debug.Log("Pointer Up");
-            keyboardInput.StopBrakeUI();
+            if (keyboardInput != null)
+            {
+                keyboardInput.StopBrakeUI();
+            }
+            else
+            {
+                Debug.LogError("keyboardInput is null. Cannot call StopBrakeUI.");
+            }
         }
     }
 }

@@ -37,4 +37,10 @@ public class WaitingOtherPlayersUI : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    void OnDestroy()
+    {
+        RaceMultiplayerController.Instance.OnLocalPlayerReadyChanged -= RaceController_OnLocalPlayerReadyChanged;
+        RaceMultiplayerController.Instance.OnStateChanged -= RaceController_OnStateChanged;
+    }
 }

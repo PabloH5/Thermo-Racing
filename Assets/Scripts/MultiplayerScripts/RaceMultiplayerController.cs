@@ -50,7 +50,7 @@ public class RaceMultiplayerController : NetworkBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Race")
+        if (scene.name == "Track1")
         {
             LocalPlayerIsReady();
             if (IsServer)
@@ -109,7 +109,7 @@ public class RaceMultiplayerController : NetworkBehaviour
 
     private void NetworkManager_OnConnectionAprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
-        if (SceneManager.GetActiveScene().name != "CharacterSelectScene")
+        if (SceneManager.GetActiveScene().name != "SelectRace")
         {
             connectionApprovalResponse.Approved = false;
             connectionApprovalResponse.Reason = "La carrera ya empezó";
@@ -201,6 +201,13 @@ public class RaceMultiplayerController : NetworkBehaviour
     public bool IsGameOver()
     {
         return state.Value == State.GameOver;
+    }
+
+    public override void OnDestroy() 
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        state.OnValueChanged -= State_OnValueChanged;
+        countDownToStartTimer.OnValueChanged -= CountDownToStartTimer_OnValueChanged;
     }
 }
 

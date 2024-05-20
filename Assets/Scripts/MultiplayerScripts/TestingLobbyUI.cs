@@ -15,7 +15,7 @@ public class TestingLobbyUI : MonoBehaviour
     {
         createGameButton.onClick.AddListener(() => {
             RaceMultiplayerController.Instance.StartHost();
-            NetworkManager.Singleton.SceneManager.LoadScene("CharacterSelectScene", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("SelectRace", LoadSceneMode.Single);
         });
 
         joinGameButton.onClick.AddListener(() => {

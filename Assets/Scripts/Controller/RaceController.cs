@@ -40,25 +40,17 @@ public class RaceController : NetworkBehaviour
         }
     }
 
-    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+{
+    foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
     {
-        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            Transform playerTransform = Instantiate(playerPrefab);
-            
-            Rigidbody playerRigidbody = playerPrefab.GetComponent<Rigidbody>();
-            playerRigidbody.interpolation = RigidbodyInterpolation.None;
-            playerRigidbody.isKinematic = true;
+        Vector3 spawnPosition = GetRandomSpawnPoint();
+        Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
 
-            playerTransform.position = GetRandomSpawnPoint();
-            playerTransform.rotation = Quaternion.Euler(0, 0, 0);
-            
-            playerRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-            playerRigidbody.isKinematic = false;
-
-            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-        }
+        playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
     }
+}
+
 
     private void NetworkManager_OnClientDisconnectCallback(ulong obj)
     {
