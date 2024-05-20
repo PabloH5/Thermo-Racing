@@ -51,6 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Thermo-Racing-Multiplayer.sln",
+    "dotnet.defaultSolution": "Thermo-Racing.sln",
     "dotnet.preferCSharpExtension": true
 }
