@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -42,7 +41,10 @@ public class CharacterSelectReady : NetworkBehaviour
 
         if(allClientsReady)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("Track1", LoadSceneMode.Single);
+            if(RaceMultiplayerController.Instance.ObtainStringRace() != null)
+            {
+                NetworkManager.Singleton.SceneManager.LoadScene(RaceMultiplayerController.Instance.ObtainStringRace(), LoadSceneMode.Single);
+            }
         }
     }
 }

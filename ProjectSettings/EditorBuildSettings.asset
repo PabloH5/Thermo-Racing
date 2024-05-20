@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/Track1.unity
     guid: 4badac706788a0b4eab766e1248341e4
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/Track2.unity
+    guid: cc3c050fd6419fa4584f8dba831db221
   - enabled: 0
     path: Assets/Scenes/CoreScenes/Login.unity
     guid: 438d0130fe07fdb4bb96f71c004aedb1
