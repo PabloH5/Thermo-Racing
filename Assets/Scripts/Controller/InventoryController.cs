@@ -15,7 +15,7 @@ public class InventoryController : MonoBehaviour
     void Start()
     {
         List<InventoryUser> userInventory = InventoryUser.GetUserInventory("2222222");
-        List<WheelModel> userAwardsAvailable = InventoryRawModel.GetPossibleWheelsRewards(2222222);
+        List<WheelModel> userAwardsAvailable = InventoryRawModel.GetPossibleWheelsRewards("2222222");
 
         //userInventory.ForEach(inventory => userInventoryText.text += $"- ID {(inventory.wheel_id !=null ? (inventory.wheel_id) : (inventory.chassis_id))} - Nombre {(inventory.wheel_id !=null ? inventory.wheel_name : inventory.chassis_name)} \n");
 

@@ -14,7 +14,7 @@ public class InventoryRawModel
     public DateTime created_at { get; set; }
     public DateTime? updated_at { get; set; }
 
-    public static List<InventoryRawModel> GetRawUserInventory(int userId)
+    public static List<InventoryRawModel> GetRawUserInventory(string userId)
     {
 
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
@@ -26,7 +26,7 @@ public class InventoryRawModel
     }
 
     // Get all the possible wheels that user doesn't have in his/her inventory.
-    public static List<WheelModel> GetPossibleWheelsRewards(int userId)
+    public static List<WheelModel> GetPossibleWheelsRewards(string userId)
     {
 
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
@@ -37,7 +37,7 @@ public class InventoryRawModel
         return possibleWheelRewards;
     }
 
-    public static List<ChassisModel> GetPossibleChassisRewards(int userId)
+    public static List<ChassisModel> GetPossibleChassisRewards(string userId)
     {
 
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
@@ -48,7 +48,7 @@ public class InventoryRawModel
         return possibleChassisRewards;
     }
 
-    public static List<SteeringWheelModel> GetPossibleSteeringWheelRewards(int userId)
+    public static List<SteeringWheelModel> GetPossibleSteeringWheelRewards(string userId)
     {
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
 
@@ -109,5 +109,27 @@ public class InventoryUser
         ", new { userId }).ToList();
         con.Close();
         return userInventory;
+    }
+
+    public static void InsertWheelAwardToInventory(string userId,int wheelId)
+    {
+        using NpgsqlConnection con = DBController.EstablishConnectionDB();
+
+        con.Open();
+        con.Execute(@"insert into inventories
+            values(default,@userId,null,@wheelId,null,default,default);", new { userId, wheelId });
+        con.Close();
+        
+    }
+
+    public static void InsertChassisAwardToInventory(string userId, int chassisId)
+    {
+        using NpgsqlConnection con = DBController.EstablishConnectionDB();
+
+        con.Open();
+        con.Execute(@"insert into inventories
+            values(default,@userId,@chassisId,null,null,default,default);", new { userId, chassisId });
+        con.Close();
+
     }
 }

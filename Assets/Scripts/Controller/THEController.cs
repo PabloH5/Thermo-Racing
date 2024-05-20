@@ -1,6 +1,9 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -20,7 +23,7 @@ public class THEController : MonoBehaviour
     private Text timerTxt;
     [SerializeField] private Text points;
 
-    
+
     [SerializeField]
     private GameObject startGameBt;
     [SerializeField]
@@ -35,8 +38,12 @@ public class THEController : MonoBehaviour
     [Tooltip("Put here Negative FeedBack")]
     [SerializeField]
     private GameObject negativeFeedBack;
-    [SerializeField]private ParticleSystem explotionParticleSystem;
+    [SerializeField] private ParticleSystem explotionParticleSystem;
     private bool hasExploted = false;
+
+
+    
+
 
     private float timer = 15;
     private float changeInterval = 0.5f;
@@ -48,6 +55,12 @@ public class THEController : MonoBehaviour
     private List<GameObject> sentencePrefab = new();
 
     private List<TEQuestionModel> questionList;
+
+    [Space(10)]
+    [Header("Rewards")]
+    [SerializeField] private ItemAwardSO itemAwards;
+    [SerializeField] private Image imageReward;
+
     // private List<String> answerPrefab = new();
     public bool IsReady
     {
@@ -61,6 +74,9 @@ public class THEController : MonoBehaviour
     }
     void Start()
     {
+        
+        GetRandomAward();
+
         // CurrentSentence = randomSentence.SentenceAmount;
         for (int i = 0; i < randomSentence.SentenceAmount; i++)
         {
@@ -73,9 +89,6 @@ public class THEController : MonoBehaviour
         int[] questionsSelectedIds = { sentenceList[0].IdSentence, sentenceList[1].IdSentence, sentenceList[2].IdSentence };
         // Fill the list with the question information from DB.
         questionList = TEQuestionModel.GetThreeTEQuestionsById(questionsSelectedIds);
-        Debug.Log(questionList[0].te_question_id);
-        Debug.Log(questionList[1].te_question_id);
-        Debug.Log(questionList[2].te_question_id);
 
     }
     void Update()
@@ -152,10 +165,16 @@ public class THEController : MonoBehaviour
         }
         else
         {
+            #region WIN_THE_GAME
+            // Show the positive feedback and the user win the minigame
             SendPositiveFdB();
             explotionParticleSystem.Play();
             IsReady = false;
             backgroundVideo.Stop();
+
+            GetRandomAward();
+
+            #endregion
         }
     }
 
@@ -197,5 +216,64 @@ public class THEController : MonoBehaviour
         }
 
         negativeFeedBack.SetActive(true);
+    }
+
+    private void GetRandomAward()
+    {
+        // TEMPORARY LOGGIN
+        // ------------------------------------------------
+        LoggedUser.LogInUser("2222222", "test");
+        // ------------------------------------------------
+ 
+
+        // 1. Get the possible items that user could win.
+        List<WheelModel> possibleWheelsRewards = InventoryRawModel.GetPossibleWheelsRewards(LoggedUser.UserCode);
+        List<ChassisModel> possibleChassisRewards = InventoryRawModel.GetPossibleChassisRewards(LoggedUser.UserCode);
+
+
+        if(possibleChassisRewards.Count == 0 && possibleWheelsRewards.Count == 0) {
+            Debug.Log("NO PUEDE GANAR RECOMPENSAS");
+            return;
+        }
+
+        // 2. Create a list for save all the possible items that can be awards.
+        List<object> itemList = new List<object>();
+
+        
+        itemList.AddRange(possibleWheelsRewards.Cast<object>());
+        itemList.AddRange(possibleChassisRewards.Cast<object>());
+
+        // 3. Order the items in a random way.
+        System.Random random = new System.Random();
+        itemList = itemList.OrderBy(x => random.Next()).ToList();
+
+        // 4. Obtain the user award
+        var userAward = itemList.First();
+       
+        // 5. Verify if the award will be "CHASSIS" or "WHEEL"
+        if(userAward.GetType() ==typeof( ChassisModel))
+        {
+            // Casting the variable item
+            ChassisModel chassisAward = (ChassisModel)userAward;
+
+            // Search into Scriptable Object the chassis won.
+            AwardInfo awardInfo = itemAwards.awards.Find(item => item.awardType == ItemType.CHASSIS && item.awardId == chassisAward.chassis_id);
+
+            // Change the sprite for the chassis won.
+            imageReward.sprite = awardInfo.awardSprite;
+            // Insert the new item in user inventory into DB.
+            InventoryUser.InsertChassisAwardToInventory(LoggedUser.UserCode, awardInfo.awardId);
+        }
+        else
+        {
+            WheelModel wheelAward = (WheelModel)userAward;
+            // Search into Scriptable Object the chassis won.
+            AwardInfo awardInfo = itemAwards.awards.Find(item => item.awardType == ItemType.WHEEL && item.awardId == wheelAward.wheel_id);
+
+            // Change the sprite for the wheel won.
+            imageReward.sprite = awardInfo.awardSprite;
+            // Insert the new item in user inventory into DB.
+            InventoryUser.InsertWheelAwardToInventory(LoggedUser.UserCode,awardInfo.awardId);
+        }
     }
 }

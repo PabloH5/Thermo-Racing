@@ -71,7 +71,7 @@ public class EnviromentVariablesConfig : MonoBehaviour
             if (_currentEnviroment == DevelopmentEnviroment.local)
             {
                 filePath = Path.Combine(Application.dataPath, "config.local.json");
-                Debug.Log(filePath);
+            
             }
             else
             {

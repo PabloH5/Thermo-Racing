@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/CoreScenes/Login.unity
     guid: 438d0130fe07fdb4bb96f71c004aedb1
   - enabled: 0
-    path: Assets/Scenes/CoreScenes/Pablos Karts Scene.unity
+    path: Assets/Scenes/BuildScenes/Interfaces/Customization.unity
     guid: 4b24c28a93cbc0d4e93f4d7eb774ec58
   - enabled: 1
     path: Assets/Scenes/BuildScenes/LobbyScene.unity
