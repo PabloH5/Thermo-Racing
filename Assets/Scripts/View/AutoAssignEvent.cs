@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.Netcode;
-//Script for automatic assignation of accelerate pedal in UI
+
 namespace KartGame.KartSystems
 {
     public class AutoAssignEvent : MonoBehaviour
@@ -24,6 +24,11 @@ namespace KartGame.KartSystems
                     if (AllChildrenActive(playerObject))
                     {
                         keyboardInput = playerObject.GetComponent<KeyboardInput>();
+                        if (keyboardInput != null)
+                        {
+                            Debug.Log("I found KeyboardInput");
+                            break;
+                        }
                     }
                 }
             }
@@ -56,13 +61,27 @@ namespace KartGame.KartSystems
         void OnPointerDownDelegate(PointerEventData data)
         {
             Debug.Log("Pointer Down");
-            keyboardInput.AccelerateUI();
+            if (keyboardInput != null)
+            {
+                keyboardInput.AccelerateUI();
+            }
+            else
+            {
+                Debug.LogError("keyboardInput is null. Cannot call AccelerateUI.");
+            }
         }
 
         void OnPointerUpDelegate(PointerEventData data)
         {
             Debug.Log("Pointer Up");
-            keyboardInput.StopAccelerateUI();
+            if (keyboardInput != null)
+            {
+                keyboardInput.StopAccelerateUI();
+            }
+            else
+            {
+                Debug.LogError("keyboardInput is null. Cannot call StopAccelerateUI.");
+            }
         }
     }
 }

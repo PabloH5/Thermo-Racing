@@ -39,11 +39,11 @@ public class CustomManager : MonoBehaviour
             LoadUserInventory();
         }
         
-        if (GameObject.Find("KartPlayer4Custom") != null)
+        if (GameObject.Find("KartPlayer") != null)
         {
-            kartPlayer = GameObject.Find("KartPlayer4Custom");
+            kartPlayer = GameObject.Find("KartPlayer");
         }
-        else { Debug.LogWarning("KartPlayer4Custom Not Found"); }
+        else { Debug.LogWarning("KartPlayer Not Found"); }
     }
 
     void FixedUpdate()

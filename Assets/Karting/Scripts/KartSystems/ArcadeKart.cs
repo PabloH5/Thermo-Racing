@@ -298,6 +298,8 @@ namespace KartGame.KartSystems
 
                 Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
                 Rigidbody.isKinematic = false;
+
+                RaceMultiplayerController.Instance.SetPlayerReady();                
             }
             else
             {
