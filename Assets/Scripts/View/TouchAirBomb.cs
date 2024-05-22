@@ -37,6 +37,19 @@ public class TouchAirBomb : MonoBehaviour
     /// </value>
     private RectTransform rectTransform;
 
+    [Tooltip("GameObject to show when the object is off.")]
+    [SerializeField]
+    private GameObject offStateObject; // GameObject to show when the object is off
+
+    [Tooltip("GameObject to show when the object is on.")]
+    [SerializeField]
+    private GameObject onStateObject; // GameObject to show when the object is on
+
+    [Tooltip("GameObject to show when a specific condition is met.")]
+    [SerializeField]
+    private GameObject specialConditionObject; // GameObject to show when a specific condition is met
+
+
     /// <value>
     /// The number of touches carried by the user
     /// </value>
@@ -97,6 +110,7 @@ public class TouchAirBomb : MonoBehaviour
             update += Time.deltaTime;
             if (Input.touchCount > 0) //Verify if user touch the screen
             {
+                
                 Touch touch = Input.GetTouch(0); //save the current touch information in touch
                 if (touch.phase == TouchPhase.Began) //compare the phase of touches in the screen with the last touch
                 {
@@ -109,6 +123,9 @@ public class TouchAirBomb : MonoBehaviour
                         controller.SwitchSpriteWH(TouchCount);
                         update = 0.0f;
                         Debug.Log("Update Reload");
+
+                        // Toggle state objects when the handle bar is interacted with
+                        ToggleStateObjects(true);
                     }
                 }
             }
@@ -120,6 +137,9 @@ public class TouchAirBomb : MonoBehaviour
                     updateConstantBank.Invoke();
                     feedbackAudioPositiveEvent.Invoke();
                     _CanInteract = false;
+                    // Activate specialConditionObject when the condition is met
+                    onStateObject.SetActive(false);
+                    specialConditionObject.SetActive(true);
                 }
             }
             else if (touchCount > 29)
@@ -153,6 +173,23 @@ public class TouchAirBomb : MonoBehaviour
         else
         {
             transform.localPosition = newPosHB;
+        }
+    }
+
+    /// <summary>
+    /// Toggles the visibility of the state objects based on the given state.
+    /// </summary>
+    /// <param name="state">True to show the onStateObject, false to show the offStateObject.</param>
+    private void ToggleStateObjects(bool state)
+    {
+        if (offStateObject != null)
+        {
+            offStateObject.SetActive(!state);
+        }
+
+        if (onStateObject != null)
+        {
+            onStateObject.SetActive(state);
         }
     }
 }

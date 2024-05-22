@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+
 /// <summary>
 /// Controls the behavior and display of a scale, including turning it on/off and updating the displayed weight.
 /// This script should be attached to the GameObject representing the scale in the scene.
@@ -8,7 +9,6 @@ using UnityEngine.UI;
 public class ScaleView : MonoBehaviour
 {
     [Header("Set in Inspector")]
-
     [Tooltip("UI Text component where the weight will be displayed.")]
     [SerializeField]
     private Text txtBox; // Reference to the UI Text component where the weight will be displayed.
@@ -16,6 +16,18 @@ public class ScaleView : MonoBehaviour
     [Tooltip("The controller that provides the weight of the wheel.")]
     [SerializeField]
     private CheckWheelsController controller; // Reference to the controller that provides the weight of the wheel.
+
+    [Tooltip("GameObject to show when the scale is off.")]
+    [SerializeField]
+    private GameObject offStateObject; // GameObject to show when the scale is off.
+
+    [Tooltip("GameObject to show when the scale is on.")]
+    [SerializeField]
+    private GameObject onStateObject; // GameObject to show when the scale is on.
+
+    [Tooltip("GameObject to show when wheel detected and scale is on.")]
+    [SerializeField]
+    private GameObject wheelDetectedObject; // GameObject to show when wheel detected and scale is on.
 
     private Animator animator; // Animator component to control scale animations.
     private AudioSource audioSource; // AudioSource component to play audio feedback.
@@ -29,15 +41,22 @@ public class ScaleView : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         isOn = false;
+        ToggleStateObjects(isOn); // Ensure initial state is set correctly
     }
+
     /// <summary>
     /// Provides public access to check or change the on/off state of the scale.
     /// </summary>
     public bool IsOn
     {
         get { return isOn; }
-        set { isOn = value; }
+        set
+        {
+            isOn = value;
+            ToggleStateObjects(isOn); // Toggle state objects based on the new state
+        }
     }
+
     /// <summary>
     /// Detects collisions with wheels and updates the display if the scale is on, or resets the wheel to its initial state if the scale is off.
     /// </summary>
@@ -49,6 +68,10 @@ public class ScaleView : MonoBehaviour
             StartCoroutine(UpdateTxt(controller.WheelWeigh(0).ToString()));
             controller.HideArrows();
             audioSource.Play();
+
+            // Desactiva el objeto offStateObject y activa el wheelDetectedObject
+            onStateObject.SetActive(false);
+            wheelDetectedObject.SetActive(true);
         }
         else if (!isOn)
         {
@@ -73,8 +96,8 @@ public class ScaleView : MonoBehaviour
     /// </summary>
     public void TurnOnScale()
     {
-        isOn = true;
-        animator.SetBool("isOn", isOn);
+        IsOn = true;
+        animator.SetBool("isOn", IsOn);
     }
 
     /// <summary>
@@ -85,5 +108,27 @@ public class ScaleView : MonoBehaviour
         StartCoroutine(UpdateTxt("0000000"));
         controller.ToInitStateWheel();
     }
-}
 
+    /// <summary>
+    /// Toggles the visibility of the state objects based on the scale state.
+    /// </summary>
+    /// <param name="state">True to show the onStateObject, false to show the offStateObject.</param>
+    private void ToggleStateObjects(bool state)
+    {
+        if (offStateObject != null)
+        {
+            offStateObject.SetActive(!state);
+        }
+
+        if (onStateObject != null)
+        {
+            onStateObject.SetActive(state);
+        }
+
+        // Asegúrate de que el objeto wheelDetectedObject esté desactivado inicialmente
+        if (wheelDetectedObject != null)
+        {
+            wheelDetectedObject.SetActive(false);
+        }
+    }
+}
