@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEditor.SearchService;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class AwardsController : MonoBehaviour

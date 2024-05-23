@@ -97,5 +97,10 @@ public class LogInController : MonoBehaviour
         return letterCount + digitCount + specialCount;
     }
 
+    public void RedirectUserToRegister()
+    {
+        SceneManager.LoadScene("Register");
+    }
+
 
 }

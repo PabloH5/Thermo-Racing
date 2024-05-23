@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RegisterController : MonoBehaviour
@@ -151,14 +152,36 @@ public class RegisterController : MonoBehaviour
         confirmPasswordValidationMark.gameObject.SetActive(true);
 
         // Verify if nickname exists in DB.
-        if (UserModel.VerifyExistUsername(username))
+        List<UserModel> usersDB = UserModel.VerifyExistUsername(code, username);
+        UserModel existsCodeDB = usersDB.Find(user=>user.user_id == code);
+        UserModel existUsernameDB = usersDB.Find(user=>user.username == username);
+
+        
+        if (existUsernameDB !=null)
         {
             usernameValidationMessage.text = "El nombre de usuario ya existe. Elige otro.";
             usernameValidationError.gameObject.SetActive(true);
+
+            // Disable temporary this option while the database validation is running.
+            userCodeValidationMark.gameObject.SetActive(false);
             return;
         }
 
+        if (existsCodeDB !=null)
+        {
+            userCodeValidationMessage.text = $"Ya existe una cuenta asociada al código {existsCodeDB.user_id}";
+            userCodeValidationError.gameObject.SetActive(true);
+            return;
+        }
+
+        usernameValidationError.gameObject.SetActive(false);
+        usernameValidationMark.gameObject.SetActive(true);
         Debug.Log("Nombre único");
+
+      
+
+        userCodeValidationError.gameObject.SetActive(false);
+        userCodeValidationMark.gameObject.SetActive(true);
 
         usernameValidationError.gameObject.SetActive(false);
         usernameValidationMark.gameObject.SetActive(true);
@@ -168,7 +191,10 @@ public class RegisterController : MonoBehaviour
 
         // Save user in BD.
         UserModel user = UserModel.CreateUser(code, username, hashedPassword);
-        Debug.Log(user.created_at);
+
+        // Log in user
+        LoggedUser.LogInUser(user.user_id, user.username);
+        SceneManager.LoadScene("MainMenu");
 
     }
 
@@ -184,7 +210,7 @@ public class RegisterController : MonoBehaviour
     {
         try
         {
-            string filePath = Path.Combine(Application.streamingAssetsPath, "banned_words.txt");
+            string filePath = Path.Combine(Application.streamingAssetsPath, "banned_words.txt"); ;
             bannedWords = new HashSet<string>(File.ReadAllLines(filePath).Select(line => line.Trim().ToLower()));
         }
         catch (IOException ex)
