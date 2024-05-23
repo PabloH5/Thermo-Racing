@@ -42,6 +42,14 @@ public class DragRotate : MonoBehaviour
     public UnityEvent explosionFeedbackEvent;
     public UnityEvent feedbackAudioPositiveEvent;
 
+    [Tooltip("GameObject to show when the object is off.")]
+    [SerializeField]
+    private GameObject offStateObject; // GameObject to show when the object is off
+
+    [Tooltip("GameObject to show when the object is on.")]
+    [SerializeField]
+    private GameObject onStateObject; // GameObject to show when the object is on
+
     private bool _CanInteract = true;
 
     private void Start()
@@ -82,7 +90,10 @@ public class DragRotate : MonoBehaviour
                         CalculateWinScenario(); 
                         feedbackAudioPositiveEvent.Invoke();
                         _CanInteract = false;
-                    }
+                        offStateObject.SetActive(false);
+                        onStateObject.SetActive(true);
+
+                }
             }
 
             _isCountDownFinished = CalculateTheCountDown(); // Calculate the countdown
