@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
+
 
 public class SliderManager : MonoBehaviour
 {
@@ -70,7 +72,8 @@ public class SliderManager : MonoBehaviour
         string result = CalculateDifference();
         sliderText.text = result + " J";
 
-        if (sliderText.text == "992.985 J")
+        string pattern = @"992[.,]985 J";
+        if (Regex.IsMatch(sliderText.text, pattern))
         {
             Debug.Log("Im in");
             Invoke("InvokeFeedbackPositiveEvent", 0.5f);

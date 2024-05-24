@@ -1,21 +1,38 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-//Script for automatic assignation of accelerate pedal in UI
+using Unity.Netcode;
+
 namespace KartGame.KartSystems
 {
     public class AutoAssignEvent : MonoBehaviour
     {
         private KeyboardInput keyboardInput;
-        void Awake()
-        {
-            if (GameObject.Find("KartPlayer") != null)
-            {
-                keyboardInput = GameObject.Find("KartPlayer").GetComponent<KeyboardInput>();
-            }
-            else { Debug.Log("KartPlayer Not Found"); }
-        }
+
         void Start()
         {
+            AssignKeyboardInput();
+        }
+
+        void AssignKeyboardInput()
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+            if (players != null)
+            {
+                foreach (var playerObject in players)
+                {
+                    if (AllChildrenActive(playerObject))
+                    {
+                        keyboardInput = playerObject.GetComponent<KeyboardInput>();
+                        if (keyboardInput != null)
+                        {
+                            Debug.Log("I found KeyboardInput");
+                            break;
+                        }
+                    }
+                }
+            }
+
             EventTrigger trigger = gameObject.GetComponent<EventTrigger>() ?? gameObject.AddComponent<EventTrigger>();
 
             EventTrigger.Entry pointerDownEntry = new EventTrigger.Entry();
@@ -29,16 +46,42 @@ namespace KartGame.KartSystems
             trigger.triggers.Add(pointerUpEntry);
         }
 
+        private bool AllChildrenActive(GameObject obj)
+        {
+            foreach (Transform child in obj.transform)
+            {
+                if (!child.gameObject.activeInHierarchy)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         void OnPointerDownDelegate(PointerEventData data)
         {
             Debug.Log("Pointer Down");
-            keyboardInput.AcccelerateUI();
+            if (keyboardInput != null)
+            {
+                keyboardInput.AccelerateUI();
+            }
+            else
+            {
+                Debug.LogError("keyboardInput is null. Cannot call AccelerateUI.");
+            }
         }
 
         void OnPointerUpDelegate(PointerEventData data)
         {
             Debug.Log("Pointer Up");
-            keyboardInput.StopAccelerateUI();
+            if (keyboardInput != null)
+            {
+                keyboardInput.StopAccelerateUI();
+            }
+            else
+            {
+                Debug.LogError("keyboardInput is null. Cannot call StopAccelerateUI.");
+            }
         }
     }
 }

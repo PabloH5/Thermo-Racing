@@ -1,6 +1,9 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -20,7 +23,7 @@ public class THEController : MonoBehaviour
     private Text timerTxt;
     [SerializeField] private Text points;
 
-    
+
     [SerializeField]
     private GameObject startGameBt;
     [SerializeField]
@@ -35,7 +38,7 @@ public class THEController : MonoBehaviour
     [Tooltip("Put here Negative FeedBack")]
     [SerializeField]
     private GameObject negativeFeedBack;
-    [SerializeField]private ParticleSystem explotionParticleSystem;
+    [SerializeField] private ParticleSystem explotionParticleSystem;
     private bool hasExploted = false;
 
     private float timer = 15;
@@ -48,6 +51,16 @@ public class THEController : MonoBehaviour
     private List<GameObject> sentencePrefab = new();
 
     private List<TEQuestionModel> questionList;
+
+    [Space(10)]
+    [Header("Rewards")]
+    [SerializeField] private AwardsController awardController;
+
+    public void Awake()
+    {
+        backgroundVideo.Prepare();
+    }
+
     // private List<String> answerPrefab = new();
     public bool IsReady
     {
@@ -61,6 +74,9 @@ public class THEController : MonoBehaviour
     }
     void Start()
     {
+        backgroundVideo.Play();
+        backgroundVideo.Pause();
+        backgroundVideo.frame = 0;
         // CurrentSentence = randomSentence.SentenceAmount;
         for (int i = 0; i < randomSentence.SentenceAmount; i++)
         {
@@ -73,9 +89,6 @@ public class THEController : MonoBehaviour
         int[] questionsSelectedIds = { sentenceList[0].IdSentence, sentenceList[1].IdSentence, sentenceList[2].IdSentence };
         // Fill the list with the question information from DB.
         questionList = TEQuestionModel.GetThreeTEQuestionsById(questionsSelectedIds);
-        Debug.Log(questionList[0].te_question_id);
-        Debug.Log(questionList[1].te_question_id);
-        Debug.Log(questionList[2].te_question_id);
 
     }
     void Update()
@@ -93,14 +106,14 @@ public class THEController : MonoBehaviour
         ShowSentences(CurrentSentence, true);
         backgroundVideo.Play();
         startGameBt.SetActive(false);
-        
+
     }
     private void Temporizator()
     {
         //Debug.Log($"-------VIDEO TIME: {backgroundVideo.time}");
         if (timer <= 0)
         {
-            
+
             SendNegativeFdB();
 
         }
@@ -152,10 +165,16 @@ public class THEController : MonoBehaviour
         }
         else
         {
+            #region WIN_THE_GAME
+            // Show the positive feedback and the user win the minigame
             SendPositiveFdB();
             explotionParticleSystem.Play();
             IsReady = false;
             backgroundVideo.Stop();
+
+            awardController.GetRandomAward();
+
+            #endregion
         }
     }
 

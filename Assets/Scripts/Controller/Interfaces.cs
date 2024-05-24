@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,6 +8,16 @@ public class Interfaces : MonoBehaviour
     [SerializeField] private GameObject CanvasToOff;
     [SerializeField] private GameObject CanvasToOn;
     [SerializeField] private GameObject CanvasBack;
+    [SerializeField] private string sceneToBack;
+    [SerializeField] private TMP_Text usernameTextUI;
+
+    public void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            usernameTextUI.text = $"Bienvenido: {LoggedUser.Username} - {LoggedUser.UserCode}";
+        }
+    }
     public void PlayScene(string levelName)
     {
         SceneManager.LoadScene(levelName);
@@ -35,4 +46,11 @@ public class Interfaces : MonoBehaviour
         CanvasBack.SetActive(true);
         CanvasToOff.SetActive(false);
     }
+
+    public void GoBackButton()
+    {
+        SceneManager.LoadScene(sceneToBack);
+    }
+
+    
 }
