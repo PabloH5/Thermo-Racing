@@ -1,8 +1,11 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -43,11 +46,11 @@ public class RegisterController : MonoBehaviour
 
     [Header("Vars")]
     [SerializeField] private static HashSet<string> bannedWords;
-    
+
 
     public void Awake()
     {
-        LoadBannedWords();
+        ConfigureBannedWords();
     }
 
     public void RegisterUser()
@@ -153,11 +156,11 @@ public class RegisterController : MonoBehaviour
 
         // Verify if nickname exists in DB.
         List<UserModel> usersDB = UserModel.VerifyExistUsername(code, username);
-        UserModel existsCodeDB = usersDB.Find(user=>user.user_id == code);
-        UserModel existUsernameDB = usersDB.Find(user=>user.username == username);
+        UserModel existsCodeDB = usersDB.Find(user => user.user_id == code);
+        UserModel existUsernameDB = usersDB.Find(user => user.username == username);
 
-        
-        if (existUsernameDB !=null)
+
+        if (existUsernameDB != null)
         {
             usernameValidationMessage.text = "El nombre de usuario ya existe. Elige otro.";
             usernameValidationError.gameObject.SetActive(true);
@@ -167,7 +170,7 @@ public class RegisterController : MonoBehaviour
             return;
         }
 
-        if (existsCodeDB !=null)
+        if (existsCodeDB != null)
         {
             userCodeValidationMessage.text = $"Ya existe una cuenta asociada al código {existsCodeDB.user_id}";
             userCodeValidationError.gameObject.SetActive(true);
@@ -178,7 +181,7 @@ public class RegisterController : MonoBehaviour
         usernameValidationMark.gameObject.SetActive(true);
         Debug.Log("Nombre único");
 
-      
+
 
         userCodeValidationError.gameObject.SetActive(false);
         userCodeValidationMark.gameObject.SetActive(true);
@@ -206,19 +209,7 @@ public class RegisterController : MonoBehaviour
         return letterCount + digitCount + specialCount;
     }
 
-    public static void LoadBannedWords()
-    {
-        try
-        {
-            string filePath = Path.Combine(Application.streamingAssetsPath, "banned_words.txt"); ;
-            bannedWords = new HashSet<string>(File.ReadAllLines(filePath).Select(line => line.Trim().ToLower()));
-        }
-        catch (IOException ex)
-        {
-            Debug.Log("Error al leer el archivo: " + ex.Message);
-            bannedWords = new HashSet<string>();  // Inicializa con un conjunto vacío si hay un error
-        }
-    }
+    
 
     public bool ValidateBannedWordsUsername(string username)
     {
@@ -232,4 +223,60 @@ public class RegisterController : MonoBehaviour
         banWordPopUp.SetActive(false);
     }
 
+    public static IEnumerator LoadBannedWordsOnAndroid()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, "banned_words.txt");
+        // Using UnityWebRequest, we can load files in StreamingAssets folder.
+        UnityWebRequest request = UnityWebRequest.Get(filePath);
+
+        yield return request.SendWebRequest();
+        try
+        {
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Error al cargar el archivo: " + request.error);
+            }
+            else
+            {
+                // Get the data
+                string data = request.downloadHandler.text;
+
+                string[] lines = data.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                bannedWords = new HashSet<string>(lines.Select(line => line.Trim().ToLower()));
+            }
+        }
+        catch (IOException ex)
+        {
+            Debug.Log("Error al leer el archivo: " + ex.Message);
+            bannedWords = new HashSet<string>();  // Inicializa con un conjunto vacío si hay un error
+        }
+    }
+
+    public void ConfigureBannedWords()
+    {
+        string filePath;
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            Debug.Log("I'm Android");
+            // Load sensible data from /StreamingAssets/config.json
+            StartCoroutine(LoadBannedWordsOnAndroid());
+
+        }
+        else
+        {
+            // Configure the path in Windows.
+            try
+            {
+                filePath = Path.Combine(Application.streamingAssetsPath, "banned_words.txt");
+                bannedWords = new HashSet<string>(File.ReadAllLines(filePath).Select(line => line.Trim().ToLower()));
+            }
+            catch (IOException ex)
+            {
+                Debug.Log("Error al leer el archivo: " + ex.Message);
+                // Initialize the banned words has empty hashset.
+                bannedWords = new HashSet<string>();
+            }
+        }
+    }
 }
