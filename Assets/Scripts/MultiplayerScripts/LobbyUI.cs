@@ -72,9 +72,8 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
-        
+        RaceGameLobby.Instance.OnLobbyListChanged -= RaceGameLobby_OnLobbyListChanged;
     }
 }

@@ -142,6 +142,11 @@ public class RaceMultiplayerController : NetworkBehaviour
     {
         state.OnValueChanged += State_OnValueChanged;
         countDownToStartTimer.OnValueChanged += CountDownToStartTimer_OnValueChanged;
+
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
     }
 
     private void CountDownToStartTimer_OnValueChanged(float previousValue, float newValue)
@@ -184,9 +189,27 @@ public class RaceMultiplayerController : NetworkBehaviour
         NetworkManager.Singleton.StartClient();
     }
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    public void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
+
+        if (playerReadyDictionary.ContainsKey(clientId))
+        {
+            playerReadyDictionary.Remove(clientId);
+        }
+
+        if (NetworkManager.Singleton.IsServer)
+        {
+            if (NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId))
+            {
+                NetworkObject networkObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+                if (networkObject != null)
+                {
+                    networkObject.Despawn();
+                    Destroy(networkObject.gameObject);
+                }
+            }
+        }
     }
 
     private void State_OnValueChanged(State previousValue, State newValue)

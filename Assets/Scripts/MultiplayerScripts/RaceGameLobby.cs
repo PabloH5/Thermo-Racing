@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -7,11 +6,16 @@ using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using System;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using System.Threading.Tasks;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 
 public class RaceGameLobby : MonoBehaviour
 {
+    private const string KEY_RELAY_JOIN_CODE = "RelayJoinCode";
     public static RaceGameLobby Instance { get; private set; }
 
     public event EventHandler OnCreateLobbyStarted;
@@ -46,7 +50,7 @@ public class RaceGameLobby : MonoBehaviour
 
     private void HandlePeriodicListLobbies()
     {
-        if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn)
+        if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn && SceneManager.GetActiveScene().name == "LobbyScene")
         {
             listLobbiesTimer -= Time.deltaTime;
             if (listLobbiesTimer < 0)
@@ -112,6 +116,45 @@ public class RaceGameLobby : MonoBehaviour
         }
     }
 
+    private async Task<Allocation> AllocateRelay()
+    {
+        try {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(RaceMultiplayerController.MAX_PLAYER_AMOUNT - 1);
+
+            return allocation;
+        }
+        catch (RelayServiceException e) {
+            Debug.LogError(e.Message);
+
+            return default;
+        }
+    }
+
+    private async Task<string> GetRealyJoinCode(Allocation allocation)
+    {
+        try {
+            string relayJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            return relayJoinCode;
+        }
+        catch (RelayServiceException e) {
+            Debug.LogError(e.Message);
+            return default;
+        }
+    }
+
+    private async Task<JoinAllocation> JoinRelay(string joinCode)
+    {
+        try {
+            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            return joinAllocation;
+        }
+        catch (RelayServiceException e) {
+            Debug.Log(e.Message);
+            return default;
+        }
+
+    }
+
     public async void CreateLobby(string lobbyName, bool isPrivate)
     {
         OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
@@ -127,6 +170,18 @@ public class RaceGameLobby : MonoBehaviour
             {
                 IsPrivate = isPrivate,
             });
+
+            Allocation allocation = await AllocateRelay();
+
+            string relayJoinCode = await GetRealyJoinCode(allocation);
+
+            await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions {
+                Data = new Dictionary<string, DataObject> {
+                    { KEY_RELAY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode) }
+                }
+            });
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
 
             RaceMultiplayerController.Instance.StartHost();
             NetworkManager.Singleton.SceneManager.LoadScene("SelectRace", LoadSceneMode.Single);
@@ -151,6 +206,11 @@ public class RaceGameLobby : MonoBehaviour
         {
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
 
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
             RaceMultiplayerController.Instance.StartClient();
         }
         catch (LobbyServiceException e)
@@ -166,6 +226,11 @@ public class RaceGameLobby : MonoBehaviour
         try {
             joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
 
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
             RaceMultiplayerController.Instance.StartClient();
         }
         catch (LobbyServiceException e){
@@ -179,6 +244,11 @@ public class RaceGameLobby : MonoBehaviour
         OnJoinStarted?.Invoke(this, EventArgs.Empty);
         try {
             joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
             RaceMultiplayerController.Instance.StartClient();
         }
@@ -218,17 +288,30 @@ public class RaceGameLobby : MonoBehaviour
         }   
     }
 
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            RaceMultiplayerController.Instance.NetworkManager_OnClientDisconnectCallback(clientId);
+
+            KickPlayer(clientId.ToString());
+        }
+    }
+
     public async void KickPlayer(string playerId)
     {
         if (IsLobbyHost())
         {
-            try {
+            try
+            {
                 await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
+                Debug.Log($"Player {playerId} removed from the lobby.");
             }
-            catch (LobbyServiceException e) {
+            catch (LobbyServiceException e)
+            {
                 Debug.LogError(e.Message);
             }
-        }   
+        } 
     }
 
     public Lobby GetLobby()

@@ -84,5 +84,10 @@ public class LobbyMessageUI : MonoBehaviour
     void OnDestroy()
     {
         RaceMultiplayerController.Instance.OnFailedToJoinGame -= RaceMultiplayer_OnFailedToJoinGame;
+        RaceGameLobby.Instance.OnCreateLobbyStarted -= RaceGameLobby_OnCreateLobbyStarted;
+        RaceGameLobby.Instance.OnCreateLobbyFailed -= RaceGameLobby_OnCreateLobbyFailed;
+        RaceGameLobby.Instance.OnJoinStarted -= RaceGameLobby_OnJoinStarted;
+        RaceGameLobby.Instance.OnJoinFailed -= RaceGameLobby_OnJoinFailed;
+        RaceGameLobby.Instance.OnQuickJoinFailed -= RaceGameLobby_OnQuickJoinFailed;
     }
 }
