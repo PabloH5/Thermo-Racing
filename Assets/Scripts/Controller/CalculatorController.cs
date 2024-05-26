@@ -1,5 +1,6 @@
 using Jace;
 using System;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 
@@ -65,7 +66,7 @@ public class CalculatorController : MonoBehaviour
 
     private void AppendOperationIfValid(string operationSymbol)
     {
-        if ((operationInputField.text == "0" || ValidateDobleSymbolOperation(operationInputField.text)) 
+        if ((operationInputField.text == "0" || ValidateDobleSymbolOperation(operationInputField.text))
             && operationInputField.text.Length >= 42)
         {
             return;
@@ -76,13 +77,12 @@ public class CalculatorController : MonoBehaviour
 
     public void BtnDigit(string numberToPut)
     {
-        // Debug.Log(numberToPut.GetType().ToString());
         if (operationInputField.text.Length >= 44)
         {
-            return; 
+            return;
         }
 
-        if (operationInputField.text == Convert.ToString("0"))
+        if (operationInputField.text == "0")
         {
             operationInputField.text = numberToPut;
         }
@@ -122,18 +122,41 @@ public class CalculatorController : MonoBehaviour
 
     public void BtnClearLastDigit()
     {
-        if (operationInputField.text.Length > 1) { operationInputField.text = operationInputField.text.Substring(0, operationInputField.text.Length - 1); }
-        else { operationInputField.text = "0"; }
+        if (operationInputField.text.Length > 1)
+        {
+            operationInputField.text = operationInputField.text.Substring(0, operationInputField.text.Length - 1);
+        }
+        else
+        {
+            operationInputField.text = "0";
+        }
     }
-   
+
+    private string NormalizeDecimalSeparators(string input)
+    {
+        return input.Replace('.', ',');
+    }
+
     public void EvaluateTheOperation()
     {
         var engine = new CalculationEngine();
 
+        // Obtain the current culture of the system
+        CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
+        // Normalise the expression if the language is not en-US
+        string expressionToEvaluate = operationInputField.text;
+        if (currentCulture.Name != "en-US")
+        {
+            expressionToEvaluate = NormalizeDecimalSeparators(operationInputField.text);
+        }
+
         try
         {
-            double result = Math.Round(engine.Calculate(operationInputField.text), 2);
-            operationInputField.text = result.ToString();
+            
+            double result = Math.Round(engine.Calculate(expressionToEvaluate), 2);
+
+            operationInputField.text = result.ToString(CultureInfo.CurrentCulture);
         }
         catch (Exception e)
         {
@@ -153,7 +176,7 @@ public class CalculatorController : MonoBehaviour
             }
             else
             {
-                toggleAnimation.Play("CalculatorToggleAnimationShow", 0, 0); 
+                toggleAnimation.Play("CalculatorToggleAnimationShow", 0, 0);
             }
             _isToggleCalculatorNotVisible = !_isToggleCalculatorNotVisible;
         }

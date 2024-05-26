@@ -36,12 +36,12 @@ public class UserModel
     }
 
 
-    public static bool VerifyExistUsername(string username)
+    public static List<UserModel> VerifyExistUsername(string userId, string username)
     {
         using NpgsqlConnection con = DBController.EstablishConnectionDB();
 
         con.Open();
-        var existsInBD = con.QuerySingleOrDefault<bool>("SELECT EXISTS(SELECT 1 FROM users WHERE username = @username);", new { username });
+        var existsInBD = con.Query<UserModel>("SELECT * FROM users WHERE username = @username OR user_id = @userId;", new { username, userId }).ToList();
         con.Close();
         return existsInBD;
     }
