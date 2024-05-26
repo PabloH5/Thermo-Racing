@@ -10,7 +10,8 @@ public class RaceMultiplayerController : NetworkBehaviour
 {
     public static RaceMultiplayerController Instance { get; private set; }
 
-    private int MAX_PLAYER_AMOUNT = 2;
+    public const int MAX_PLAYER_AMOUNT = 2;
+    private const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
 
     public EventHandler OnTryingToJoinGame;
     public EventHandler OnFailedToJoinGame;
@@ -38,6 +39,7 @@ public class RaceMultiplayerController : NetworkBehaviour
 
     private Dictionary<ulong, bool> playerReadyDictionary;
 
+    private string playerName;
 
     /// <summary>
     /// Handle disconnect in Pause and EndGame with 
@@ -48,11 +50,24 @@ public class RaceMultiplayerController : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+        playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, "PlayerName " + UnityEngine.Random.Range(100, 1000));
 
         DontDestroyOnLoad(gameObject);
 
         playerReadyDictionary = new Dictionary<ulong, bool>();
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    public string GetPlayerName()
+    {
+        return playerName;
+    }
+
+    public void SetPlayerName(string newPlayerName)
+    {
+        this.playerName = newPlayerName;
+
+        PlayerPrefs.SetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, newPlayerName);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -127,6 +142,11 @@ public class RaceMultiplayerController : NetworkBehaviour
     {
         state.OnValueChanged += State_OnValueChanged;
         countDownToStartTimer.OnValueChanged += CountDownToStartTimer_OnValueChanged;
+
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
     }
 
     private void CountDownToStartTimer_OnValueChanged(float previousValue, float newValue)
@@ -169,9 +189,27 @@ public class RaceMultiplayerController : NetworkBehaviour
         NetworkManager.Singleton.StartClient();
     }
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    public void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
+
+        if (playerReadyDictionary.ContainsKey(clientId))
+        {
+            playerReadyDictionary.Remove(clientId);
+        }
+
+        if (NetworkManager.Singleton.IsServer)
+        {
+            if (NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId))
+            {
+                NetworkObject networkObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+                if (networkObject != null)
+                {
+                    networkObject.Despawn();
+                    Destroy(networkObject.gameObject);
+                }
+            }
+        }
     }
 
     private void State_OnValueChanged(State previousValue, State newValue)

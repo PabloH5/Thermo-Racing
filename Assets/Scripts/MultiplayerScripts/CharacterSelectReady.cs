@@ -43,6 +43,7 @@ public class CharacterSelectReady : NetworkBehaviour
         {
             if(RaceMultiplayerController.Instance.ObtainStringRace() != null)
             {
+                RaceGameLobby.Instance.DeleteLobby();
                 NetworkManager.Singleton.SceneManager.LoadScene(RaceMultiplayerController.Instance.ObtainStringRace(), LoadSceneMode.Single);
             }
         }
