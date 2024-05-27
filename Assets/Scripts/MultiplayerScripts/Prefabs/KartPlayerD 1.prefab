@@ -9813,6 +9813,7 @@ GameObject:
   - component: {fileID: 5775444282212393688}
   - component: {fileID: 8266814075512425281}
   - component: {fileID: 7188637736357327260}
+  - component: {fileID: 5760213771119948987}
   - component: {fileID: 4985936701765169951}
   - component: {fileID: 517196023271224674}
   - component: {fileID: 1524070416609486198}
@@ -9870,7 +9871,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!114 &8266814075512425281
 MonoBehaviour:
@@ -9884,7 +9885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1202514204
+  GlobalObjectIdHash: 1834881882
   InScenePlacedSourceGlobalObjectIdHash: 1834881882
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -9953,6 +9954,58 @@ MonoBehaviour:
   mainCameraKart: {fileID: 3995537466600758930}
   canvasControllerUI: {fileID: 3104993046264188875}
   engineAudio: {fileID: 4822674391050720656}
+--- !u!114 &5760213771119948987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3563426639754625101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d878b9552d977e94bab4322ebfcae96b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lateralSpeed: 5
+  baseStats:
+    TopSpeed: 10
+    Acceleration: 5
+    ReverseSpeed: 5
+    ReverseAcceleration: 5
+    AccelerationCurve: 1
+    Braking: 10
+    CoastingDrag: 4
+    Grip: 0.95
+    Steer: 5
+    AddedGravity: 1
+  m_VisualWheels: []
+  CenterOfMass: {fileID: 7979232030634707408}
+  AirborneReorientationCoefficient: 3
+  DriftGrip: 0.4
+  DriftAdditionalSteer: 5
+  MinAngleToFinishDrift: 10
+  MinSpeedPercentToFinishDrift: 0.5
+  DriftControl: 10
+  DriftDampening: 10
+  DriftSparkVFX: {fileID: 5720418349283321134, guid: 83d0ce15c25af954bbd1425a9ddf8458, type: 3}
+  DriftSparkHorizontalOffset: 0.1
+  DriftSparkRotation: 17
+  DriftTrailPrefab: {fileID: 4162818498552360563, guid: cb1856df3376595449bbe8408a5dbe8e, type: 3}
+  DriftTrailVerticalOffset: 0
+  JumpVFX: {fileID: 2613765726699392021, guid: 63b5def8db7a0de41ab8201bc3ce6dc7, type: 3}
+  NozzleVFX: {fileID: 7517924479111809978, guid: e89850b0c6c7e9f4591f70aa405a18a7, type: 3}
+  Nozzles: []
+  SuspensionHeight: 0.2
+  SuspensionSpring: 20000
+  SuspensionDamp: 500
+  WheelsPositionVerticalOffset: 0
+  FrontLeftWheel: {fileID: 5161914090268492586}
+  FrontRightWheel: {fileID: 2921078353482494161}
+  RearLeftWheel: {fileID: 7458406235124292081}
+  RearRightWheel: {fileID: 4738078923504948978}
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 243
 --- !u!114 &4985936701765169951
 MonoBehaviour:
   m_ObjectHideFlags: 0

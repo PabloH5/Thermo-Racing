@@ -116,7 +116,7 @@ public class RaceGameLobby : MonoBehaviour
         }
     }
 
-    private async Task<Allocation> AllocateRelay()
+    public async Task<Allocation> AllocateRelay()
     {
         try {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(RaceMultiplayerController.MAX_PLAYER_AMOUNT - 1);
