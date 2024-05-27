@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
@@ -7,7 +5,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 
-public class TestingCharacterSelectUI : MonoBehaviour
+public class TestingRaceSelectUI : MonoBehaviour
 {
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button readyButton;
@@ -23,7 +21,7 @@ public class TestingCharacterSelectUI : MonoBehaviour
         });
 
         readyButton.onClick.AddListener(() => {
-            CharacterSelectReady.Instance.SetPlayerReady();
+            SelectRaceReady.Instance.SetPlayerReady();
         });
     }
 
@@ -32,7 +30,6 @@ public class TestingCharacterSelectUI : MonoBehaviour
         Lobby lobby = RaceGameLobby.Instance.GetLobby();
 
         lobbyNameText.text = lobby.Name;
-        lobbyCodeText.text = lobby.LobbyCode;
+        lobbyCodeText.text = lobby.LobbyCode;   
     }
-
 }

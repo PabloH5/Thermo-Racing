@@ -10,12 +10,24 @@ namespace KartGame.KartSystems
 
         void Start()
         {
+            if (RaceMultiplayerController.playMultiplayer) {
             AssignKeyboardInput();
+            }
+            else {
+                Debug.Log("Im trying a panguanada");
+                if (GameObject.Find("KartPlayer") != null)
+                {
+                    keyboardInput = GameObject.Find("KartPlayer").GetComponent<KeyboardInput>();
+                }
+                else { Debug.Log("KartPlayer Not Found"); }
+            }
         }
 
-        void AssignKeyboardInput()
+        public void AssignKeyboardInput()
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+            Debug.Log(players.ToString());
 
             if (players != null)
             {
@@ -24,6 +36,7 @@ namespace KartGame.KartSystems
                     if (AllChildrenActive(playerObject))
                     {
                         keyboardInput = playerObject.GetComponent<KeyboardInput>();
+                        Debug.Log("Im KeyboardInput in AutoAssignEventStop " + keyboardInput);
                         if (keyboardInput != null)
                         {
                             Debug.Log("I found KeyboardInput");
