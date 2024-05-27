@@ -5651,6 +5651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4207731456010083012}
   - component: {fileID: 3043077177871579868}
+  - component: {fileID: 7749278865706314261}
   - component: {fileID: 2247807118014371954}
   - component: {fileID: 7776496392650721599}
   - component: {fileID: 7541473515830928283}
@@ -5709,6 +5710,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7749278865706314261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5727325885166350776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2239784869
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &2247807118014371954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5766,6 +5788,9 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 243
+  mainCameraKart: {fileID: 0}
+  canvasControllerUI: {fileID: 0}
+  engineAudio: {fileID: 0}
 --- !u!114 &7776496392650721599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5779,7 +5804,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerAnimator: {fileID: 7600903859109222825}
-  Kart: {fileID: 2247807118014371954}
+  KartMltiplayer: {fileID: 0}
+  kartSingle: {fileID: 0}
   SteeringParam: Steering
   GroundedParam: Grounded
 --- !u!114 &7541473515830928283
