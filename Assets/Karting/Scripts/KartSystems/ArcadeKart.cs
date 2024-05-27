@@ -237,8 +237,9 @@ namespace KartGame.KartSystems
 
         void FixedUpdate()
         {
-            if (IsOwner)
+            if (IsOwner || RaceMultiplayerController.playMultiplayer == false)
             {
+                Debug.Log("Im in FixedUpdate");
                 UpdateSuspensionParams(FrontLeftWheel);
                 UpdateSuspensionParams(FrontRightWheel);
                 UpdateSuspensionParams(RearLeftWheel);
@@ -269,6 +270,7 @@ namespace KartGame.KartSystems
                 // apply vehicle physics
                 if (m_CanMove)
                 {
+                    Debug.Log("I can move");
                     MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
                 }
                 GroundAirbourne();
@@ -370,8 +372,9 @@ namespace KartGame.KartSystems
 
         void GatherInputs()
         {
-            if (!IsOwner) return;
+            if (!IsOwner && RaceMultiplayerController.playMultiplayer) return;
             // reset input
+            Debug.Log("Im in GatherInputs");
             Input = new InputData();
             WantsToDrift = false;
 
@@ -478,7 +481,7 @@ namespace KartGame.KartSystems
         }
         void MoveVehicle(bool accelerate, bool brake, float turnInput)
         {
-            if (RaceMultiplayerController.Instance.IsGamePlaying())
+            if (RaceMultiplayerController.Instance.IsGamePlaying() || RaceMultiplayerController.playMultiplayer)
             {
                 float accelInput = (accelerate ? 1.0f : 0.0f) - (brake ? 1.0f : 0.0f);
 

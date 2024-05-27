@@ -100,15 +100,6 @@ public class RaceMultiplayerController : NetworkBehaviour
         }
     }
 
-    private void Start() {
-        if (!playMultiplayer)
-        {
-            // Singleplayer
-            StartHost();
-            NetworkManager.Singleton.SceneManager.LoadScene("SelectRace", LoadSceneMode.Single);
-        }
-    }
-
     public void Update()
     {
         if (!IsServer)
@@ -166,9 +157,12 @@ public class RaceMultiplayerController : NetworkBehaviour
 
     public void StartHost()
     {
-        Debug.Log("Starting host");
-        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_OnConnectionAprovalCallback;
-        NetworkManager.Singleton.StartHost();
+        if (playMultiplayer)
+        {
+            Debug.Log("Starting host");
+            NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_OnConnectionAprovalCallback;
+            NetworkManager.Singleton.StartHost();
+        }
     }
 
     private void NetworkManager_OnConnectionAprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
