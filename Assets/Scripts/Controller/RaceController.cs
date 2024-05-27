@@ -46,6 +46,20 @@ namespace KartGame.KartSystems
                 AutoAssignEventStop autoAssignEventStop = playerTransform.GetComponentInChildren<AutoAssignEventStop>();
                 autoAssignEventStop.AssignKeyboardInput();
             }
+            else
+            {
+                // InitializeSpawnPointsSingleplayer();
+                // Vector3 spawnPosition = GetRandomSpawnPoint();
+                // Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+                // playerTransform.name = "KartPlayer";
+                // ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
+                // Destroy(arcadeKart);
+
+                // AutoAssignEvent autoAssignEvent = playerTransform.GetComponentInChildren<AutoAssignEvent>();
+                // autoAssignEvent.AssignKeyboardInput();
+                // AutoAssignEventStop autoAssignEventStop = playerTransform.GetComponentInChildren<AutoAssignEventStop>();
+                // autoAssignEventStop.AssignKeyboardInput();
+            }
         }
 
         public override void OnNetworkSpawn()
@@ -65,7 +79,8 @@ namespace KartGame.KartSystems
             {
                 Vector3 spawnPosition = GetRandomSpawnPoint();
                 Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-
+                ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
+                Destroy(arcadeKart);
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
             }
         }
@@ -106,7 +121,7 @@ namespace KartGame.KartSystems
                     Debug.LogError("Spawnpoint parent not found.");
                 }
             }
-        }   
+        }
 
         private void InitializeSpawnPointsSingleplayer()
         {
@@ -126,7 +141,7 @@ namespace KartGame.KartSystems
                     Debug.LogError("Spawnpoint parent not found.");
                 }
             }
-        } 
+        }
 
         public Vector3 GetRandomSpawnPoint()
         {
@@ -145,7 +160,7 @@ namespace KartGame.KartSystems
                     return Vector3.zero;
                 }
             }
-            else 
+            else
             {
                 if (spawnPositionListSingleplayer.Count > 0)
                 {
