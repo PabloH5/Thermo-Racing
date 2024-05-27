@@ -51,11 +51,22 @@ public class RaceController : NetworkBehaviour
         }
     }
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong obj)
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
-        throw new NotImplementedException();
+        if (NetworkManager.Singleton.IsServer)
+        {
+            if (NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId))
+            {
+                NetworkObject networkObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+                if (networkObject != null)
+                {
+                    networkObject.Despawn();
+                    Destroy(networkObject.gameObject);
+                }
+            }
 
-        // Send the player to the menu
+            Debug.Log($"Client {clientId} disconnected and resources cleaned up.");
+        }
     }
 
     private void InitializeSpawnPoints()

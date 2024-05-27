@@ -17,6 +17,11 @@ public class MainMenuCleanUP : MonoBehaviour
         {
             Destroy(RaceMultiplayerController.Instance.gameObject);
         }
+
+        if (RaceGameLobby.Instance != null)
+        {
+            Destroy(RaceGameLobby.Instance.gameObject);
+        }
     }
 
 }
