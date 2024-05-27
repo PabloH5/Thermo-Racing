@@ -10,10 +10,12 @@ namespace KartGame.KartSystems
 
         void Start()
         {
-            if (RaceMultiplayerController.playMultiplayer) {
-            AssignKeyboardInput();
+            if (RaceMultiplayerController.playMultiplayer)
+            {
+                AssignKeyboardInput();
             }
-            else {
+            else
+            {
                 Debug.Log("Im trying a panguanada");
                 if (GameObject.Find("KartPlayer") != null)
                 {

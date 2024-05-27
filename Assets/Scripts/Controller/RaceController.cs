@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using System.Collections;
 namespace KartGame.KartSystems
 {
     public class RaceController : NetworkBehaviour
@@ -19,6 +20,8 @@ namespace KartGame.KartSystems
         private string correctAnswer;
 
         [SerializeField] private Transform playerPrefab;
+
+        [SerializeField] private GameObject prefabIA;
 
         private static GameObject spawnPointParent;
         private NetworkList<Vector3> networkSpawnPositionList = new NetworkList<Vector3>();
@@ -36,7 +39,7 @@ namespace KartGame.KartSystems
             {
                 InitializeSpawnPointsSingleplayer();
                 Vector3 spawnPosition = GetRandomSpawnPoint();
-                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
                 playerTransform.name = "KartPlayer";
                 ArcadeKart arcadeKart = playerTransform.GetComponent<ArcadeKart>();
                 Destroy(arcadeKart);
@@ -45,20 +48,18 @@ namespace KartGame.KartSystems
                 autoAssignEvent.AssignKeyboardInput();
                 AutoAssignEventStop autoAssignEventStop = playerTransform.GetComponentInChildren<AutoAssignEventStop>();
                 autoAssignEventStop.AssignKeyboardInput();
-            }
-            else
-            {
-                // InitializeSpawnPointsSingleplayer();
-                // Vector3 spawnPosition = GetRandomSpawnPoint();
-                // Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-                // playerTransform.name = "KartPlayer";
-                // ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
-                // Destroy(arcadeKart);
 
-                // AutoAssignEvent autoAssignEvent = playerTransform.GetComponentInChildren<AutoAssignEvent>();
-                // autoAssignEvent.AssignKeyboardInput();
-                // AutoAssignEventStop autoAssignEventStop = playerTransform.GetComponentInChildren<AutoAssignEventStop>();
-                // autoAssignEventStop.AssignKeyboardInput();
+                //Instantiate the IA pilots
+                Vector3 spawnPositionIA = GetRandomSpawnPoint();
+                Transform iaTransform = Instantiate(prefabIA.transform, spawnPositionIA, Quaternion.Euler(0, 180, 0));
+                Debug.Log(iaTransform.name);
+                iaTransform.gameObject.SetActive(true);
+
+                //! CHANGE THE BOOLEAN VARIABLE 2 START THE IA MOVEMENT
+
+                AIController controllerAI = iaTransform.GetComponent<AIController>();
+                StartCoroutine(StartIAMovement(controllerAI));
+                // controllerAI.shouldMove = true;
             }
         }
 
@@ -72,13 +73,17 @@ namespace KartGame.KartSystems
                 Debug.Log("Im in server in race");
             }
         }
-
+        IEnumerator StartIAMovement(AIController controllerAI)
+        {
+            yield return new WaitForSeconds(5);
+            controllerAI.shouldMove = true;
+        }
         private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
         {
             foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
             {
                 Vector3 spawnPosition = GetRandomSpawnPoint();
-                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
                 ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
                 Destroy(arcadeKart);
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);

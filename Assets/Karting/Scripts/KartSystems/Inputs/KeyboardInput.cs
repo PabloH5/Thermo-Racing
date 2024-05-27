@@ -20,20 +20,28 @@ namespace KartGame.KartSystems
             {
                 joystick = GameObject.Find("FixedJoystick").GetComponent<Joystick>();
             }
-            else { Debug.Log("Controllers Not founded"); }
+            else { Debug.Log("Controllers Not found"); }
         }
 
         public override InputData GenerateInput()
         {
-            if (arcadeKart != null && !arcadeKart.IsOwner) {
-                return new InputData(); 
+            if (arcadeKart != null && !arcadeKart.IsOwner)
+            {
+                return new InputData();
             }
 
             float turnInput = joystick != null ? joystick.Horizontal : Input.GetAxis(TurnInputName);
+            // Si el joystick no se está moviendo, turnInput debe ser 0
+            if (joystick != null && Mathf.Approximately(joystick.Horizontal, 0))
+            {
+                turnInput = 0;
+            }
+
             bool accelerate = uiAccelerate || Input.GetButton(AccelerateButtonName);
             bool brake = uiBrake || Input.GetButton(BrakeButtonName);
 
-            return new InputData {
+            return new InputData
+            {
                 Accelerate = accelerate,
                 Brake = brake,
                 TurnInput = turnInput

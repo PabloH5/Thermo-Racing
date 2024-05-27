@@ -62,7 +62,7 @@ namespace KartGame.KartSystems
             {
                 Vector3 nextWaypointDirection = (waypoints[currentWaypointIndex + 1].position - waypoints[currentWaypointIndex].position).normalized;
                 float angle = Vector3.Angle(directionToTarget, nextWaypointDirection);
-                if (angle > 30f) // Adjust this threshold angle as needed
+                if (angle > 30f) // Adjust threshold angle 
                 {
                     arcadeKart.ReduceSpeed(minReduceSpeed, minReduceAcc);
                 }

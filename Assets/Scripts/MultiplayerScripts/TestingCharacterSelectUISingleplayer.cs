@@ -13,19 +13,23 @@ public class TestingCharacterSelectUISingleplayer : MonoBehaviour
 
     void Awake()
     {
-        mainMenuButton.onClick.AddListener(() => {
+        mainMenuButton.onClick.AddListener(() =>
+        {
             SceneManager.LoadScene("ChooseRaceGameMode");
         });
 
-        raceTrack1PlayButton.onClick.AddListener(() => {
-            ChooseGameRace("Track1");
+        raceTrack1PlayButton.onClick.AddListener(() =>
+        {
+            ChooseGameRace("Track1Core");
         });
 
-        raceTrack2PlayButton.onClick.AddListener(() => {
+        raceTrack2PlayButton.onClick.AddListener(() =>
+        {
             ChooseGameRace("Track2");
         });
 
-        readyToPlayButton.onClick.AddListener(() => {
+        readyToPlayButton.onClick.AddListener(() =>
+        {
             Debug.Log("Changing Scene...");
             SceneManager.LoadScene(GetActualRace());
         });
@@ -38,10 +42,11 @@ public class TestingCharacterSelectUISingleplayer : MonoBehaviour
 
     private string GetActualRace()
     {
-        if (actualRace == "" || actualRace == "Track1")
+        if (actualRace == "" || actualRace == "Track1Core")
         {
-            return "Track1";
-        } else if (actualRace == "Track2")
+            return "Track1Core";
+        }
+        else if (actualRace == "Track2")
         {
             return "Track2";
         }
