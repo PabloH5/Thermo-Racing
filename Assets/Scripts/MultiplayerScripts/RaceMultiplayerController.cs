@@ -78,16 +78,18 @@ public class RaceMultiplayerController : NetworkBehaviour
             track1Button = GameObject.Find("Track1Button").GetComponent<Button>();
             track2Button = GameObject.Find("Track2Button").GetComponent<Button>();
 
-            track1Button.onClick.AddListener(() => {
+            track1Button.onClick.AddListener(() =>
+            {
                 _IsTrack1Selected = true;
             });
-            track2Button.onClick.AddListener(() => {
+            track2Button.onClick.AddListener(() =>
+            {
                 _IsTrack2Selected = true;
             });
         }
 
 
-        if (scene.name == "Track1" || scene.name == "Track2")
+        if (scene.name == "Track1Core" || scene.name == "Track2")
         {
             if (IsServer)
             {
@@ -129,7 +131,7 @@ public class RaceMultiplayerController : NetworkBehaviour
     {
         if (_IsTrack1Selected)
         {
-            return "Track1";
+            return "Track1Core";
         }
         if (_IsTrack2Selected)
         {
@@ -279,7 +281,7 @@ public class RaceMultiplayerController : NetworkBehaviour
         return state.Value == State.GameOver;
     }
 
-    public override void OnDestroy() 
+    public override void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         state.OnValueChanged -= State_OnValueChanged;
