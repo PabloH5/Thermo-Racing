@@ -11,6 +11,7 @@ TagManager:
   - CorrectOption3
   - BadOption
   - Spawnpoint
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
