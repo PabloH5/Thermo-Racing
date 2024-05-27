@@ -12,6 +12,7 @@ TagManager:
   - BadOption
   - Spawnpoint
   - Checkpoint
+  - Minimap
   layers:
   - Default
   - TransparentFX
