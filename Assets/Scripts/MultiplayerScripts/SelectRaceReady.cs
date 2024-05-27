@@ -3,9 +3,9 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
-public class CharacterSelectReady : NetworkBehaviour
+public class SelectRaceReady : NetworkBehaviour
 {
-    public static CharacterSelectReady Instance { get; private set; }
+    public static SelectRaceReady Instance { get; private set; }
 
     private Dictionary<ulong, bool> playerReadyDictionary;
 

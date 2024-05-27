@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class RaceMultiplayerController : NetworkBehaviour
 {
     public static RaceMultiplayerController Instance { get; private set; }
+    public static bool playMultiplayer;
 
     public const int MAX_PLAYER_AMOUNT = 2;
     private const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
@@ -96,6 +97,15 @@ public class RaceMultiplayerController : NetworkBehaviour
             {
                 Debug.Log("Client Ready");
             }
+        }
+    }
+
+    private void Start() {
+        if (!playMultiplayer)
+        {
+            // Singleplayer
+            StartHost();
+            NetworkManager.Singleton.SceneManager.LoadScene("SelectRace", LoadSceneMode.Single);
         }
     }
 
