@@ -5,31 +5,31 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/Login.unity
     guid: 438d0130fe07fdb4bb96f71c004aedb1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/Register.unity
     guid: 736437c74bb6fc64892dd1d3828db5aa
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/MainMenu.unity
     guid: 60c567c330d7839488fc3743dc4230bd
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/SelectGame.unity
     guid: efd5b5404640b6d4387b3f994399bd82
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/Options.unity
     guid: bc12f556cfbbe9041b143ac94c068230
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/HowToPlay.unity
     guid: e7dba47cd59a0844ba9b8185b91e8040
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/QuitGame.unity
     guid: a3271bdf6dc33ba46ad0953fc6e27a37
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Minigames/ARevisarLasLlantas.unity
     guid: 3b3b774dfc872a24d96828928efbd391
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Minigames/ThermoEcuacionador.unity
     guid: 368b113e6807adb43a93c5b7eff9134b
   - enabled: 1
@@ -53,7 +53,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BuildScenes/Track2.unity
     guid: cc3c050fd6419fa4584f8dba831db221
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/Customization.unity
     guid: 4b24c28a93cbc0d4e93f4d7eb774ec58
   - enabled: 0
