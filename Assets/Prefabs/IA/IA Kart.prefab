@@ -4745,7 +4745,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!114 &2930017661408226201
 MonoBehaviour:
@@ -4759,22 +4759,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1ee774a31b64c4b9eed80b4aa82a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lateralSpeed: 5
+  lateralSpeed: 2
   baseStats:
-    TopSpeed: 10
-    Acceleration: 6
-    ReverseSpeed: 5
-    ReverseAcceleration: 3
-    AccelerationCurve: 0.5
+    TopSpeed: 9
+    Acceleration: 4
+    ReverseSpeed: 4
+    ReverseAcceleration: 4
+    AccelerationCurve: 1
     Braking: 10
     CoastingDrag: 4
     Grip: 0.95
-    Steer: 5
-    AddedGravity: 1
+    Steer: 8
+    AddedGravity: 2
   m_VisualWheels: []
   CenterOfMass: {fileID: 3701357317754919661}
   AirborneReorientationCoefficient: 3
-  DriftGrip: 0.4
+  DriftGrip: 0.5
   DriftAdditionalSteer: 5
   MinAngleToFinishDrift: 10
   MinSpeedPercentToFinishDrift: 0.5
@@ -4829,11 +4829,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  speed: 15
-  turnSpeed: 5
-  minReduceSpeed: 7
-  minReduceAcc: 4
-  waypointThreshold: 2
+  speed: 9
+  turnSpeed: 4
+  minReduceSpeed: 2
+  minReduceAcc: 2
+  waypointThreshold: 1.5
   shouldMove: 0
   arcadeKart: {fileID: 2930017661408226201}
 --- !u!1 &5708438001715761994

@@ -14,6 +14,7 @@ namespace KartGame.KartSystems
 
         private int currentWaypointIndex = 0;
         public ArcadeKartAI arcadeKart;
+        private float waypointThresholdSqr;
 
         void Start()
         {
@@ -33,20 +34,21 @@ namespace KartGame.KartSystems
             {
                 Debug.LogError("WayPoints GameObject not found.");
             }
+            waypointThresholdSqr = waypointThreshold * waypointThreshold;
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if (!shouldMove || waypoints.Length == 0) return;
 
             Vector3 targetPosition = waypoints[currentWaypointIndex].position;
             Vector3 directionToTarget = (targetPosition - transform.position).normalized;
 
-            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
-            if (distanceToTarget < waypointThreshold)
+            float distanceToTargetSqr = (transform.position - targetPosition).sqrMagnitude;
+            if (distanceToTargetSqr < waypointThresholdSqr)
             {
                 currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-                arcadeKart.RestoreSpeed(); // Reset the spped and acceleration after pass waypoint
+                arcadeKart.RestoreSpeed(); // Reset the speed and acceleration after passing a waypoint
             }
 
             // Control the kart's movement
@@ -74,7 +76,8 @@ namespace KartGame.KartSystems
         void RotateTowardsTarget(Vector3 direction)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+            
         }
     }
 }
