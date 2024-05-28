@@ -6,15 +6,14 @@ using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using System.Collections;
+using UnityEngine.UI;
+using System.Linq;
+
 namespace KartGame.KartSystems
 {
     public class RaceController : NetworkBehaviour
     {
-        [SerializeField] private GameObject canvasRaceQuestions;
-        [SerializeField] private TextMeshProUGUI textQuestion;
-        [SerializeField] private GameObject[] answersGameObjects;
-        [SerializeField] private GameObject positiveAudio;
-        [SerializeField] private GameObject negativeAudio;
+
 
         private List<RaceQuestionModel> raceQuestions;
         private string correctAnswer;
@@ -28,18 +27,41 @@ namespace KartGame.KartSystems
         private List<Vector3> spawnPositionListSingleplayer = new List<Vector3>();
 
 
+        [Space(10)]
+        [Header("Quick Time Event")]
+        [SerializeField] private GameObject canvasRaceQuestions;
+        [SerializeField] private TextMeshProUGUI textQuestion;
+        [SerializeField] private GameObject[] answersGameObjects;
+        [SerializeField] private GameObject positiveAudio;
+        [SerializeField] private GameObject negativeAudio;
+
+        [Space(5)]
+        [Header("Feedback UI")]
+        [SerializeField] private bool feedbackIsActive;
+        [SerializeField] private GameObject questionPanel;
+        [SerializeField] private GameObject feedbackPanel;
+        [SerializeField] private TMP_Text correctAnswerText;
+        [SerializeField] private TMP_Text feedbackTitle;
+        [SerializeField] private Image positiveFeedBackImage;
+        [SerializeField] private Image negativeFeedBackImage;
+
+
+
         // Start is called before the first frame update
         void Start()
         {
             raceQuestions = RaceQuestionModel.GetRaceQuestions();
             raceQuestions.ForEach(question => Debug.Log(question.wording));
-            FillQuestionText();
+            //FillQuestionText();
+            SelectNewQuestion();
 
             if (!RaceMultiplayerController.playMultiplayer)
             {
                 InitializeSpawnPointsSingleplayer();
                 Vector3 spawnPosition = GetRandomSpawnPoint();
                 Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
+
+                playerTransform.tag = "Player";
                 playerTransform.name = "KartPlayer";
                 ArcadeKart arcadeKart = playerTransform.GetComponent<ArcadeKart>();
                 Destroy(arcadeKart);
@@ -60,6 +82,17 @@ namespace KartGame.KartSystems
                 AIController controllerAI = iaTransform.GetComponent<AIController>();
                 StartCoroutine(StartIAMovement(controllerAI));
                 // controllerAI.shouldMove = true;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            // Verifica si se ha tocado la pantalla
+            if (feedbackIsActive == true && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                // Desactiva el Canvas
+                feedbackPanel.gameObject.SetActive(false);
+                canvasRaceQuestions.SetActive(true);
             }
         }
 
@@ -183,11 +216,61 @@ namespace KartGame.KartSystems
 
         }
 
+        public void SelectNewQuestion()
+        {
+     
+            RaceQuestionModel question = raceQuestions.First();
+            if(question  == null)
+            {
+                Debug.Log("NO hay más preguntas madafakas");
+                return;
+            }
+
+            Debug.Log("-------------------------------");
+            Debug.Log($"Preguntas disponibles {raceQuestions.Count}");
+            Debug.Log($"Respuesta {question.correct_option}");
+            Debug.Log("-------------------------------");
+            
+
+            string[] options = new string[]
+           {
+                question.first_option,
+                question.second_option,
+                question.third_option,
+                question.fourth_option
+           };
+
+            for (int i = options.Length - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                string temp = options[i];
+                options[i] = options[j];
+                options[j] = temp;
+            }
+
+            textQuestion.text = question.wording;
+
+            for (int i = 0; i < answersGameObjects.Length && i < options.Length; i++)
+            {
+                TextMeshProUGUI answerText = answersGameObjects[i].GetComponentInChildren<TextMeshProUGUI>();
+                if (answerText != null)
+                {
+                    answerText.text = options[i];
+                }
+            }
+
+            correctAnswer = question.correct_option;
+
+            raceQuestions.RemoveAt(0);
+        }
+
         private void FillQuestionText()
         {
-            int index = UnityEngine.Random.Range(0, raceQuestions.Count);
-            RaceQuestionModel raceQuestion = raceQuestions[index];
-            raceQuestions.RemoveAt(index);
+            //int index = UnityEngine.Random.Range(0, raceQuestions.Count);
+            //RaceQuestionModel raceQuestion = raceQuestions[index];
+            //raceQuestions.RemoveAt(index);
+            RaceQuestionModel raceQuestion = raceQuestions.First();
+            raceQuestions.RemoveAt(0);
 
             string[] options = new string[]
             {
@@ -222,26 +305,64 @@ namespace KartGame.KartSystems
         public void ValidateCorrectAnswer(int NumberOfAnswer)
         {
             string TextAnswer = answersGameObjects[NumberOfAnswer].GetComponentInChildren<TextMeshProUGUI>().text;
-            if (correctAnswer == TextAnswer) { CorrectBehaviour(); }
-            else { IncorrectBehaviour(); }
+
+            if (correctAnswer == TextAnswer) {
+                CorrectBehaviour();
+            }
+            else { 
+                IncorrectBehaviour();
+            }
         }
 
         private void CorrectBehaviour()
         {
+            // Desactive the question panel
+            questionPanel.gameObject.SetActive(false);
+
+            // Show positive feedback;
+            feedbackIsActive = true;
             positiveAudio.GetComponent<AudioSource>().Play();
+            feedbackTitle.text = "¡Has acertado!";
+            feedbackPanel.gameObject.SetActive(true);
+           
+            // Active the positive feedback image.
+            positiveFeedBackImage.gameObject.SetActive(true);
+            correctAnswerText.text = correctAnswer;
+
+            // Change to next question.
+
         }
 
         private void IncorrectBehaviour()
         {
+            // ---
+            // Desactive the question panel
+            questionPanel.gameObject.SetActive(false);
+
+            // Show negative feedback;
+            feedbackIsActive = true;
             negativeAudio.GetComponent<AudioSource>().Play();
+            feedbackTitle.text = "¡Has fallado!";
+            feedbackPanel.gameObject.SetActive(true);
+
+            // Active the negative feedback image.
+            negativeFeedBackImage.gameObject.SetActive(true);
+            correctAnswerText.text = correctAnswer;
+
+
         }
 
-        private void ActivateRaceQuestionCanvas()
+        public void ActivateRaceQuestionCanvas()
         {
+            // Desactivate the image feedback
+            negativeFeedBackImage.gameObject.SetActive(false);
+            positiveFeedBackImage.gameObject.SetActive(false);
+
+            questionPanel.gameObject.SetActive(true);
             canvasRaceQuestions.SetActive(true);
         }
 
-        private void DeactivateRaceQuestionCanvas()
+        public void DeactivateRaceQuestionCanvas()
         {
             canvasRaceQuestions.SetActive(false);
         }

@@ -19,9 +19,9 @@ namespace KartGame.KartSystems
         void Awake()
         {
 
-            // Assert.IsNotNull(KartMltiplayer, "No ArcadeKart found!");
-            // Assert.IsNotNull(kartSingle, "No ArcadeKart Single found!");
-            // Assert.IsNotNull(PlayerAnimator, "No PlayerAnimator found!");
+            Assert.IsNotNull(KartMltiplayer, "No ArcadeKart found!");
+            Assert.IsNotNull(kartSingle, "No ArcadeKart Single found!");
+            Assert.IsNotNull(PlayerAnimator, "No PlayerAnimator found!");
             m_SteerHash = Animator.StringToHash(SteeringParam);
             m_GroundHash = Animator.StringToHash(GroundedParam);
         }

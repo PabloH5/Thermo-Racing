@@ -239,7 +239,7 @@ namespace KartGame.KartSystems
         {
             if (IsOwner || RaceMultiplayerController.playMultiplayer == false)
             {
-                Debug.Log("Im in FixedUpdate");
+                // Debug.Log("Im in FixedUpdate");
                 UpdateSuspensionParams(FrontLeftWheel);
                 UpdateSuspensionParams(FrontRightWheel);
                 UpdateSuspensionParams(RearLeftWheel);
@@ -270,7 +270,7 @@ namespace KartGame.KartSystems
                 // apply vehicle physics
                 if (m_CanMove)
                 {
-                    Debug.Log("I can move");
+                    // Debug.Log("I can move");
                     MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
                 }
                 GroundAirbourne();
@@ -301,7 +301,7 @@ namespace KartGame.KartSystems
                 Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
                 Rigidbody.isKinematic = false;
 
-                RaceMultiplayerController.Instance.SetPlayerReady();                
+                RaceMultiplayerController.Instance.SetPlayerReady();
             }
             else
             {
@@ -374,7 +374,7 @@ namespace KartGame.KartSystems
         {
             if (!IsOwner && RaceMultiplayerController.playMultiplayer) return;
             // reset input
-            Debug.Log("Im in GatherInputs");
+            // Debug.Log("Im in GatherInputs");
             Input = new InputData();
             WantsToDrift = false;
 
@@ -542,11 +542,11 @@ namespace KartGame.KartSystems
                 // Drift
                 if (GroundPercent > 0.0f)
                 {
-                    if (m_InAir)
-                    {
-                        m_InAir = false;
-                        Instantiate(JumpVFX, transform.position, Quaternion.identity);
-                    }
+                    // if (m_InAir)
+                    // {
+                    //     m_InAir = false;
+                    //     // Instantiate(JumpVFX, transform.position, Quaternion.identity);
+                    // }
 
                     // manual angular velocity coefficient
                     float angularVelocitySteering = 0.4f;
@@ -589,7 +589,7 @@ namespace KartGame.KartSystems
                             m_DriftTurningPower = turningPower + (Mathf.Sign(turningPower) * DriftAdditionalSteer);
                             m_CurrentGrip = DriftGrip;
 
-                            ActivateDriftVFX(true);
+                            // ActivateDriftVFX(true);
                         }
                     }
 
@@ -661,7 +661,7 @@ namespace KartGame.KartSystems
                     m_LastValidRotation.eulerAngles = new Vector3(0.0f, transform.rotation.y, 0.0f);
                 }
 
-                ActivateDriftVFX(IsDrifting && GroundPercent > 0.0f);
+                // ActivateDriftVFX(IsDrifting && GroundPercent > 0.0f);
             }
         }
     }

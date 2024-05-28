@@ -13,14 +13,30 @@ namespace KartGame.KartSystems
         private bool uiBrake = false;
         private ArcadeKart arcadeKart;
 
+        public Rigidbody rigidbody;
+
         void Awake()
         {
             arcadeKart = GetComponent<ArcadeKart>();
+            rigidbody = GetComponent<Rigidbody>();
             if (GameObject.Find("FixedJoystick") != null)
             {
                 joystick = GameObject.Find("FixedJoystick").GetComponent<Joystick>();
             }
-            else { Debug.Log("Controllers Not found"); }
+            else { Debug.Log("Controllers Not founded"); }
+        }
+
+        void Update()
+        {
+            float joyStickValue = joystick != null ? joystick.Horizontal : Input.GetAxis(TurnInputName);
+            if (joyStickValue != 0)
+            {
+                rigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            }
+            else
+            {
+                rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            }
         }
 
         public override InputData GenerateInput()
@@ -31,14 +47,9 @@ namespace KartGame.KartSystems
             }
 
             float turnInput = joystick != null ? joystick.Horizontal : Input.GetAxis(TurnInputName);
-            // Si el joystick no se está moviendo, turnInput debe ser 0
-            if (joystick != null && Mathf.Approximately(joystick.Horizontal, 0))
-            {
-                turnInput = 0;
-            }
-
             bool accelerate = uiAccelerate || Input.GetButton(AccelerateButtonName);
             bool brake = uiBrake || Input.GetButton(BrakeButtonName);
+
 
             return new InputData
             {
