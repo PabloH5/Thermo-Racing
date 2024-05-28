@@ -31,7 +31,7 @@ namespace KartGame.KartSystems
             float joyStickValue = joystick != null ? joystick.Horizontal : Input.GetAxis(TurnInputName);
             if (joyStickValue != 0)
             {
-                rigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationZ;
+                rigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             }
             else
             {

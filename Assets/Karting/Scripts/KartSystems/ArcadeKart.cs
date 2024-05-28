@@ -589,7 +589,7 @@ namespace KartGame.KartSystems
                             m_DriftTurningPower = turningPower + (Mathf.Sign(turningPower) * DriftAdditionalSteer);
                             m_CurrentGrip = DriftGrip;
 
-                            ActivateDriftVFX(true);
+                            // ActivateDriftVFX(true);
                         }
                     }
 
@@ -661,7 +661,7 @@ namespace KartGame.KartSystems
                     m_LastValidRotation.eulerAngles = new Vector3(0.0f, transform.rotation.y, 0.0f);
                 }
 
-                ActivateDriftVFX(IsDrifting && GroundPercent > 0.0f);
+                // ActivateDriftVFX(IsDrifting && GroundPercent > 0.0f);
             }
         }
     }

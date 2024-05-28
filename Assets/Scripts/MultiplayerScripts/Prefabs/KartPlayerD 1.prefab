@@ -8080,7 +8080,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!114 &8266814075512425281
 MonoBehaviour:
@@ -8115,18 +8115,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b2e8893a3093437d9d101b53db56941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lateralSpeed: 5
+  lateralSpeed: 2
   baseStats:
-    TopSpeed: 12
-    Acceleration: 5
-    ReverseSpeed: 5
-    ReverseAcceleration: 5
+    TopSpeed: 9
+    Acceleration: 4
+    ReverseSpeed: 4
+    ReverseAcceleration: 4
     AccelerationCurve: 1
     Braking: 10
     CoastingDrag: 4
     Grip: 0.95
     Steer: 8
-    AddedGravity: 1
+    AddedGravity: 2
   m_VisualWheels:
   - {fileID: 0}
   - {fileID: 0}
@@ -8175,18 +8175,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d878b9552d977e94bab4322ebfcae96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lateralSpeed: 5
+  lateralSpeed: 2
   baseStats:
-    TopSpeed: 12
-    Acceleration: 5
-    ReverseSpeed: 5
-    ReverseAcceleration: 5
+    TopSpeed: 9
+    Acceleration: 4
+    ReverseSpeed: 4
+    ReverseAcceleration: 4
     AccelerationCurve: 1
     Braking: 10
     CoastingDrag: 4
     Grip: 0.95
     Steer: 8
-    AddedGravity: 1
+    AddedGravity: 2
   m_VisualWheels:
   - {fileID: 0}
   - {fileID: 0}
@@ -8210,8 +8210,8 @@ MonoBehaviour:
   Nozzles:
   - {fileID: 0}
   SuspensionHeight: 0.2
-  SuspensionSpring: 20000
-  SuspensionDamp: 500
+  SuspensionSpring: 50000
+  SuspensionDamp: 1000
   WheelsPositionVerticalOffset: 0
   FrontLeftWheel: {fileID: 5161914090268492586}
   FrontRightWheel: {fileID: 2921078353482494161}
