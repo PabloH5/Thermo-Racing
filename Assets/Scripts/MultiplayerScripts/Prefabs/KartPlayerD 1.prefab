@@ -8130,6 +8130,7 @@ GameObject:
   - component: {fileID: 4197494934337471044}
   - component: {fileID: 1672080321259878907}
   - component: {fileID: 8311833604092872438}
+  - component: {fileID: 2319985535742622391}
   m_Layer: 2
   m_Name: KartPlayerD 1
   m_TagString: Player
@@ -8198,7 +8199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3293327290
+  GlobalObjectIdHash: 1834881882
   InScenePlacedSourceGlobalObjectIdHash: 1834881882
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -8449,6 +8450,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2472378033102855026}
+--- !u!114 &2319985535742622391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3563426639754625101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e6952d048f96a4988144f7f069595d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfLaps: 1
 --- !u!1 &3565643113735499242
 GameObject:
   m_ObjectHideFlags: 0
@@ -14960,7 +14974,7 @@ GameObject:
   - component: {fileID: 1181060477004661778}
   m_Layer: 7
   m_Name: KartBouncingCapsule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
