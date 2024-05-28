@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GoalQTEController : MonoBehaviour
 {
-
+    public CheckList CheckpointManager;
     [SerializeField] private RaceController raceController;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,9 @@ public class GoalQTEController : MonoBehaviour
         {
             Debug.Log("USUARIO Piso la meta - LANZAR QUICK TIME EVENT.");
             UserRaceInformation user = other.GetComponentInParent<UserRaceInformation>();
+            CheckpointManager.ToggleObjects();
             Debug.Log(user.numberOfLaps);
+            
 
             // 1. If the user is in the first lap, do not anything.
             if (user.numberOfLaps == 0)
@@ -68,7 +70,6 @@ public class GoalQTEController : MonoBehaviour
                 user.numberOfLaps++;
                 return;
             }
-         
         }
         
     }
