@@ -16,12 +16,6 @@ public class AwardsController : MonoBehaviour
 
     public void GetRandomAward()
     {
-
-        // TEMPORARY LOGGIN
-        // ------------------------------------------------
-        LoggedUser.LogInUser("2222222", "test");
-        // ------------------------------------------------
-
         descriptionNotAwards.gameObject.SetActive(false);
         descriptionWithAwards.gameObject.SetActive(false);
         
