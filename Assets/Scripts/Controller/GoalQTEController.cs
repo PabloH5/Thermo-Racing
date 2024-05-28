@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GoalQTEController : MonoBehaviour
 {
-    public CheckList CheckpointManager;
+    [SerializeField] private CheckList CheckpointManager;
     [SerializeField] private RaceController raceController;
     //private Rigidbody userRigidbody;
     private KeyboardInput userKeyBoard;

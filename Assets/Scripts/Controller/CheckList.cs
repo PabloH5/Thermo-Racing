@@ -21,13 +21,16 @@ public class CheckList : MonoBehaviour
     public void ToggleObjects()
     {
         // Desactivar el objeto en la posición actual
-        objectList[currentIndex].SetActive(false);
+        //objectList[currentIndex].SetActive(false);
+        objectList[currentIndex].GetComponent<BoxCollider>().enabled = false;
+
 
         // Incrementar el índice para apuntar al siguiente objeto
         currentIndex = (currentIndex + 1) % objectList.Count;
 
         // Activar el siguiente objeto en la lista
-        objectList[currentIndex].SetActive(true);
+        //objectList[currentIndex].SetActive(true);
+        objectList[currentIndex].GetComponent<BoxCollider>().enabled = true;
 
         Debug.Log("Objeto activado: " + objectList[currentIndex].name);
     }

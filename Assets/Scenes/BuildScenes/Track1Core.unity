@@ -290,12 +290,12 @@ GameObject:
   - component: {fileID: 43783036}
   - component: {fileID: 43783037}
   m_Layer: 0
-  m_Name: CheckManager
+  m_Name: CheckManager Debug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &43783036
 Transform:
   m_ObjectHideFlags: 0
@@ -4403,12 +4403,12 @@ GameObject:
   - component: {fileID: 880758690}
   - component: {fileID: 880758691}
   m_Layer: 0
-  m_Name: CheckManager (1)
+  m_Name: CheckManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &880758690
 Transform:
   m_ObjectHideFlags: 0
@@ -5809,7 +5809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a92e9c9e79c7554ca950ebcdf27c991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CheckpointManager: {fileID: 43783037}
+  CheckpointManager: {fileID: 880758691}
   raceController: {fileID: 2085216269}
 --- !u!65 &1087719867
 BoxCollider:
@@ -5862,7 +5862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 68d5de4c275b2484a87de4f93591635f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.002000004
+      value: -0.033
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 68d5de4c275b2484a87de4f93591635f, type: 3}
       propertyPath: m_LocalPosition.z
