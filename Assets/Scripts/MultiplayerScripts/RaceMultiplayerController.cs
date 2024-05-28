@@ -51,7 +51,19 @@ public class RaceMultiplayerController : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, "PlayerName " + UnityEngine.Random.Range(100, 1000));
+
+
+        if (LoggedUser.Username == null)
+        {
+            playerName = "Hola";
+
+        }
+        else
+        {
+            playerName = LoggedUser.Username;
+        }
+
+        //playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, "PlayerName " + UnityEngine.Random.Range(100, 1000));
 
         DontDestroyOnLoad(gameObject);
 
@@ -69,6 +81,10 @@ public class RaceMultiplayerController : NetworkBehaviour
         this.playerName = newPlayerName;
 
         PlayerPrefs.SetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, newPlayerName);
+
+
+
+
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

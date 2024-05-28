@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CustomManager : MonoBehaviour
 {
-    public enum WheelType
+    public enum WheelTypeCustom
     {
         DefaultW = 1,
         SpikesW = 2,
@@ -23,7 +23,7 @@ public class CustomManager : MonoBehaviour
     }
 
     [SerializeField]
-    private WheelType _wheelType;
+    private WheelTypeCustom _wheelType;
     [SerializeField]
     private ChasisType _chasisType;
     public GameObject kartPlayer;
@@ -38,7 +38,7 @@ public class CustomManager : MonoBehaviour
         {
             LoadUserInventory();
         }
-        
+
         if (GameObject.Find("KartPlayer") != null)
         {
             kartPlayer = GameObject.Find("KartPlayer");
@@ -48,17 +48,30 @@ public class CustomManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (SceneManager.GetActiveScene().name == "Track1Core" || SceneManager.GetActiveScene().name == "Track2")
+        {
+            return;
+        }
         SwitchChasisAndWheels();
     }
     public void SetWheelType(int wheelTypeIndex)
     {
-        _wheelType = (WheelType)wheelTypeIndex;
+        _wheelType = (WheelTypeCustom)wheelTypeIndex;
     }
 
     public void SetChasisType(int chasisTypeIndex)
     {
         _chasisType = (ChasisType)chasisTypeIndex;
     }
+
+    public void SwitchKartParts()
+    {
+        SwitchChasisAndWheels();
+        Debug.Log("----------------------------------------------------");
+        Debug.Log(kartPlayer);
+        Debug.Log(kartPlayer.name);
+    }
+
     private void SwitchChasisAndWheels()
     {
         kartPlayer.transform.Find("DEFAULT CHASIS")?.gameObject.SetActive(false);
@@ -104,19 +117,19 @@ public class CustomManager : MonoBehaviour
                 wheelsParent.Find("DEFAULT WHEELS")?.gameObject.SetActive(false);
                 switch (_wheelType)
                 {
-                    case WheelType.SpikesW:
+                    case WheelTypeCustom.SpikesW:
                         wheelsParent.Find("SPIKES WHEELS")?.gameObject.SetActive(true);
                         break;
 
-                    case WheelType.OldW:
+                    case WheelTypeCustom.OldW:
                         wheelsParent.Find("OLD WHEELS")?.gameObject.SetActive(true);
                         break;
 
-                    case WheelType.StarW:
+                    case WheelTypeCustom.StarW:
                         wheelsParent.Find("STAR WHEELS")?.gameObject.SetActive(true);
                         break;
 
-                    case WheelType.DefaultW:
+                    case WheelTypeCustom.DefaultW:
                         wheelsParent.Find("DEFAULT WHEELS")?.gameObject.SetActive(true);
                         break;
 
@@ -137,7 +150,7 @@ public class CustomManager : MonoBehaviour
 
     public void ModifyEnumCustom(int wheelIndex, int chassisIndex)
     {
-        _wheelType = (WheelType)wheelIndex;
+        _wheelType = (WheelTypeCustom)wheelIndex;
         _chasisType = (ChasisType)chassisIndex;
     }
 
@@ -155,10 +168,10 @@ public class CustomManager : MonoBehaviour
         Transform foo;
         foreach (var item in userInventory)
         {
-            
+
             switch (item.item_type)
             {
-                
+
                 case "WHEEL":
                     foo = wheelContainer.gameObject.transform.GetChild(item.item_id - 1);
                     foo.Find("LockedBG").gameObject.SetActive(false);
