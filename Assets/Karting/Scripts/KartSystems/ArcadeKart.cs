@@ -542,11 +542,11 @@ namespace KartGame.KartSystems
                 // Drift
                 if (GroundPercent > 0.0f)
                 {
-                    if (m_InAir)
-                    {
-                        m_InAir = false;
-                        Instantiate(JumpVFX, transform.position, Quaternion.identity);
-                    }
+                    // if (m_InAir)
+                    // {
+                    //     m_InAir = false;
+                    //     // Instantiate(JumpVFX, transform.position, Quaternion.identity);
+                    // }
 
                     // manual angular velocity coefficient
                     float angularVelocitySteering = 0.4f;

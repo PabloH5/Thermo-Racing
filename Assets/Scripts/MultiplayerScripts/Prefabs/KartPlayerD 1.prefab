@@ -8080,7 +8080,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 64
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &8266814075512425281
 MonoBehaviour:
@@ -8117,15 +8117,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lateralSpeed: 5
   baseStats:
-    TopSpeed: 15
-    Acceleration: 7
-    ReverseSpeed: 10
-    ReverseAcceleration: 3
-    AccelerationCurve: 0.5
-    Braking: 16
-    CoastingDrag: 5
-    Grip: 0.97
-    Steer: 4
+    TopSpeed: 12
+    Acceleration: 5
+    ReverseSpeed: 5
+    ReverseAcceleration: 5
+    AccelerationCurve: 1
+    Braking: 10
+    CoastingDrag: 4
+    Grip: 0.95
+    Steer: 8
     AddedGravity: 1
   m_VisualWheels:
   - {fileID: 0}
@@ -8134,12 +8134,12 @@ MonoBehaviour:
   - {fileID: 0}
   CenterOfMass: {fileID: 7979232030634707408}
   AirborneReorientationCoefficient: 1
-  DriftGrip: 0.85
-  DriftAdditionalSteer: 0
-  MinAngleToFinishDrift: 29
-  MinSpeedPercentToFinishDrift: 0.95
-  DriftControl: 16
-  DriftDampening: 8
+  DriftGrip: 0.5
+  DriftAdditionalSteer: 5
+  MinAngleToFinishDrift: 10
+  MinSpeedPercentToFinishDrift: 0.5
+  DriftControl: 10
+  DriftDampening: 10
   DriftSparkVFX: {fileID: 5720418349283321134, guid: 83d0ce15c25af954bbd1425a9ddf8458, type: 3}
   DriftSparkHorizontalOffset: 0.15
   DriftSparkRotation: 17
@@ -8149,10 +8149,10 @@ MonoBehaviour:
   NozzleVFX: {fileID: 7517924479111809978, guid: e89850b0c6c7e9f4591f70aa405a18a7, type: 3}
   Nozzles:
   - {fileID: 8331589007076491547}
-  SuspensionHeight: 0.1
-  SuspensionSpring: 70000
-  SuspensionDamp: 5000
-  WheelsPositionVerticalOffset: 0.05
+  SuspensionHeight: 0.2
+  SuspensionSpring: 20000
+  SuspensionDamp: 500
+  WheelsPositionVerticalOffset: 0
   FrontLeftWheel: {fileID: 5161914090268492586}
   FrontRightWheel: {fileID: 2921078353482494161}
   RearLeftWheel: {fileID: 7458406235124292081}
@@ -8177,15 +8177,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lateralSpeed: 5
   baseStats:
-    TopSpeed: 15
-    Acceleration: 7
-    ReverseSpeed: 10
-    ReverseAcceleration: 3
-    AccelerationCurve: 0.5
-    Braking: 16
-    CoastingDrag: 5
-    Grip: 0.97
-    Steer: 4
+    TopSpeed: 12
+    Acceleration: 5
+    ReverseSpeed: 5
+    ReverseAcceleration: 5
+    AccelerationCurve: 1
+    Braking: 10
+    CoastingDrag: 4
+    Grip: 0.95
+    Steer: 8
     AddedGravity: 1
   m_VisualWheels:
   - {fileID: 0}
@@ -8194,12 +8194,12 @@ MonoBehaviour:
   - {fileID: 0}
   CenterOfMass: {fileID: 7979232030634707408}
   AirborneReorientationCoefficient: 1
-  DriftGrip: 0.85
-  DriftAdditionalSteer: 0
-  MinAngleToFinishDrift: 29
-  MinSpeedPercentToFinishDrift: 0.95
-  DriftControl: 16
-  DriftDampening: 8
+  DriftGrip: 0.5
+  DriftAdditionalSteer: 5
+  MinAngleToFinishDrift: 10
+  MinSpeedPercentToFinishDrift: 0.5
+  DriftControl: 10
+  DriftDampening: 10
   DriftSparkVFX: {fileID: 5720418349283321134, guid: 83d0ce15c25af954bbd1425a9ddf8458, type: 3}
   DriftSparkHorizontalOffset: 0.15
   DriftSparkRotation: 17
@@ -8209,10 +8209,10 @@ MonoBehaviour:
   NozzleVFX: {fileID: 7517924479111809978, guid: e89850b0c6c7e9f4591f70aa405a18a7, type: 3}
   Nozzles:
   - {fileID: 0}
-  SuspensionHeight: 0.1
-  SuspensionSpring: 70000
-  SuspensionDamp: 5000
-  WheelsPositionVerticalOffset: 0.05
+  SuspensionHeight: 0.2
+  SuspensionSpring: 20000
+  SuspensionDamp: 500
+  WheelsPositionVerticalOffset: 0
   FrontLeftWheel: {fileID: 5161914090268492586}
   FrontRightWheel: {fileID: 2921078353482494161}
   RearLeftWheel: {fileID: 7458406235124292081}
