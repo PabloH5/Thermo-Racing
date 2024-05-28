@@ -1014,7 +1014,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8086495483459989602}
   - component: {fileID: 7651525292246483658}
-  - component: {fileID: 4338804981021505401}
   m_Layer: 7
   m_Name: KartBouncingCapsule
   m_TagString: Player
@@ -1054,33 +1053,12 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.45
   m_Height: 2.2721078
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: -0.015117138}
---- !u!65 &4338804981021505401
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2239570858369931744}
-  m_Material: {fileID: 13400000, guid: a46ba4e273ba0684f90f4acc0fdf44d5, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 1.0270709, y: 0.77441555, z: 1.9173839}
-  m_Center: {x: 0, y: 0.11279241, z: 0.14738095}
 --- !u!1 &2318919483825047113
 GameObject:
   m_ObjectHideFlags: 0
