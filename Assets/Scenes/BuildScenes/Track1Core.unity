@@ -325,14 +325,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectList:
   - {fileID: 1087719861}
-  - {fileID: 436960666}
-  - {fileID: 203168379}
-  - {fileID: 518759222}
-  - {fileID: 1750033927}
-  - {fileID: 1883564659}
-  - {fileID: 447560555}
-  - {fileID: 1854081570}
-  - {fileID: 1608051069}
 --- !u!1 &61938487
 GameObject:
   m_ObjectHideFlags: 0
@@ -4400,6 +4392,60 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: eb342f6eed94af74c8e910d8b3369c96, type: 3}
   m_PrefabInstance: {fileID: 845754074}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &880758689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 880758690}
+  - component: {fileID: 880758691}
+  m_Layer: 0
+  m_Name: CheckManager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &880758690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880758689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072194450}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &880758691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880758689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b96bd8a1e24664b89b8a4be49803b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectList:
+  - {fileID: 1087719861}
+  - {fileID: 436960666}
+  - {fileID: 203168379}
+  - {fileID: 518759222}
+  - {fileID: 1750033927}
+  - {fileID: 1883564659}
+  - {fileID: 447560555}
+  - {fileID: 1854081570}
+  - {fileID: 1608051069}
 --- !u!1001 &882988429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7437,7 +7483,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e56dcbb2c1d8504cb43ec36e614248d, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -7468,7 +7514,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -7501,7 +7547,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: -4.6273403, z: -439.69354, w: -30.261822}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1440304857
@@ -10903,7 +10949,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Responde r\xE1pido y acierta para poder avanzar"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e56dcbb2c1d8504cb43ec36e614248d, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -10934,7 +10980,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -10967,7 +11013,7 @@ MonoBehaviour:
   m_margin: {x: -199.91318, y: -43.789845, z: -213.24307, w: 53.16579}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1935566756
@@ -11051,6 +11097,7 @@ Transform:
   - {fileID: 186186343}
   - {fileID: 1658757578}
   - {fileID: 43783036}
+  - {fileID: 880758690}
   - {fileID: 1655913375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11103,6 +11150,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 5689739502111116096, guid: 4d544ba350967b748bebca3e3ab50db2, type: 3}
   prefabIA: {fileID: 5565807616667697529, guid: 16b8e64007be85f4c86a9e5fe5b812d3, type: 3}
   canvasRaceQuestions: {fileID: 1378795364}
+  quickTimeEventController: {fileID: 1087719866}
   textQuestion: {fileID: 1435871630}
   answersGameObjects:
   - {fileID: 1685238147}

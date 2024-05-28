@@ -30,6 +30,7 @@ namespace KartGame.KartSystems
         [Space(10)]
         [Header("Quick Time Event")]
         [SerializeField] private GameObject canvasRaceQuestions;
+        [SerializeField] private GoalQTEController quickTimeEventController;
         [SerializeField] private TextMeshProUGUI textQuestion;
         [SerializeField] private GameObject[] answersGameObjects;
         [SerializeField] private GameObject positiveAudio;
@@ -329,7 +330,9 @@ namespace KartGame.KartSystems
             positiveFeedBackImage.gameObject.SetActive(true);
             correctAnswerText.text = correctAnswer;
 
-            // Change to next question.
+            // Allow user movement.
+            //quickTimeEventController.ModifyUserConstraints(0);
+            quickTimeEventController.FreezePlayer(false);
 
         }
 
@@ -345,21 +348,31 @@ namespace KartGame.KartSystems
             feedbackTitle.text = "¡Has fallado!";
             feedbackPanel.gameObject.SetActive(true);
 
+
+
             // Active the negative feedback image.
             negativeFeedBackImage.gameObject.SetActive(true);
             correctAnswerText.text = correctAnswer;
 
+            quickTimeEventController.FreezePlayer(false);
+            // Allow user movement.
+            //quickTimeEventController.ModifyUserConstraints(0);
+            
 
         }
 
         public void ActivateRaceQuestionCanvas()
         {
+            //quickTimeEventController.ModifyUserConstraints(1);
+           
+
             // Desactivate the image feedback
             negativeFeedBackImage.gameObject.SetActive(false);
             positiveFeedBackImage.gameObject.SetActive(false);
 
             questionPanel.gameObject.SetActive(true);
             canvasRaceQuestions.SetActive(true);
+
         }
 
         public void DeactivateRaceQuestionCanvas()

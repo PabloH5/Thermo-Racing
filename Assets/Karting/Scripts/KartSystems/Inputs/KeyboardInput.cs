@@ -15,6 +15,10 @@ namespace KartGame.KartSystems
 
         public Rigidbody rigidbody;
 
+
+        // Pablito, I love you <3
+        public bool isInQuestion = false;
+
         void Awake()
         {
             arcadeKart = GetComponent<ArcadeKart>();
@@ -33,8 +37,13 @@ namespace KartGame.KartSystems
             {
                 rigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             }
+            else if (isInQuestion)
+            {
+                rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            }
             else
             {
+                
                 rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             }
         }
