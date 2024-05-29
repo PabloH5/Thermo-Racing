@@ -8200,7 +8200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1834881882
+  GlobalObjectIdHash: 3293327290
   InScenePlacedSourceGlobalObjectIdHash: 1834881882
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -8231,7 +8231,7 @@ MonoBehaviour:
     Braking: 10
     CoastingDrag: 4
     Grip: 0.95
-    Steer: 8
+    Steer: 5
     AddedGravity: 2
   m_VisualWheels:
   - {fileID: 0}
@@ -8291,7 +8291,7 @@ MonoBehaviour:
     Braking: 10
     CoastingDrag: 4
     Grip: 0.95
-    Steer: 8
+    Steer: 5
     AddedGravity: 2
   m_VisualWheels:
   - {fileID: 0}
@@ -8464,8 +8464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e6952d048f96a4988144f7f069595d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wheelType: 1
-  _chasisType: 1
 --- !u!1 &3565643113735499242
 GameObject:
   m_ObjectHideFlags: 0
@@ -17162,7 +17160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc29986b1403d9d4981aef5113a561d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customManager: {fileID: 7860490420548336933}
+  _wheelType: 0
+  _chasisType: 0
 --- !u!1 &7357295080189914126
 GameObject:
   m_ObjectHideFlags: 0
@@ -20999,11 +20998,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8312449223824896483, guid: bb7affa36c5c1834991b2e4dc2381e68, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1809.9999
+      value: -1809.9998
       objectReference: {fileID: 0}
     - target: {fileID: 8312449223824896483, guid: bb7affa36c5c1834991b2e4dc2381e68, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 480.00006
+      value: 480
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
