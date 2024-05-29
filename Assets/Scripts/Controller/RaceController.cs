@@ -23,7 +23,7 @@ namespace KartGame.KartSystems
         private static GameObject spawnPointParent;
         private NetworkList<Vector3> networkSpawnPositionList = new NetworkList<Vector3>();
         private List<Vector3> spawnPositionListSingleplayer = new List<Vector3>();
-
+        [SerializeField] private int startAngle = 180;
 
         [Space(10)]
         [Header("Quick Time Event")]
@@ -33,6 +33,8 @@ namespace KartGame.KartSystems
         [SerializeField] private GameObject[] answersGameObjects;
         [SerializeField] private GameObject positiveAudio;
         [SerializeField] private GameObject negativeAudio;
+
+        public Boolean LastQuestion { get; set; }
 
         [Space(5)]
         [Header("Feedback UI")]
@@ -58,7 +60,8 @@ namespace KartGame.KartSystems
             {
                 InitializeSpawnPointsSingleplayer();
                 Vector3 spawnPosition = GetRandomSpawnPoint();
-                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
+                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, startAngle, 0));
+                //Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
 
                 playerTransform.tag = "Player";
                 playerTransform.name = "KartPlayer";
@@ -72,7 +75,7 @@ namespace KartGame.KartSystems
 
                 //Instantiate the IA pilots
                 Vector3 spawnPositionIA = GetRandomSpawnPoint();
-                Transform iaTransform = Instantiate(prefabIA.transform, spawnPositionIA, Quaternion.Euler(0, 180, 0));
+                Transform iaTransform = Instantiate(prefabIA.transform, spawnPositionIA, Quaternion.Euler(0, startAngle, 0));
                 Debug.Log(iaTransform.name);
                 iaTransform.gameObject.SetActive(true);
 
@@ -217,9 +220,9 @@ namespace KartGame.KartSystems
 
         public void SelectNewQuestion()
         {
-     
+
             RaceQuestionModel question = raceQuestions.First();
-            if(question  == null)
+            if (question == null)
             {
                 Debug.Log("NO hay más preguntas madafakas");
                 return;
@@ -229,7 +232,7 @@ namespace KartGame.KartSystems
             Debug.Log($"Preguntas disponibles {raceQuestions.Count}");
             Debug.Log($"Respuesta {question.correct_option}");
             Debug.Log("-------------------------------");
-            
+
 
             string[] options = new string[]
            {
@@ -305,10 +308,12 @@ namespace KartGame.KartSystems
         {
             string TextAnswer = answersGameObjects[NumberOfAnswer].GetComponentInChildren<TextMeshProUGUI>().text;
 
-            if (correctAnswer == TextAnswer) {
+            if (correctAnswer == TextAnswer)
+            {
                 CorrectBehaviour();
             }
-            else { 
+            else
+            {
                 IncorrectBehaviour();
             }
         }
@@ -323,15 +328,21 @@ namespace KartGame.KartSystems
             positiveAudio.GetComponent<AudioSource>().Play();
             feedbackTitle.text = "¡Has acertado!";
             feedbackPanel.gameObject.SetActive(true);
-           
+
             // Active the positive feedback image.
             positiveFeedBackImage.gameObject.SetActive(true);
             correctAnswerText.text = correctAnswer;
 
-            // Allow user movement.
-            //quickTimeEventController.ModifyUserConstraints(0);
-            quickTimeEventController.FreezePlayer(false);
-
+            
+            if (LastQuestion == true)
+            {
+                quickTimeEventController.FinishRace();
+            }
+            else
+            {
+                // Allow user movement.
+                quickTimeEventController.FreezePlayer(false);
+            }
         }
 
         private void IncorrectBehaviour()
@@ -347,22 +358,26 @@ namespace KartGame.KartSystems
             feedbackPanel.gameObject.SetActive(true);
 
 
-
             // Active the negative feedback image.
             negativeFeedBackImage.gameObject.SetActive(true);
             correctAnswerText.text = correctAnswer;
 
-            quickTimeEventController.FreezePlayer(false);
-            // Allow user movement.
-            //quickTimeEventController.ModifyUserConstraints(0);
-            
+            if (LastQuestion == true)
+            {
+                quickTimeEventController.FinishRace();
+            }
+            else
+            {
+                // Allow user movement.
+                quickTimeEventController.FreezePlayer(false);
+            }
 
         }
 
         public void ActivateRaceQuestionCanvas()
         {
             //quickTimeEventController.ModifyUserConstraints(1);
-           
+
 
             // Desactivate the image feedback
             negativeFeedBackImage.gameObject.SetActive(false);
@@ -370,7 +385,6 @@ namespace KartGame.KartSystems
 
             questionPanel.gameObject.SetActive(true);
             canvasRaceQuestions.SetActive(true);
-
         }
 
         public void DeactivateRaceQuestionCanvas()
@@ -378,11 +392,11 @@ namespace KartGame.KartSystems
             canvasRaceQuestions.SetActive(false);
         }
 
-        
-        void OnDestroy()
-        {
-            networkSpawnPositionList.Dispose();
-        }
+
+        //void OnDestroy()
+        //{
+        //    networkSpawnPositionList.Dispose();
+        //}
 
     }
 }

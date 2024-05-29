@@ -8,6 +8,7 @@ public class UserRaceInformation : MonoBehaviour
 
     void Start()
     {
-        numberOfLaps = 0;
+        // In the first moment, the user has to touch the goal line at least once before start to count laps.
+        numberOfLaps = -1;
     }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6302800198130899439}
   m_Layer: 8
   m_Name: Goal line
-  m_TagString: Untagged
+  m_TagString: Minimap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,3 +143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CheckpointManager: {fileID: 0}
   raceController: {fileID: 0}
+  spriteLaps: []
+  currentSpriteLap: {fileID: 0}
+  currentLapNumber: {fileID: 0}
+  currentPosition: {fileID: 0}
+  finishRaceCanvas: {fileID: 0}
+  winnerInterface: {fileID: 0}
+  leaderboardInterface: {fileID: 0}

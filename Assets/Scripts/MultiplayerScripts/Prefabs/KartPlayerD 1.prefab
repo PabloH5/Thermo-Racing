@@ -20917,6 +20917,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6072799569872644327}
+    - target: {fileID: 3280731938743651648, guid: bb7affa36c5c1834991b2e4dc2381e68, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 1015
+      objectReference: {fileID: 0}
     - target: {fileID: 6943189455807109156, guid: bb7affa36c5c1834991b2e4dc2381e68, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -21003,7 +21007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8312449223824896483, guid: bb7affa36c5c1834991b2e4dc2381e68, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 480.00006
+      value: 480
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
