@@ -15,13 +15,18 @@ public class ARLLManager : MonoBehaviour
     [SerializeField] private GameObject[] allChildrenBankParentGO;
     [SerializeField] private GameObject positiveFeedback;
     [SerializeField] private GameObject negativeFeedback;
-    [SerializeField] private GameObject finalFeedback;
+    
     [SerializeField] private CalculatorController calculatorController;
     [SerializeField] private DragRotate dragRotateController;
     [SerializeField] private ConstantBankUpdate constantBankUpdateController;
     [SerializeField] private GameObject calculatorToggleGO;
     [SerializeField] private GameObject explosionGO;
     [SerializeField] private GameObject goodBehaviourAudioGO;
+
+    [Space(10)]
+    [Header("Awards")]
+    [SerializeField] private AwardsController awardController;
+    [SerializeField] private GameObject finalFeedback;
 
     [Space(5)]
     [Header("BD informarion")]
@@ -363,7 +368,11 @@ public class ARLLManager : MonoBehaviour
             string validationString = multiplier.ToString();
             if (textToValidateTheResult.text == validationString)
             {
-                if (finalFeedbackBool) { finalFeedback.SetActive(true); }
+                if (finalFeedbackBool) {
+                    // WIN THE GAME
+                    awardController.GetRandomAward();
+                    finalFeedback.SetActive(true);
+                }
                 else { ActivatePositiveFeedbackGUI(); }
             }
             else { ActivateNegativeFeedbackGUI(ErrorARLLmanager.ErrorCalculator); }

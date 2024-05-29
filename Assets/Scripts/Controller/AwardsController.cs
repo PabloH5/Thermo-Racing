@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class AwardsController : MonoBehaviour
 {
     [Header("Rewards")]
+
+    [SerializeField] private GameObject awardPopUpContainer;
+
     [SerializeField] private ItemAwardSO itemAwards;
     [SerializeField] private Image imageReward;
     [SerializeField] private Text subtitle;
@@ -16,6 +19,7 @@ public class AwardsController : MonoBehaviour
 
     public void GetRandomAward()
     {
+        awardPopUpContainer.SetActive(true);
         descriptionNotAwards.gameObject.SetActive(false);
         descriptionWithAwards.gameObject.SetActive(false);
         
@@ -82,6 +86,7 @@ public class AwardsController : MonoBehaviour
 
     public void RedirectUser()
     {
+        awardPopUpContainer.SetActive(false);
         SceneManager.LoadScene(sceneToRedirectUser);
     }
 }

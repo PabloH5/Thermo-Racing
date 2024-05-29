@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/Login.unity
     guid: 438d0130fe07fdb4bb96f71c004aedb1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Interfaces/Register.unity
     guid: 736437c74bb6fc64892dd1d3828db5aa
   - enabled: 1
@@ -17,10 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/Interfaces/SelectGame.unity
     guid: efd5b5404640b6d4387b3f994399bd82
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Interfaces/Options.unity
     guid: bc12f556cfbbe9041b143ac94c068230
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Interfaces/HowToPlay.unity
     guid: e7dba47cd59a0844ba9b8185b91e8040
   - enabled: 1
@@ -32,22 +32,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/Minigames/ThermoEcuacionador.unity
     guid: 368b113e6807adb43a93c5b7eff9134b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/ChooseRaceGameMode.unity
     guid: 3f1417266c5104e4ca4ee003bdf2d0a0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/LobbyScene.unity
     guid: 48d584fcffee7024e936e8b1b36be4eb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/SelectRaceSingleplayer.unity
     guid: c1bee31d7577e1448a67c31383c23a63
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/SelectRace.unity
     guid: 23136a9ff0999a14d9f5b7c514c2c08b
   - enabled: 0
     path: Assets/Scenes/BuildScenes/Track1.unity
     guid: 157a73eb7bedd2a48bac020fa29725e1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Track1Core.unity
     guid: 4badac706788a0b4eab766e1248341e4
   - enabled: 0

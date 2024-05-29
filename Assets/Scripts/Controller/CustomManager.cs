@@ -32,6 +32,9 @@ public class CustomManager : MonoBehaviour
     [SerializeField] private GameObject wheelContainer;
     [SerializeField] private GameObject chassisContainer;
 
+
+    [SerializeField] private GameObject feedbackCustomizationModal;
+
     void Start()
     {
         if (SceneManager.GetActiveScene().name == "Customization")
@@ -145,7 +148,13 @@ public class CustomManager : MonoBehaviour
         // Update current register from DB with user '2222222'
         // TODO: use the user id from loggedUser class
         Debug.Log(LoggedUser.Username);
-        UserModel.UpdateCurrentGoKart((int)_wheelType, (int)_chasisType, "2222222");
+        UserModel.UpdateCurrentGoKart((int)_wheelType, (int)_chasisType, LoggedUser.UserCode);
+        feedbackCustomizationModal.SetActive(true);
+    }
+
+    public void HideFeedbackModal()
+    {
+        feedbackCustomizationModal.SetActive(false);
     }
 
     public void ModifyEnumCustom(int wheelIndex, int chassisIndex)
@@ -156,13 +165,6 @@ public class CustomManager : MonoBehaviour
 
     public void LoadUserInventory()
     {
-        //---------------------------------------
-        // LOGGED USER HERE IS TEMPORARY
-        LoggedUser.LogInUser("2222222", "test");
-        // ------------------------------------------------
-
-
-
         // BRING THE USER INVENTORY FROM DB
         List<InventoryUser> userInventory = InventoryUser.GetUserInventory(LoggedUser.UserCode);
         Transform foo;
