@@ -17160,8 +17160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc29986b1403d9d4981aef5113a561d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wheelType: 0
-  _chasisType: 0
+  _wheelType: 1
+  _chasisType: 1
 --- !u!1 &7357295080189914126
 GameObject:
   m_ObjectHideFlags: 0
@@ -20151,6 +20151,7 @@ MonoBehaviour:
   kartPlayer: {fileID: 7348184440857482882}
   wheelContainer: {fileID: 0}
   chassisContainer: {fileID: 0}
+  feedbackCustomizationModal: {fileID: 0}
 --- !u!1 &8924423609234775171
 GameObject:
   m_ObjectHideFlags: 0
@@ -20998,11 +20999,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8312449223824896483, guid: bb7affa36c5c1834991b2e4dc2381e68, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1809.9998
+      value: -1809.9999
       objectReference: {fileID: 0}
     - target: {fileID: 8312449223824896483, guid: bb7affa36c5c1834991b2e4dc2381e68, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 480
+      value: 480.00006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

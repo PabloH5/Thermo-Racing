@@ -13,16 +13,19 @@ public class UserKartController : MonoBehaviour
 
     void Start()
     {
+        // Put the default items if the user doesn't log in.
+        if (LoggedUser.UserCode == null)
+        {
+            ModifyEnumCustom(1, 1);
+            SwitchChasisAndWheels();
+            return;
+        }
 
         // GET THE INFORMATION FROM CURRENT USER
         UserModel user = UserModel.GetUserById(LoggedUser.UserCode);
-        Debug.Log(user.current_wheels);
-        Debug.Log(user.current_chassis);
 
         ModifyEnumCustom(user.current_wheels, user.current_chassis);
         SwitchChasisAndWheels();
-
-
     }
 
     private void ModifyEnumCustom(int wheelIndex, int chassisIndex)

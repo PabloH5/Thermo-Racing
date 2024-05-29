@@ -13,8 +13,6 @@ namespace KartGame.KartSystems
 {
     public class RaceController : NetworkBehaviour
     {
-
-
         private List<RaceQuestionModel> raceQuestions;
         private string correctAnswer;
 
@@ -379,5 +377,12 @@ namespace KartGame.KartSystems
         {
             canvasRaceQuestions.SetActive(false);
         }
+
+        
+        void OnDestroy()
+        {
+            networkSpawnPositionList.Dispose();
+        }
+
     }
 }
