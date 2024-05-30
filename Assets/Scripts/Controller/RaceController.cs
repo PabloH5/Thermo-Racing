@@ -28,11 +28,12 @@ namespace KartGame.KartSystems
         [Space(10)]
         [Header("Quick Time Event")]
         [SerializeField] private GameObject canvasRaceQuestions;
-        [SerializeField] private GoalQTEController quickTimeEventController;
         [SerializeField] private TextMeshProUGUI textQuestion;
         [SerializeField] private GameObject[] answersGameObjects;
         [SerializeField] private GameObject positiveAudio;
         [SerializeField] private GameObject negativeAudio;
+
+        private GoalQTEController quickTimeEventController;
 
         public Boolean LastQuestion { get; set; }
 
@@ -113,17 +114,45 @@ namespace KartGame.KartSystems
             yield return new WaitForSeconds(5);
             controllerAI.shouldMove = true;
         }
-        private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        StartCoroutine(SpawnPlayersAfterDelay(5f));
+    }
+
+    private IEnumerator SpawnPlayersAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            Vector3 spawnPosition = GetRandomSpawnPoint();
+            Transform playerTransform;
+
+            if (SceneManager.GetActiveScene().name == "Track1Core")
             {
-                Vector3 spawnPosition = GetRandomSpawnPoint();
-                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
-                ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
-                Destroy(arcadeKart);
-                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+                playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
             }
+            else if (SceneManager.GetActiveScene().name == "Track2")
+            {
+                playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 90, 0));
+            }
+            else
+            {
+                continue; 
+            }
+
+            ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
+            Destroy(arcadeKart);
+
+            playerTransform.GetComponent<Rigidbody>().isKinematic = true;
+
+            if (playerTransform.position != spawnPosition)
+            {
+                playerTransform.position = spawnPosition;
+            }
+            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         }
+    }
 
         private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
         {
@@ -390,6 +419,11 @@ namespace KartGame.KartSystems
         public void DeactivateRaceQuestionCanvas()
         {
             canvasRaceQuestions.SetActive(false);
+        }
+
+        public void SetQTEcontroller(GoalQTEController goalQTEController)
+        {
+            quickTimeEventController = goalQTEController;
         }
 
 

@@ -16,7 +16,6 @@ namespace KartGame.KartSystems
             }
             else
             {
-                Debug.Log("Im trying a panguanada");
                 if (GameObject.Find("KartPlayer") != null)
                 {
                     keyboardInput = GameObject.Find("KartPlayer").GetComponent<KeyboardInput>();

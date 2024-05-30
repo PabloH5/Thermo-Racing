@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5073867589904937496}
   - component: {fileID: 2531105452074561132}
   - component: {fileID: 461782090949509370}
-  - component: {fileID: 6302800198130899439}
+  - component: {fileID: 5506076500027030185}
   m_Layer: 8
   m_Name: Goal line
   m_TagString: Minimap
@@ -129,7 +129,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.99999994, y: 1.0000002, z: 0.033412836}
   m_Center: {x: -0.0000018998983, y: -0.000007640232, z: -0.016706455}
---- !u!114 &6302800198130899439
+--- !u!114 &5506076500027030185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,15 +138,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9162214134150806091}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a92e9c9e79c7554ca950ebcdf27c991, type: 3}
+  m_Script: {fileID: 11500000, guid: ab47e568218645048b245770fcfdc69f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CheckpointManager: {fileID: 0}
-  raceController: {fileID: 0}
-  spriteLaps: []
-  currentSpriteLap: {fileID: 0}
-  currentLapNumber: {fileID: 0}
-  currentPosition: {fileID: 0}
-  finishRaceCanvas: {fileID: 0}
-  winnerInterface: {fileID: 0}
-  leaderboardInterface: {fileID: 0}

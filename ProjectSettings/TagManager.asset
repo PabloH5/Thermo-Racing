@@ -14,6 +14,9 @@ TagManager:
   - Checkpoint
   - Minimap
   - IA
+  - CheckpointManager
+  - RaceManager
+  - PlayerCollider
   layers:
   - Default
   - TransparentFX

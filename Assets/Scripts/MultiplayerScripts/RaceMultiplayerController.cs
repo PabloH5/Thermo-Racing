@@ -81,10 +81,6 @@ public class RaceMultiplayerController : NetworkBehaviour
         this.playerName = newPlayerName;
 
         PlayerPrefs.SetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, newPlayerName);
-
-
-
-
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
