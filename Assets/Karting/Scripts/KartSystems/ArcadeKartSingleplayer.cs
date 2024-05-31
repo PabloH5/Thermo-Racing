@@ -284,12 +284,13 @@ namespace KartGame.KartSystems
                 }
             }
 
-            checkpointManagerScript = GameObject.FindGameObjectWithTag("CheckpointManager").GetComponent<CheckList>();
-            checkpointManagerScript.InitializeChekpointArcadeKart(gameObject, false);
-            
-
-            StartCoroutine(UpdateLeadingPlayerEverySecond());
-            
+            if (!RaceMultiplayerController.playMultiplayer)
+            {
+                checkpointManagerScript = GameObject.FindGameObjectWithTag("CheckpointManager").GetComponent<CheckList>();
+                checkpointManagerScript.InitializeChekpointArcadeKart(gameObject, false);
+            }
+        
+            StartCoroutine(UpdateLeadingPlayerEverySecond());    
         }
 
         public void AddOrUpdateCheckpoint(string checkpointName, bool isChecked, DateTime checkpointTime)

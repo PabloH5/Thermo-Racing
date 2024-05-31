@@ -214,6 +214,10 @@ namespace KartGame.KartSystems
         private CheckList checkpointManagerScript;
         public bool _CanGoForLap = false;
 
+        public Vector3 mySpawnPosition;
+        private BoxCollider boxColliderRetrySpawnPosition;
+
+
         private void Awake()
         {
             Rigidbody = GetComponent<Rigidbody>();
@@ -256,6 +260,13 @@ namespace KartGame.KartSystems
             {
                 StartCoroutine(UpdateLeadingPlayerEverySecond());
             }
+
+            boxColliderRetrySpawnPosition = GameObject.FindGameObjectWithTag("ReTrySpawn").GetComponent<BoxCollider>();
+        }
+
+        public void UpdateMySpawn()
+        {
+            transform.position = mySpawnPosition;
         }
 
         void FixedUpdate()
@@ -349,25 +360,37 @@ namespace KartGame.KartSystems
 
         public void AddOrUpdateCheckpoint(string checkpointName, bool isChecked, DateTime checkpointTime)
         {
-            if (checkpointDictionary.ContainsKey(checkpointName))
+            Debug.Log($"Updating checkpoint: {checkpointName}, IsChecked: {isChecked}");
+            if (!checkpointDictionary.ContainsKey(checkpointName))
+            {
+                checkpointDictionary.Add(checkpointName, new CheckpointData(isChecked, checkpointTime));
+            }
+            else
             {
                 checkpointDictionary[checkpointName].IsChecked = isChecked;
                 checkpointDictionary[checkpointName].CheckpointTime = checkpointTime;
             }
-            else
+
+            bool allCheckpointsTrue = true; 
+            List<string> falseCheckpoints = new List<string>();
+
+            foreach (var checkpoint in checkpointDictionary)
             {
-                checkpointDictionary.Add(checkpointName, new CheckpointData(isChecked, checkpointTime));
+                Debug.Log($"I am  {checkpoint.Key} and my values is: {checkpoint.Value.IsChecked}");
+                if (checkpoint.Value.IsChecked == false)
+                {
+                    allCheckpointsTrue = false;
+                    falseCheckpoints.Add(checkpoint.Key);
+                }
             }
 
-            _CanGoForLap = true; // Assume all are true until proven otherwise
-            foreach (var checkpoint in checkpointDictionary.Values)
+            if (allCheckpointsTrue)
             {
-                if (!checkpoint.IsChecked)
-                {
-                    _CanGoForLap = false;
-                    break;
-                }
-                Debug.Log("I can do a Lap");
+                _CanGoForLap = true;
+            }
+            else
+            {
+                _CanGoForLap = false;
             }
         }
 
@@ -448,7 +471,11 @@ namespace KartGame.KartSystems
                 if (positionText != null)
                 {
                     positionText.text = position.ToString();
-                }
+                } else { Debug.Log("I can not find the text"); }
+            }
+            else 
+            {
+                Debug.Log("I can not find the canvas");
             }
         }
 
@@ -459,6 +486,7 @@ namespace KartGame.KartSystems
                 if (IsServer)
                 {
                     GetLeadingPlayer();
+                    Debug.Log("Checking leader");
                 }
                 yield return new WaitForSeconds(1f);
             }
