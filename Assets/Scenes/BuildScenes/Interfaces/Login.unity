@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -786,8 +786,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -311, y: -206}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -310.25, y: -212.9}
+  m_SizeDelta: {x: 193.33, y: 42.656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &178168482
 MonoBehaviour:
@@ -1406,9 +1406,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Register
-
-'
+  m_text: Registrarse
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 21d7969592dd26541a498af466d86950, type: 2}
   m_sharedMaterial: {fileID: 6914309606776403661, guid: 21d7969592dd26541a498af466d86950, type: 2}
@@ -1591,7 +1589,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -201.59998, y: -1.2085114}
+  m_AnchoredPosition: {x: -201.59998, y: -1.2085266}
   m_SizeDelta: {x: 403.2055, y: 2.380005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &850688249
@@ -1960,7 +1958,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: "C\xF3digo estudiantil..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
@@ -2094,9 +2092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Log In
-
-'
+  m_text: "Iniciar sesi\xF3n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 21d7969592dd26541a498af466d86950, type: 2}
   m_sharedMaterial: {fileID: 6914309606776403661, guid: 21d7969592dd26541a498af466d86950, type: 2}
@@ -2343,8 +2339,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -311, y: -124}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -307.1, y: -117.18619}
+  m_SizeDelta: {x: 187.0281, y: 43.6276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1298799871
 MonoBehaviour:
@@ -3031,7 +3027,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: "Contrase\xF1a..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fe2ebeaa5caf4d847b4bb98e53789597, type: 2}
@@ -3544,7 +3540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -291.4, y: 168}
+  m_AnchoredPosition: {x: -303.4, y: 168}
   m_SizeDelta: {x: 327.8478, y: 57.768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1719672199
@@ -3580,7 +3576,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Log In
+  m_Text: "Iniciar Sesi\xF3n"
 --- !u!222 &1719672200
 CanvasRenderer:
   m_ObjectHideFlags: 0
