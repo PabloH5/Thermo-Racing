@@ -10431,18 +10431,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ba835df8ae9ac5e43a3d21bc9fb32c06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1309196535}
-    - targetCorrespondingSourceObject: {fileID: -516098083770646512, guid: ba835df8ae9ac5e43a3d21bc9fb32c06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 875183203}
-    - targetCorrespondingSourceObject: {fileID: -516098083770646512, guid: ba835df8ae9ac5e43a3d21bc9fb32c06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 875183202}
-    - targetCorrespondingSourceObject: {fileID: 8416272007918961125, guid: ba835df8ae9ac5e43a3d21bc9fb32c06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 875183201}
-    - targetCorrespondingSourceObject: {fileID: 8416272007918961125, guid: ba835df8ae9ac5e43a3d21bc9fb32c06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 875183200}
     - targetCorrespondingSourceObject: {fileID: -7029948723529949830, guid: ba835df8ae9ac5e43a3d21bc9fb32c06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1309196538}
@@ -12182,7 +12170,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1089266308}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1537884950
 BoxCollider:
@@ -16714,7 +16702,6 @@ Transform:
   - {fileID: 1954206388}
   - {fileID: 625005871}
   - {fileID: 613952180}
-  - {fileID: 1089266308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085216267
@@ -16763,17 +16750,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27c46738ad409942b454002787ca767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasRaceQuestions: {fileID: 1378795364}
-  textQuestion: {fileID: 1435871630}
-  answersGameObjects:
-  - {fileID: 1685238147}
-  - {fileID: 887396210}
-  - {fileID: 2089741402}
-  - {fileID: 1164865681}
-  positiveAudio: {fileID: 1639333387}
-  negativeAudio: {fileID: 1573080913}
   playerPrefab: {fileID: 5689739502111116096, guid: 4d544ba350967b748bebca3e3ab50db2, type: 3}
   prefabIA: {fileID: 5565807616667697529, guid: c88b882ae42f42b46a33132a8c3dbabf, type: 3}
+  startAngle: 180
 --- !u!114 &2085216270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17171,3 +17150,4 @@ SceneRoots:
   - {fileID: 296752875}
   - {fileID: 1781229912}
   - {fileID: 8344788703014373536}
+  - {fileID: 1537884949}

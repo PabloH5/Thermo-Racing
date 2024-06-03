@@ -36,24 +36,24 @@ EditorBuildSettings:
     path: Assets/Scenes/BuildScenes/Minigames/ThermoEcuacionador.unity
     guid: 368b113e6807adb43a93c5b7eff9134b
   - enabled: 1
-    path: Assets/Scenes/BuildScenes/ChooseRaceGameMode.unity
+    path: Assets/Scenes/BuildScenes/Multiplayer/ChooseRaceGameMode.unity
     guid: 3f1417266c5104e4ca4ee003bdf2d0a0
   - enabled: 1
-    path: Assets/Scenes/BuildScenes/LobbyScene.unity
+    path: Assets/Scenes/BuildScenes/Multiplayer/LobbyScene.unity
     guid: 48d584fcffee7024e936e8b1b36be4eb
   - enabled: 1
-    path: Assets/Scenes/BuildScenes/Race.unity
+    path: Assets/Scenes/BuildScenes/Multiplayer/Race.unity
     guid: ec6185d03f5ae7c45868b5786c8a2e16
   - enabled: 1
-    path: Assets/Scenes/BuildScenes/SelectRace.unity
+    path: Assets/Scenes/BuildScenes/Multiplayer/SelectRace.unity
     guid: 23136a9ff0999a14d9f5b7c514c2c08b
   - enabled: 1
-    path: Assets/Scenes/BuildScenes/SelectRaceSingleplayer.unity
+    path: Assets/Scenes/BuildScenes/Multiplayer/SelectRaceSingleplayer.unity
     guid: c1bee31d7577e1448a67c31383c23a63
   - enabled: 1
-    path: Assets/Scenes/BuildScenes/Track1Core.unity
+    path: Assets/Scenes/BuildScenes/Multiplayer/Track1Core.unity
     guid: 4badac706788a0b4eab766e1248341e4
   - enabled: 1
-    path: Assets/Scenes/BuildScenes/Track2.unity
+    path: Assets/Scenes/BuildScenes/Multiplayer/Track2.unity
     guid: cc3c050fd6419fa4584f8dba831db221
   m_configObjects: {}
