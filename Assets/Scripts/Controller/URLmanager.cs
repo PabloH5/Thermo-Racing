@@ -39,5 +39,4 @@ public class URLmanager : MonoBehaviour
     {
         Application.OpenURL(url);
     }
-
 }
