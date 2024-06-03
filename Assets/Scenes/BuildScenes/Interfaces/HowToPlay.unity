@@ -238,7 +238,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ad029e856f763a343a404522677ca194, type: 3}
+  m_Sprite: {fileID: 1893580554, guid: 2e2cb326221b9cd4bad9bb0ed4d4f221, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -752,7 +752,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef4d02853cd23b54fab192d48c86c4e7, type: 3}
+  m_Sprite: {fileID: 1407563126, guid: 5d59b223e4aec694cb712c34499f77cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -922,6 +922,8 @@ MonoBehaviour:
   CanvasToOff: {fileID: 362385380}
   CanvasToOn: {fileID: 1797045640}
   CanvasBack: {fileID: 0}
+  sceneToBack: 
+  usernameTextUI: {fileID: 0}
 --- !u!4 &449078878
 Transform:
   m_ObjectHideFlags: 0
@@ -1127,7 +1129,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ad029e856f763a343a404522677ca194, type: 3}
+  m_Sprite: {fileID: 1893580554, guid: 2e2cb326221b9cd4bad9bb0ed4d4f221, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1388,6 +1390,8 @@ MonoBehaviour:
   CanvasToOff: {fileID: 1797045640}
   CanvasToOn: {fileID: 2096618801}
   CanvasBack: {fileID: 362385380}
+  sceneToBack: 
+  usernameTextUI: {fileID: 0}
 --- !u!1 &962227702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,7 +1657,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ad029e856f763a343a404522677ca194, type: 3}
+  m_Sprite: {fileID: 1893580554, guid: 2e2cb326221b9cd4bad9bb0ed4d4f221, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1947,6 +1951,8 @@ MonoBehaviour:
   CanvasToOff: {fileID: 2096618801}
   CanvasToOn: {fileID: 592932535}
   CanvasBack: {fileID: 1797045640}
+  sceneToBack: 
+  usernameTextUI: {fileID: 0}
 --- !u!1 &1317456854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2175,6 +2181,8 @@ MonoBehaviour:
   CanvasToOff: {fileID: 592932535}
   CanvasToOn: {fileID: 362385380}
   CanvasBack: {fileID: 2096618801}
+  sceneToBack: 
+  usernameTextUI: {fileID: 0}
 --- !u!1 &1430563265
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,7 +2373,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef4d02853cd23b54fab192d48c86c4e7, type: 3}
+  m_Sprite: {fileID: 1407563126, guid: 5d59b223e4aec694cb712c34499f77cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2807,7 +2815,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef4d02853cd23b54fab192d48c86c4e7, type: 3}
+  m_Sprite: {fileID: 1407563126, guid: 5d59b223e4aec694cb712c34499f77cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
