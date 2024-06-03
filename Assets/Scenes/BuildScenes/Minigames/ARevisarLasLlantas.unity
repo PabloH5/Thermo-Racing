@@ -2393,16 +2393,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -29.955757
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.6
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2432,13 +2444,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1447255439881697843, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: lengthInSec
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: ShapeModule.m_Scale.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: ShapeModule.m_Scale.z
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433137024714169997, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.003
+      objectReference: {fileID: 0}
+    - target: {fileID: 7001249048396552213, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: MaxDistance
+      value: 1.5505815
+      objectReference: {fileID: 0}
     - target: {fileID: 8136067643069261171, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
       propertyPath: m_Name
       value: Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136067643069261171, guid: 7919648d43436b740a8b8b1362ee414c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.VFX;
 using Unity.Netcode;
+using TMPro;
 
 namespace KartGame.KartSystems
 {
@@ -164,7 +165,7 @@ namespace KartGame.KartSystems
         const float k_NullSpeed = 0.01f;
         Vector3 m_VerticalReference = Vector3.up;
 
-        // Drift params
+        // Drift paramss
         public bool WantsToDrift { get; private set; } = false;
         public bool IsDrifting { get; private set; } = false;
         float m_CurrentGrip = 1.0f;
@@ -195,11 +196,26 @@ namespace KartGame.KartSystems
         [SerializeField] private GameObject engineAudio;
         private bool _IsSafeToSpawn = true;
 
-        // private enum State
-        // {
-        //     Wa
-        // }
         public event EventHandler OnLocalPlayerReadyChanged;
+
+
+        public class CheckpointData
+        {
+            public bool IsChecked { get; set; }
+            public DateTime CheckpointTime { get; set; }
+
+            public CheckpointData(bool isChecked, DateTime checkpointTime)
+            {
+                IsChecked = isChecked;
+                CheckpointTime = checkpointTime;
+            }
+        }
+        private Dictionary<string, CheckpointData> checkpointDictionary = new Dictionary<string, CheckpointData>();
+        private CheckList checkpointManagerScript;
+        public bool _CanGoForLap = false;
+
+        public Vector3 mySpawnPosition;
+        private BoxCollider boxColliderRetrySpawnPosition;
 
 
         private void Awake()
@@ -233,6 +249,24 @@ namespace KartGame.KartSystems
                     Instantiate(NozzleVFX, nozzle, false);
                 }
             }
+
+            if (IsOwner)
+            {
+                checkpointManagerScript = GameObject.FindGameObjectWithTag("CheckpointManager").GetComponent<CheckList>();
+                checkpointManagerScript.InitializeChekpointArcadeKart(gameObject, true);
+            }
+
+            if (IsServer)
+            {
+                StartCoroutine(UpdateLeadingPlayerEverySecond());
+            }
+
+            boxColliderRetrySpawnPosition = GameObject.FindGameObjectWithTag("ReTrySpawn").GetComponent<BoxCollider>();
+        }
+
+        public void UpdateMySpawn()
+        {
+            transform.position = mySpawnPosition;
         }
 
         void FixedUpdate()
@@ -321,6 +355,140 @@ namespace KartGame.KartSystems
             if (clientId == OwnerClientId)
             {
                 //Some logic to think if exist a problem related with disconnects
+            }
+        }
+
+        public void AddOrUpdateCheckpoint(string checkpointName, bool isChecked, DateTime checkpointTime)
+        {
+            Debug.Log($"Updating checkpoint: {checkpointName}, IsChecked: {isChecked}");
+            if (!checkpointDictionary.ContainsKey(checkpointName))
+            {
+                checkpointDictionary.Add(checkpointName, new CheckpointData(isChecked, checkpointTime));
+            }
+            else
+            {
+                checkpointDictionary[checkpointName].IsChecked = isChecked;
+                checkpointDictionary[checkpointName].CheckpointTime = checkpointTime;
+            }
+
+            bool allCheckpointsTrue = true; 
+            List<string> falseCheckpoints = new List<string>();
+
+            foreach (var checkpoint in checkpointDictionary)
+            {
+                Debug.Log($"I am  {checkpoint.Key} and my values is: {checkpoint.Value.IsChecked}");
+                if (checkpoint.Value.IsChecked == false)
+                {
+                    allCheckpointsTrue = false;
+                    falseCheckpoints.Add(checkpoint.Key);
+                }
+            }
+
+            if (allCheckpointsTrue)
+            {
+                _CanGoForLap = true;
+            }
+            else
+            {
+                _CanGoForLap = false;
+            }
+        }
+
+        public CheckpointData GetCheckpointData(string checkpointName)
+        {
+            if (checkpointDictionary.ContainsKey(checkpointName))
+            {
+                return checkpointDictionary[checkpointName];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private List<ArcadeKart> GetAllPlayers()
+        {
+            List<ArcadeKart> otherPlayers = new List<ArcadeKart>();
+            ArcadeKart[] allPlayers = FindObjectsOfType<ArcadeKart>();
+
+            foreach (ArcadeKart player in allPlayers)
+            {
+                otherPlayers.Add(player);
+            }
+            return otherPlayers;
+        }
+
+        private void GetLeadingPlayer()
+        {
+            List<ArcadeKart> otherPlayers = GetAllPlayers();
+            ArcadeKart leadingPlayer = null;
+            int maxTrueCheckpoints = 0;
+            DateTime earliestCheckpointTime = DateTime.MaxValue;
+
+            foreach (ArcadeKart player in otherPlayers)
+            {
+                int trueCheckpointsCount = 0;
+                DateTime latestCheckpointTime = DateTime.MinValue;
+
+                foreach (var checkpoint in player.checkpointDictionary)
+                {
+                    if (checkpoint.Value.IsChecked)
+                    {
+                        trueCheckpointsCount++;
+                        if (checkpoint.Value.CheckpointTime > latestCheckpointTime)
+                        {
+                            latestCheckpointTime = checkpoint.Value.CheckpointTime;
+                        }
+                    }
+                }
+
+                if (trueCheckpointsCount > maxTrueCheckpoints)
+                {
+                    maxTrueCheckpoints = trueCheckpointsCount;
+                    earliestCheckpointTime = latestCheckpointTime;
+                    leadingPlayer = player;
+                }
+                else if (trueCheckpointsCount == maxTrueCheckpoints && latestCheckpointTime < earliestCheckpointTime)
+                {
+                    earliestCheckpointTime = latestCheckpointTime;
+                    leadingPlayer = player;
+                }
+            }
+
+            foreach (ArcadeKart player in otherPlayers)
+            {
+                int position = player == leadingPlayer ? 1 : 2;
+                UpdatePlayerPositionCanvas(player, position);
+            }
+        }
+
+        private void UpdatePlayerPositionCanvas(ArcadeKart player, int position)
+        {
+            Transform canvasTransform = player.transform.Find("Race UI");
+            if (canvasTransform != null)
+            {
+                TextMeshProUGUI positionText = canvasTransform.Find("Current player position").GetComponent<TextMeshProUGUI>();
+                if (positionText != null)
+                {
+                    positionText.text = position.ToString();
+                } else { Debug.Log("I can not find the text"); }
+            }
+            else 
+            {
+                Debug.Log("I can not find the canvas");
+            }
+        }
+
+        private IEnumerator UpdateLeadingPlayerEverySecond()
+        {
+            while (true)
+            {
+                if (IsServer)
+                {
+                    GetLeadingPlayer();
+                    Debug.Log("Checking leader");
+                }
+                yield return new WaitForSeconds(1f);
             }
         }
 

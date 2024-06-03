@@ -13,9 +13,6 @@ namespace KartGame.KartSystems
 {
     public class RaceController : NetworkBehaviour
     {
-        private List<RaceQuestionModel> raceQuestions;
-        private string correctAnswer;
-
         [SerializeField] private Transform playerPrefab;
 
         [SerializeField] private GameObject prefabIA;
@@ -25,37 +22,11 @@ namespace KartGame.KartSystems
         private List<Vector3> spawnPositionListSingleplayer = new List<Vector3>();
         [SerializeField] private int startAngle = 180;
 
-        [Space(10)]
-        [Header("Quick Time Event")]
-        [SerializeField] private GameObject canvasRaceQuestions;
-        [SerializeField] private GoalQTEController quickTimeEventController;
-        [SerializeField] private TextMeshProUGUI textQuestion;
-        [SerializeField] private GameObject[] answersGameObjects;
-        [SerializeField] private GameObject positiveAudio;
-        [SerializeField] private GameObject negativeAudio;
-
         public Boolean LastQuestion { get; set; }
-
-        [Space(5)]
-        [Header("Feedback UI")]
-        [SerializeField] private bool feedbackIsActive;
-        [SerializeField] private GameObject questionPanel;
-        [SerializeField] private GameObject feedbackPanel;
-        [SerializeField] private TMP_Text correctAnswerText;
-        [SerializeField] private TMP_Text feedbackTitle;
-        [SerializeField] private Image positiveFeedBackImage;
-        [SerializeField] private Image negativeFeedBackImage;
-
-
 
         // Start is called before the first frame update
         void Start()
         {
-            raceQuestions = RaceQuestionModel.GetRaceQuestions();
-            raceQuestions.ForEach(question => Debug.Log(question.wording));
-            //FillQuestionText();
-            SelectNewQuestion();
-
             if (!RaceMultiplayerController.playMultiplayer)
             {
                 InitializeSpawnPointsSingleplayer();
@@ -87,17 +58,6 @@ namespace KartGame.KartSystems
             }
         }
 
-        private void FixedUpdate()
-        {
-            // Verifica si se ha tocado la pantalla
-            if (feedbackIsActive == true && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            {
-                // Desactiva el Canvas
-                feedbackPanel.gameObject.SetActive(false);
-                canvasRaceQuestions.SetActive(true);
-            }
-        }
-
         public override void OnNetworkSpawn()
         {
             if (IsServer)
@@ -113,17 +73,80 @@ namespace KartGame.KartSystems
             yield return new WaitForSeconds(5);
             controllerAI.shouldMove = true;
         }
-        private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        StartCoroutine(SpawnPlayersAfterDelay(10f));
+    }
+
+    private IEnumerator SpawnPlayersAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            Vector3 spawnPosition = GetRandomSpawnPoint();
+            Transform playerTransform;
+
+            if (SceneManager.GetActiveScene().name == "Track1Core")
             {
-                Vector3 spawnPosition = GetRandomSpawnPoint();
-                Transform playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
-                ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
-                Destroy(arcadeKart);
-                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+                playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
+            }
+            else if (SceneManager.GetActiveScene().name == "Track2")
+            {
+                playerTransform = Instantiate(playerPrefab, spawnPosition, Quaternion.Euler(0, 90, 0));
+            }
+            else
+            {
+                continue;
+            }
+
+            if (!IsServer) { playerTransform.GetComponent<ArcadeKart>().mySpawnPosition = spawnPosition; }
+
+            if (!TrySpawnPlayer(playerTransform, clientId))
+            {
+                Debug.Log("Failed to spawn player, retrying...");
+                yield return new WaitForSeconds(1f); // Wait before retrying
+                TrySpawnPlayer(playerTransform, clientId);
             }
         }
+    }
+
+    private bool TrySpawnPlayer(Transform playerTransform, ulong clientId)
+    {
+        try
+        {
+            ArcadeKartSingleplayer arcadeKart = playerTransform.GetComponent<ArcadeKartSingleplayer>();
+            Destroy(arcadeKart);
+
+            Rigidbody playerRigidbody = playerTransform.GetComponent<Rigidbody>();
+            playerRigidbody.isKinematic = true;
+            playerRigidbody.useGravity = false;
+
+            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+
+            // Ensure the Rigidbody is properly configured after spawning
+            StartCoroutine(ConfigureRigidbodyAfterSpawn(playerTransform, playerRigidbody));
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error spawning player: {e.Message}");
+            if (playerTransform.GetComponent<NetworkObject>().IsSpawned)
+            {
+                playerTransform.GetComponent<NetworkObject>().Despawn();
+                Destroy(playerTransform.gameObject);
+            }
+            return false;
+        }
+    }
+
+    private IEnumerator ConfigureRigidbodyAfterSpawn(Transform playerTransform, Rigidbody playerRigidbody)
+    {
+        yield return new WaitForSeconds(0.1f); // Small delay to ensure proper initialization
+        playerRigidbody.isKinematic = false;
+        playerRigidbody.useGravity = true;
+    }
 
         private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
         {
@@ -217,186 +240,5 @@ namespace KartGame.KartSystems
             }
 
         }
-
-        public void SelectNewQuestion()
-        {
-
-            RaceQuestionModel question = raceQuestions.First();
-            if (question == null)
-            {
-                Debug.Log("NO hay más preguntas madafakas");
-                return;
-            }
-
-            Debug.Log("-------------------------------");
-            Debug.Log($"Preguntas disponibles {raceQuestions.Count}");
-            Debug.Log($"Respuesta {question.correct_option}");
-            Debug.Log("-------------------------------");
-
-
-            string[] options = new string[]
-           {
-                question.first_option,
-                question.second_option,
-                question.third_option,
-                question.fourth_option
-           };
-
-            for (int i = options.Length - 1; i > 0; i--)
-            {
-                int j = UnityEngine.Random.Range(0, i + 1);
-                string temp = options[i];
-                options[i] = options[j];
-                options[j] = temp;
-            }
-
-            textQuestion.text = question.wording;
-
-            for (int i = 0; i < answersGameObjects.Length && i < options.Length; i++)
-            {
-                TextMeshProUGUI answerText = answersGameObjects[i].GetComponentInChildren<TextMeshProUGUI>();
-                if (answerText != null)
-                {
-                    answerText.text = options[i];
-                }
-            }
-
-            correctAnswer = question.correct_option;
-
-            raceQuestions.RemoveAt(0);
-        }
-
-        private void FillQuestionText()
-        {
-            //int index = UnityEngine.Random.Range(0, raceQuestions.Count);
-            //RaceQuestionModel raceQuestion = raceQuestions[index];
-            //raceQuestions.RemoveAt(index);
-            RaceQuestionModel raceQuestion = raceQuestions.First();
-            raceQuestions.RemoveAt(0);
-
-            string[] options = new string[]
-            {
-                raceQuestion.first_option,
-                raceQuestion.second_option,
-                raceQuestion.third_option,
-                raceQuestion.fourth_option
-            };
-
-            for (int i = options.Length - 1; i > 0; i--)
-            {
-                int j = UnityEngine.Random.Range(0, i + 1);
-                string temp = options[i];
-                options[i] = options[j];
-                options[j] = temp;
-            }
-
-            textQuestion.text = raceQuestion.wording;
-
-            for (int i = 0; i < answersGameObjects.Length && i < options.Length; i++)
-            {
-                TextMeshProUGUI answerText = answersGameObjects[i].GetComponentInChildren<TextMeshProUGUI>();
-                if (answerText != null)
-                {
-                    answerText.text = options[i];
-                }
-            }
-
-            correctAnswer = raceQuestion.correct_option;
-        }
-
-        public void ValidateCorrectAnswer(int NumberOfAnswer)
-        {
-            string TextAnswer = answersGameObjects[NumberOfAnswer].GetComponentInChildren<TextMeshProUGUI>().text;
-
-            if (correctAnswer == TextAnswer)
-            {
-                CorrectBehaviour();
-            }
-            else
-            {
-                IncorrectBehaviour();
-            }
-        }
-
-        private void CorrectBehaviour()
-        {
-            // Desactive the question panel
-            questionPanel.gameObject.SetActive(false);
-
-            // Show positive feedback;
-            feedbackIsActive = true;
-            positiveAudio.GetComponent<AudioSource>().Play();
-            feedbackTitle.text = "¡Has acertado!";
-            feedbackPanel.gameObject.SetActive(true);
-
-            // Active the positive feedback image.
-            positiveFeedBackImage.gameObject.SetActive(true);
-            correctAnswerText.text = correctAnswer;
-
-            
-            if (LastQuestion == true)
-            {
-                quickTimeEventController.FinishRace();
-            }
-            else
-            {
-                // Allow user movement.
-                quickTimeEventController.FreezePlayer(false);
-            }
-        }
-
-        private void IncorrectBehaviour()
-        {
-            // ---
-            // Desactive the question panel
-            questionPanel.gameObject.SetActive(false);
-
-            // Show negative feedback;
-            feedbackIsActive = true;
-            negativeAudio.GetComponent<AudioSource>().Play();
-            feedbackTitle.text = "¡Has fallado!";
-            feedbackPanel.gameObject.SetActive(true);
-
-
-            // Active the negative feedback image.
-            negativeFeedBackImage.gameObject.SetActive(true);
-            correctAnswerText.text = correctAnswer;
-
-            if (LastQuestion == true)
-            {
-                quickTimeEventController.FinishRace();
-            }
-            else
-            {
-                // Allow user movement.
-                quickTimeEventController.FreezePlayer(false);
-            }
-
-        }
-
-        public void ActivateRaceQuestionCanvas()
-        {
-            //quickTimeEventController.ModifyUserConstraints(1);
-
-
-            // Desactivate the image feedback
-            negativeFeedBackImage.gameObject.SetActive(false);
-            positiveFeedBackImage.gameObject.SetActive(false);
-
-            questionPanel.gameObject.SetActive(true);
-            canvasRaceQuestions.SetActive(true);
-        }
-
-        public void DeactivateRaceQuestionCanvas()
-        {
-            canvasRaceQuestions.SetActive(false);
-        }
-
-
-        //void OnDestroy()
-        //{
-        //    networkSpawnPositionList.Dispose();
-        //}
-
     }
 }

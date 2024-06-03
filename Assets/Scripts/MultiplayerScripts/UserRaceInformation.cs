@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class UserRaceInformation : MonoBehaviour
 {
-    public int numberOfLaps { get; set; }
+    public int numberOfLaps;
 
     void Start()
     {
         // In the first moment, the user has to touch the goal line at least once before start to count laps.
-        numberOfLaps = -1;
+        numberOfLaps = 0;
     }
 }

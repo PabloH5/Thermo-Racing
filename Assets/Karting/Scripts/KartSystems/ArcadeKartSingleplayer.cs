@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.VFX;
+using TMPro;
+using System.Collections;
 
 namespace KartGame.KartSystems
 {
@@ -188,6 +190,22 @@ namespace KartGame.KartSystems
         public void SetCanMove(bool move) => m_CanMove = move;
         public float GetMaxSpeed() => Mathf.Max(m_FinalStats.TopSpeed, m_FinalStats.ReverseSpeed);
 
+        public class CheckpointData
+        {
+            public bool IsChecked { get; set; }
+            public DateTime CheckpointTime { get; set; }
+
+            public CheckpointData(bool isChecked, DateTime checkpointTime)
+            {
+                IsChecked = isChecked;
+                CheckpointTime = checkpointTime;
+            }
+        }
+
+        private Dictionary<string, CheckpointData> checkpointDictionary = new Dictionary<string, CheckpointData>();
+        private CheckList checkpointManagerScript;
+        public bool _CanGoForLap = false;
+
         private void ActivateDriftVFX(bool active)
         {
             foreach (var vfx in m_DriftSparkInstances)
@@ -265,6 +283,147 @@ namespace KartGame.KartSystems
                     Instantiate(NozzleVFX, nozzle, false);
                 }
             }
+
+            if (!RaceMultiplayerController.playMultiplayer)
+            {
+                checkpointManagerScript = GameObject.FindGameObjectWithTag("CheckpointManager").GetComponent<CheckList>();
+                checkpointManagerScript.InitializeChekpointArcadeKart(gameObject, false);
+            }
+        
+            StartCoroutine(UpdateLeadingPlayerEverySecond());    
+        }
+
+        public void AddOrUpdateCheckpoint(string checkpointName, bool isChecked, DateTime checkpointTime)
+        {
+            Debug.Log($"Updating checkpoint: {checkpointName}, IsChecked: {isChecked}");
+            if (!checkpointDictionary.ContainsKey(checkpointName))
+            {
+                checkpointDictionary.Add(checkpointName, new CheckpointData(isChecked, checkpointTime));
+                Debug.Log(checkpointDictionary[checkpointName].IsChecked);
+            }
+            else
+            {
+                checkpointDictionary[checkpointName].IsChecked = isChecked;
+                checkpointDictionary[checkpointName].CheckpointTime = checkpointTime;
+            }
+
+            bool allCheckpointsTrue = true; 
+            List<string> falseCheckpoints = new List<string>();
+
+            foreach (var checkpoint in checkpointDictionary)
+            {
+                Debug.Log($"I am  {checkpoint.Key} and my values is: {checkpoint.Value.IsChecked}");
+                if (checkpoint.Value.IsChecked == false)
+                {
+                    allCheckpointsTrue = false;
+                    falseCheckpoints.Add(checkpoint.Key);
+                }
+            }
+
+            if (allCheckpointsTrue)
+            {
+                _CanGoForLap = true;
+                Debug.Log("All checkpoints are true. Ready for next lap.");
+            }
+            else
+            {
+                _CanGoForLap = false;
+                Debug.Log("Not all checkpoints are true. Can't go for next lap.");
+                Debug.Log("Checkpoints still false: " + string.Join(", ", falseCheckpoints));
+            }
+        }
+
+        public CheckpointData GetCheckpointData(string checkpointName)
+        {
+            if (checkpointDictionary.ContainsKey(checkpointName))
+            {
+                return checkpointDictionary[checkpointName];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private List<ArcadeKart> GetAllPlayers()
+        {
+            List<ArcadeKart> otherPlayers = new List<ArcadeKart>();
+            ArcadeKart[] allPlayers = FindObjectsOfType<ArcadeKart>();
+
+            foreach (ArcadeKart player in allPlayers)
+            {
+                otherPlayers.Add(player);
+            }
+            return otherPlayers;
+        }
+
+        private void GetLeadingPlayer()
+        {
+            // List<ArcadeKartSingleplayer> otherPlayers = GetAllPlayers();
+            // ArcadeKart leadingPlayer = null;
+            // int maxTrueCheckpoints = 0;
+            // DateTime earliestCheckpointTime = DateTime.MaxValue;
+
+            // foreach (ArcadeKart player in otherPlayers)
+            // {
+            //     int trueCheckpointsCount = 0;
+            //     DateTime latestCheckpointTime = DateTime.MinValue;
+
+            //     foreach (var checkpoint in player.checkpointDictionary)
+            //     {
+            //         if (checkpoint.Value.IsChecked)
+            //         {
+            //             trueCheckpointsCount++;
+            //             if (checkpoint.Value.CheckpointTime > latestCheckpointTime)
+            //             {
+            //                 latestCheckpointTime = checkpoint.Value.CheckpointTime;
+            //             }
+            //         }
+            //     }
+
+            //     if (trueCheckpointsCount > maxTrueCheckpoints)
+            //     {
+            //         maxTrueCheckpoints = trueCheckpointsCount;
+            //         earliestCheckpointTime = latestCheckpointTime;
+            //         leadingPlayer = player;
+            //     }
+            //     else if (trueCheckpointsCount == maxTrueCheckpoints && latestCheckpointTime < earliestCheckpointTime)
+            //     {
+            //         earliestCheckpointTime = latestCheckpointTime;
+            //         leadingPlayer = player;
+            //     }
+            // }
+
+            // foreach (ArcadeKart player in otherPlayers)
+            // {
+            //     int position = player == leadingPlayer ? 1 : 2;
+            //     UpdatePlayerPositionCanvas(player, position);
+            // }
+        }
+
+        private void UpdatePlayerPositionCanvas(ArcadeKart player, int position)
+        {
+            Transform canvasTransform = player.transform.Find("Race UI");
+            if (canvasTransform != null)
+            {
+                TextMeshProUGUI positionText = canvasTransform.Find("Current player position").GetComponent<TextMeshProUGUI>();
+                if (positionText != null)
+                {
+                    positionText.text = position.ToString();
+                }
+            }
+        }
+
+        private IEnumerator UpdateLeadingPlayerEverySecond()
+        {
+            // while (true)
+            // {
+            //     if (IsServer)
+            //     {
+            //         GetLeadingPlayer();
+            //     }
+            yield return new WaitForSeconds(1f);
+            // }
         }
 
         void AddTrailToWheel(WheelCollider wheel)
