@@ -205,6 +205,12 @@ namespace KartGame.KartSystems
         private Dictionary<string, CheckpointData> checkpointDictionary = new Dictionary<string, CheckpointData>();
         private CheckList checkpointManagerScript;
         public bool _CanGoForLap = false;
+        private GameObject Countdown1;
+        private GameObject Countdown2;
+        private GameObject Countdown3;
+        float countdownTimer = 0f;
+        int currentCountdownIndex = 3;
+
 
         private void ActivateDriftVFX(bool active)
         {
@@ -284,10 +290,28 @@ namespace KartGame.KartSystems
                 }
             }
 
+            foreach (Transform child in transform)
+            {
+                if (child.name == "Race UI")
+                {
+                    foreach (Transform grandchild in child.transform)
+                    {
+                        if (grandchild.name == "StartRace")
+                        {
+                            Countdown1 = grandchild.Find("Countdown1").gameObject;
+                            Countdown2 = grandchild.Find("Countdown2").gameObject;
+                            Countdown3 = grandchild.Find("Countdown3").gameObject;
+                            SetCountdownActive(default);
+                        }
+                    }
+                }
+            }
+
             if (!RaceMultiplayerController.playMultiplayer)
             {
                 checkpointManagerScript = GameObject.FindGameObjectWithTag("CheckpointManager").GetComponent<CheckList>();
                 checkpointManagerScript.InitializeChekpointArcadeKart(gameObject, false);
+                RaceMultiplayerController.Instance.CountdownToStart();
             }
         
             StartCoroutine(UpdateLeadingPlayerEverySecond());    
@@ -312,7 +336,7 @@ namespace KartGame.KartSystems
 
             foreach (var checkpoint in checkpointDictionary)
             {
-                Debug.Log($"I am  {checkpoint.Key} and my values is: {checkpoint.Value.IsChecked}");
+                // Debug.Log($"I am  {checkpoint.Key} and my values is: {checkpoint.Value.IsChecked}");
                 if (checkpoint.Value.IsChecked == false)
                 {
                     allCheckpointsTrue = false;
@@ -444,44 +468,92 @@ namespace KartGame.KartSystems
 
         void FixedUpdate()
         {
-            UpdateSuspensionParams(FrontLeftWheel);
-            UpdateSuspensionParams(FrontRightWheel);
-            UpdateSuspensionParams(RearLeftWheel);
-            UpdateSuspensionParams(RearRightWheel);
-
-            GatherInputs();
-
-            // apply our powerups to create our finalStats
-            TickPowerups();
-
-            // apply our physics properties
-            Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
-
-            int groundedCount = 0;
-            if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
-                groundedCount++;
-            if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
-                groundedCount++;
-
-            // calculate how grounded and airborne we are
-            GroundPercent = (float)groundedCount / 4.0f;
-            AirPercent = 1 - GroundPercent;
-
-            // apply vehicle physics
-            if (m_CanMove)
+            if (RaceMultiplayerController.Instance.IsGamePlaying())
             {
-                MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
+                UpdateSuspensionParams(FrontLeftWheel);
+                UpdateSuspensionParams(FrontRightWheel);
+                UpdateSuspensionParams(RearLeftWheel);
+                UpdateSuspensionParams(RearRightWheel);
+
+                GatherInputs();
+
+                // apply our powerups to create our finalStats
+                TickPowerups();
+
+                // apply our physics properties
+                Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
+
+                int groundedCount = 0;
+                if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
+                    groundedCount++;
+                if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
+                    groundedCount++;
+                if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
+                    groundedCount++;
+                if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
+                    groundedCount++;
+
+                // calculate how grounded and airborne we are
+                GroundPercent = (float)groundedCount / 4.0f;
+                AirPercent = 1 - GroundPercent;
+
+                // apply vehicle physics
+                if (m_CanMove)
+                {
+                    MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
+                }
+                GroundAirbourne();
+
+                m_PreviousGroundPercent = GroundPercent;
+
+                UpdateDriftVFXOrientation();
             }
-            GroundAirbourne();
 
-            m_PreviousGroundPercent = GroundPercent;
-
-            UpdateDriftVFXOrientation();
+            if (RaceMultiplayerController.Instance.IsCountdownToStartActive())
+            {
+                countdownTimer += Time.fixedDeltaTime;
+                if (countdownTimer >= 1f)
+                {
+                    SetCountdownActive(currentCountdownIndex);
+                    currentCountdownIndex--;
+                    countdownTimer = 0f;
+                }
+            }
         }
+
+        void SetCountdownActive(int countdownIndex)
+        {
+            switch (countdownIndex)
+            {
+                case 3:
+                    Countdown1.SetActive(false);
+                    Countdown2.SetActive(false);
+                    Countdown3.SetActive(true);
+                    break;
+                case 2:
+                    Countdown1.SetActive(false);
+                    Countdown2.SetActive(true);
+                    Countdown3.SetActive(false);
+                    break;
+                case 1:
+                    Countdown1.SetActive(true);
+                    Countdown2.SetActive(false);
+                    Countdown3.SetActive(false);
+                    break;
+                case 0:
+                    Countdown1.SetActive(false);
+                    Countdown2.SetActive(false);
+                    Countdown3.SetActive(false);
+                    RaceMultiplayerController.Instance.GamePlaying();
+                    break;
+                default:
+                    Countdown1.SetActive(false);
+                    Countdown2.SetActive(false);
+                    Countdown3.SetActive(false);
+                    break;
+            }
+        }
+
         void GatherInputs()
         {
             // reset input
@@ -573,10 +645,12 @@ namespace KartGame.KartSystems
                     m_LastCollisionNormal = contact.normal;
             }
         }
+
         public void AccelerateUI()
         {
             MoveVehicle(true, false, 0);
         }
+
         void MoveVehicle(bool accelerate, bool brake, float turnInput)
         {
             float accelInput = (accelerate ? 1.0f : 0.0f) - (brake ? 1.0f : 0.0f);

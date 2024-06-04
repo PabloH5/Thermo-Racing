@@ -25,7 +25,7 @@ public class CheckList : MonoBehaviour
     {
         if (_IsMultiplayer)
         {
-            Debug.Log("Im initializing checkpoints in multiplayer");
+            // Debug.Log("Im initializing checkpoints in multiplayer");
             foreach (GameObject checkpoint in objectList)
             {
                 ArcadeKart arcadeKart = kartPlayer.GetComponent<ArcadeKart>();
@@ -34,7 +34,7 @@ public class CheckList : MonoBehaviour
         }
         else 
         {
-            Debug.Log("Im initializing checkpoints in singleplayer");
+            // Debug.Log("Im initializing checkpoints in singleplayer");
             foreach (GameObject checkpoint in objectList)
             {
                 ArcadeKartSingleplayer arcadeKartSingleplayer = kartPlayer.GetComponent<ArcadeKartSingleplayer>();

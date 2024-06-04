@@ -109,6 +109,8 @@ namespace KartGame.KartSystems
                 TrySpawnPlayer(playerTransform, clientId);
             }
         }
+
+        RaceMultiplayerController.Instance.CountdownToStart();
     }
 
     private bool TrySpawnPlayer(Transform playerTransform, ulong clientId)
@@ -193,7 +195,7 @@ namespace KartGame.KartSystems
                 spawnPointParent = GameObject.FindGameObjectWithTag("Spawnpoint");
                 if (spawnPointParent != null)
                 {
-                    Debug.Log("I find spawnpoint");
+                    // Debug.Log("I find spawnpoint");
                     foreach (Transform child in spawnPointParent.transform)
                     {
                         spawnPositionListSingleplayer.Add(child.position);

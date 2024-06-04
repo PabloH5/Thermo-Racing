@@ -41,7 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/Multiplayer/LobbyScene.unity
     guid: 48d584fcffee7024e936e8b1b36be4eb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BuildScenes/Multiplayer/Race.unity
     guid: ec6185d03f5ae7c45868b5786c8a2e16
   - enabled: 1

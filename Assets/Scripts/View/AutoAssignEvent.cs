@@ -26,7 +26,7 @@ namespace KartGame.KartSystems
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-            Debug.Log(players.ToString());
+            // Debug.Log(players.ToString());
 
             if (players != null)
             {
@@ -35,10 +35,10 @@ namespace KartGame.KartSystems
                     if (AllChildrenActive(playerObject))
                     {
                         keyboardInput = playerObject.GetComponent<KeyboardInput>();
-                        Debug.Log("Im KeyboardInput in AutoAssignEvent " + keyboardInput);
+                        // Debug.Log("Im KeyboardInput in AutoAssignEvent " + keyboardInput);
                         if (keyboardInput != null)
                         {
-                            Debug.Log("I found KeyboardInput");
+                            // Debug.Log("I found KeyboardInput");
                             break;
                         }
                     }
@@ -72,7 +72,7 @@ namespace KartGame.KartSystems
 
         void OnPointerDownDelegate(PointerEventData data)
         {
-            Debug.Log("Pointer Down");
+            // Debug.Log("Pointer Down");
             if (keyboardInput != null)
             {
                 keyboardInput.AccelerateUI();
@@ -85,7 +85,7 @@ namespace KartGame.KartSystems
 
         void OnPointerUpDelegate(PointerEventData data)
         {
-            Debug.Log("Pointer Up");
+            // Debug.Log("Pointer Up");
             if (keyboardInput != null)
             {
                 keyboardInput.StopAccelerateUI();

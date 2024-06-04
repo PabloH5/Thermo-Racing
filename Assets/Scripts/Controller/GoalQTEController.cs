@@ -90,15 +90,13 @@ public class GoalQTEController : MonoBehaviour
             RaceQuestionModel question = raceQuestions.First();
             if (question == null)
             {
-                Debug.Log("NO hay más preguntas madafakas");
                 return;
             }
 
-            Debug.Log("-------------------------------");
-            Debug.Log($"Preguntas disponibles {raceQuestions.Count}");
-            Debug.Log($"Respuesta {question.correct_option}");
-            Debug.Log("-------------------------------");
-
+            // Debug.Log("-------------------------------");
+            // Debug.Log($"Preguntas disponibles {raceQuestions.Count}");
+            // Debug.Log($"Respuesta {question.correct_option}");
+            // Debug.Log("-------------------------------");
 
             string[] options = new string[]
             {
@@ -282,8 +280,6 @@ public class GoalQTEController : MonoBehaviour
                 // }
             ///
 
-
-            Debug.Log("USUARIO Piso la meta");
             userKeyBoard = other.GetComponentInParent<KeyboardInput>();
             if (userKeyBoard == null)
             {
@@ -301,8 +297,6 @@ public class GoalQTEController : MonoBehaviour
             if (user.numberOfLaps == 0)
             {
                 user.numberOfLaps++;
-                Debug.Log("TOQUE LA META PRIMERA VEZ");
-                Debug.Log(user.numberOfLaps);
                 return;
             }
 
@@ -316,7 +310,6 @@ public class GoalQTEController : MonoBehaviour
                 {
                     if(arcadeKartScriptManager._CanGoForLap == false)
                     {
-                        Debug.Log("El jugador multiplayer no puede avanzar a la siguiente vuelta.");
                         return;
                     }
                 }
@@ -324,7 +317,6 @@ public class GoalQTEController : MonoBehaviour
                 {
                     if(arcadeKartSingleplayerScriptManager._CanGoForLap == false)
                     {
-                        Debug.Log("El jugador singleplayer no puede avanzar a la siguiente vuelta.");
                         return;
                     }
                 }
@@ -335,7 +327,6 @@ public class GoalQTEController : MonoBehaviour
             // 2. If the user will start the second lap, launch the Quick Time Event.
             if (user.numberOfLaps == 1)
             {
-                Debug.Log("TOQUE LA META PRIMERA VUELTA");
                 user.numberOfLaps++;
                 // 2.1 Select the new question.
                 SelectNewQuestion();
@@ -442,8 +433,6 @@ public class GoalQTEController : MonoBehaviour
 
     public void FinishRace()
     {
-        Debug.Log("ME INVOCARON SOG");
-
         StartCoroutine(Nose());
     }
 

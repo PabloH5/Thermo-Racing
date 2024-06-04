@@ -273,6 +273,16 @@ public class RaceMultiplayerController : NetworkBehaviour
         }
     }
 
+    public void CountdownToStart()
+    {
+        state.Value = State.CountdownToStart;
+    }
+
+    public void GamePlaying()
+    {
+        state.Value = State.GamePlaying;
+    }
+
     public bool IsLocalPlayerReady()
     {
         return _IsLocalPlayerReady;
